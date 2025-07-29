@@ -3,6 +3,7 @@ import Dashboard from "../../pages/app/Dashboard";
 import Deposittracker from "../../pages/app/Deposittracker";
 import Documents from "../../pages/app/Documents";
 import Inspection from "../../pages/app/Inspection";
+import Linkpropertydetails from "../../pages/app/Linkpropertydetails";
 import Linkyourrentproperty from "../../pages/app/Linkyourrentproperty";
 import Message from "../../pages/app/Message";
 import Paymentmethodplan from "../../pages/app/Paymentmethodplan";
@@ -174,6 +175,12 @@ export const appRoutes = [
         url: "tentant-account-status",
         page: <Pendingapproval />,
         name: "Pending",
+        isPublic: true,
+    },
+      {
+        url: "tentant-property-details",
+        page: <Linkpropertydetails />,
+        name: "Property Details",
         isPublic: true,
     },
 ]

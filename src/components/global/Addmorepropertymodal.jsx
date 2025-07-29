@@ -1,5 +1,5 @@
 import { TiWarning } from "react-icons/ti";
-
+ 
 export default function Addmorepropertymodal({
   isOpen,
   onClose,
@@ -8,27 +8,13 @@ export default function Addmorepropertymodal({
   data,
 }) {
   if (!isOpen) return null;
-
+ 
   const {
-    iconBgColor = "bg-blue-600",
-    icon = (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-10 w-10 text-white"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-      </svg>
-    ),
-    title = "Title Here",
-    description = "Description here...",
-    actionText = "Primary",
-    actionTextTwo = "Secondary",
+    iconBgColor,
+    title,
+    description,
   } = data || {};
-
+ 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white rounded-2xl p-6 w-full max-w-[26em] text-center shadow-lg relative">
@@ -42,32 +28,31 @@ export default function Addmorepropertymodal({
             &times;
           </button>
         )}
-
+ 
         {/* Icon */}
         <div className="flex justify-center mb-4">
           <div className={`w-20 h-20 ${iconBgColor} rounded-full flex items-center justify-center`}>
             <TiWarning size={40} color="white" />
           </div>
         </div>
-
+ 
         {/* Title & Description */}
         <h2 className="text-2xl font-semibold mb-2">{title}</h2>
         <p className="text-gray-600 mb-6">{description}</p>
-
+ 
         {/* Action Buttons */}
-        <div className="space-y-3">
-          <button
-            onClick={onAction}
-            className="w-full px-4 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition"
-          >
-            {actionText}
-          </button>
-
+        <div className="flex gap-3 items-center">
           <button
             onClick={onSecondaryAction}
-            className="w-full px-4 py-3 bg-gray-200 text-gray-800 rounded-full font-semibold hover:bg-gray-300 transition"
+            className="w-full px-4 py-2 bg-[#E7E7E8] text-[#000000] text-[14px] rounded-full font-semibold transition"
           >
-            {actionTextTwo}
+            Add Property
+          </button>
+          <button
+            onClick={onAction}
+            className="w-full px-4 py-2 gradient-color text-white rounded-full font-semibold hover:bg-blue-700 transition"
+          >
+            Link Property
           </button>
         </div>
       </div>

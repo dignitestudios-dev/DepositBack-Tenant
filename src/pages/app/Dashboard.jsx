@@ -12,17 +12,19 @@ import { IoChatbubbleEllipsesOutline } from 'react-icons/io5';
 import Addmorepropertymodal from '../../components/global/Addmorepropertymodal';
 import { useNavigate } from 'react-router';
 import Chatai from '../../components/global/Chatai';
+import AddRentPropertyModal from '../../components/global/AddRentProperty';
 
 const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState(false); // Manage modal visibility
   const [filterOpen, setFilterOpen] = useState(false);
+  const [RentProperty, setRentProperty] = useState(false);
   const [filters, setFilters] = useState({});
   const navigate = useNavigate("");
 
   const modalData = {
     title: "Add Another Property",
-    description: "Add a new property to your account.",
-    iconBgColor: "bg-blue-500",
+    description: "Link or add property to your account",
+    iconBgColor: "gradient-color",
     actionText: "Yes, Add now",
     actionTextTwo: "Cancel",
   };
@@ -190,7 +192,7 @@ const Dashboard = () => {
               className="py-3 px-6 w-[16em] bg-gradient-to-r from-[#003897] to-[#0151DA] text-white rounded-full font-semibold hover:opacity-90 transition"
               onClick={() => setModalOpen(true)} // Open the modal when clicked
             >
-              + Add Property
+              + Create Listing
             </button>
           </div>
         </div>
@@ -255,13 +257,21 @@ const Dashboard = () => {
         <Addmorepropertymodal
           isOpen={modalOpen}
           onAction={() => {
-            navigate(`/app/add-property-details`)
+            setRentProperty(true)
             setModalOpen(false);
-          }} // Close modal when action is taken
+          }}
           onSecondaryAction={() => {
             setModalOpen(false);
           }}
           data={modalData}
+        />
+        <AddRentPropertyModal isOpen={RentProperty} onClose={() => {
+          setRentProperty(false)
+        }}
+          onAction={() => {
+            setRentProperty(false)
+            navigate("/app/property-detail");
+          }}
         />
 
         <PropertyFilterModal
