@@ -76,15 +76,15 @@ const AddPropertyDetail = () => {
     };
 
 
-const handleUploadPropertyimage = (e) => {
-  const files = Array.from(e.target.files);
-  const images = files.filter(file => file.type.startsWith("image/"));
-  setPropertyMedia(prev => [...prev, ...images]);
-};
+    const handleUploadPropertyimage = (e) => {
+        const files = Array.from(e.target.files);
+        const images = files.filter(file => file.type.startsWith("image/"));
+        setPropertyMedia(prev => [...prev, ...images]);
+    };
 
-const removeMedias = (index) => {
-  setPropertyMedia(prev => prev.filter((_, i) => i !== index));
-};
+    const removeMedias = (index) => {
+        setPropertyMedia(prev => prev.filter((_, i) => i !== index));
+    };
 
 
     return (

@@ -14,7 +14,7 @@ export default function Input({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div>
+    <div className="w-full" >
       <label className="block text-[15px] font-[500] text-gray-800 mb-2">{label}</label>
       <div className="relative">
         <input

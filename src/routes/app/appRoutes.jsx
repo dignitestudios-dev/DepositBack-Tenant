@@ -1,5 +1,5 @@
-import Bookingsrequests from "../../../../../Code Clean/src/pages/app/LandingPage/Bookingsrequests";
 import AddPropertyDetail from "../../pages/app/Addpropertydetail";
+import AddTenantProperty from "../../pages/app/AddTenantProperty";
 import Dashboard from "../../pages/app/Dashboard";
 import Deposittracker from "../../pages/app/Deposittracker";
 import Documents from "../../pages/app/Documents";
@@ -25,7 +25,7 @@ export const appRoutes = [
 
     {
         url: "add-property-details",
-        page: <AddPropertyDetail />,
+        page: <AddTenantProperty />,
         name: "Add Property Details",
         isPublic: true,
     },
