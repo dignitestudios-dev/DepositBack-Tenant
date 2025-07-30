@@ -62,15 +62,15 @@ const Header = () => {
                         navigate("/app/Dashboard")
                     }}>Home</li>
                     <li className='hover:underline cursor-pointer' onClick={() => {
-                        navigate("/app/tenant-requests")
-                    }}>Tenant Requests</li>
-                    <li className='hover:underline cursor-pointer' onClick={() => {
                         navigate("/app/resources")
                     }}>Resources</li>
+                    <li className='hover:underline cursor-pointer' onClick={() => {
+                        navigate("/app/report-history")
+                    }}>Report History</li>
                     <li className='hover:underline cursor-pointer'
                         onClick={() => {
-                            navigate("/app/messages")
-                        }}>Messages</li>
+                            navigate("/app/req-from-landlord")
+                        }}>Request from Landlord</li>
                 </ul>
 
                 {/* Notification Icon with Popup toggle */}

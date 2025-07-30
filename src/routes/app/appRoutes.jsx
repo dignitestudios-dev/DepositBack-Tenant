@@ -3,6 +3,7 @@ import Dashboard from "../../pages/app/Dashboard";
 import Deposittracker from "../../pages/app/Deposittracker";
 import Documents from "../../pages/app/Documents";
 import Inspection from "../../pages/app/Inspection";
+import LandlordRequest from "../../pages/app/LandlordRequest";
 import Linkpropertydetails from "../../pages/app/Linkpropertydetails";
 import Linkyourrentproperty from "../../pages/app/Linkyourrentproperty";
 import Message from "../../pages/app/Message";
@@ -15,6 +16,8 @@ import PropertyDetail from "../../pages/app/PropertyDetail";
 import Propertydetaillink from "../../pages/app/Propertydetailslink";
 import Receiptsanddeductions from "../../pages/app/Receiptsanddeductions";
 import Renthistory from "../../pages/app/Renthistory";
+import ReportHistory from "../../pages/app/ReportHistory";
+import ReportDetailHistory from "../../pages/app/ReportHistoryDetail";
 import Resources from "../../pages/app/Resources";
 import Setting from "../../pages/app/Setting";
 import Subscriptionplans from "../../pages/app/Subscriptionplans";
@@ -49,6 +52,18 @@ export const appRoutes = [
         url: "dashboard",
         page: <Dashboard />,
         name: "Dashboard",
+        isPublic: true,
+    },
+    {
+        url: "report-history",
+        page: <ReportHistory />,
+        name: "Report History",
+        isPublic: true,
+    },
+    {
+        url: "report-detail",
+        page: <ReportDetailHistory />,
+        name: "Report History",
         isPublic: true,
     },
     {
@@ -180,6 +195,12 @@ export const appRoutes = [
       {
         url: "tentant-property-details",
         page: <Linkpropertydetails />,
+        name: "Property Details",
+        isPublic: true,
+    },
+      {
+        url: "req-from-landlord",
+        page: <LandlordRequest />,
         name: "Property Details",
         isPublic: true,
     },
