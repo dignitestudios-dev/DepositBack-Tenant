@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 
 const Resources = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const navigate = useNavigate("");
+    const navigate = useNavigate();
 
     const documents = [
         { id: 1, title: 'Tenant Rights' },
@@ -19,9 +19,15 @@ const Resources = () => {
         { id: 6, title: 'Maintenance Laws' },
     ];
 
+    // Filtering documents based on the searchTerm
     const filteredDocs = documents.filter(doc =>
         doc.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // Handle search query from SearchBar component
+    const handleSearch = (query) => {
+        setSearchTerm(query);
+    };
 
     return (
         <div className="min-h-screen bg-[#F6FAFF] text-[#333]">
@@ -31,31 +37,38 @@ const Resources = () => {
                 {/* Header */}
                 <div className="flex justify-between mb-6">
                     <div className='flex items-center gap-4'>
-                        <button className="text-gray-600" onClick={()=>{
-                            navigate("/app/dashboard")
-                        }}>
+                        <button className="text-gray-600" onClick={() => navigate("/app/dashboard")}>
                             <FaArrowLeft size={20} />
                         </button>
                         <h1 className="text-3xl font-[600]">Resources</h1>
                     </div>
                     <div>
-                        <SearchBar className='' placeholder="Search" />
+                        {/* Pass handleSearch function as onSearch prop */}
+                        <SearchBar 
+                            value={searchTerm}
+                            onSearch={handleSearch}
+                            placeholder="Search"
+                        />
                     </div>
                 </div>
 
-
-
                 {/* Documents Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-                    {filteredDocs.map((doc) => (
-                        <div
-                            key={doc.id}
-                            className="bg-white rounded-xl p-6 text-center shadow cursor-pointer hover:shadow-md transition"
-                        >
-                            <img src={pdfIcon} alt="PDF Icon" className="h-[70px] mx-auto" />
-                            <p className="mt-4 font-medium text-sm">{doc.title}</p>
+                    {filteredDocs.length > 0 ? (
+                        filteredDocs.map((doc) => (
+                            <div
+                                key={doc.id}
+                                className="bg-white rounded-xl p-6 text-center shadow cursor-pointer hover:shadow-md transition"
+                            >
+                                <img src={pdfIcon} alt="PDF Icon" className="h-[70px] mx-auto" />
+                                <p className="mt-4 font-medium text-sm">{doc.title}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="col-span-4 text-center text-gray-600">
+                            <p>No items found</p>
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
 

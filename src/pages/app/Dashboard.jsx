@@ -261,10 +261,12 @@ const Dashboard = () => {
             setModalOpen(false);
           }}
           onSecondaryAction={() => {
-            setModalOpen(false);
+            navigate("/app/add-tentant-property");
           }}
           data={modalData}
         />
+
+
         <AddRentPropertyModal isOpen={RentProperty} onClose={() => {
           setRentProperty(false)
         }}

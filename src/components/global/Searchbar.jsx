@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { IoSearch } from 'react-icons/io5'; // Importing search icon
 
-const SearchBar = ({ placeholder = "Search", className = "" }) => {
+const SearchBar = ({ placeholder = "Search", className = "", onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Searching for:", searchQuery);
+    if (onSearch) {
+      onSearch(e.target.value);  // Pass search query to parent component
+    }
   };
 
   return (

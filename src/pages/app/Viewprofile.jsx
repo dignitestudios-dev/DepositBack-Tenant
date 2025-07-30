@@ -39,7 +39,7 @@ const handleCloseModal = (wasSuccessful) => {
                 <div>
                     <div className="flex items-center p-8 rounded-2xl justify-between bg-white">
                         <div className="flex items-center gap-6">
-                            <img src={user} alt="Profile" className="w-[6em] h-[6em] rounded-full object-cover" />
+                            <img src={user} alt="Profile" className="w-[7em] h-[7em] border-2 border-blue-600 p-[1px] rounded-full object-cover" />
                             <div>
                                 <h3 className="text-2xl font-semibold">Mike Smith</h3>
                                 <p className="text-gray-500">mikesmith@gmail.com</p>
@@ -47,14 +47,14 @@ const handleCloseModal = (wasSuccessful) => {
                         </div>
                         <button
                             onClick={() => setShowEditModal(true)}
-                            className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white font-medium px-10 py-3 rounded-full"
+                            className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white font-medium px-10 py-3 rounded-[3px]"
                         >
                             Edit Profile
                         </button>
 
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mt-10">
                         <div className="bg-[#fff] p-0 rounded-xl border">
                             <h4 className="text-[24px] font-[600] mb-4 border-b-2 pl-6 pt-3 pb-3">Personal Details</h4>
                             <div className="md:col-span-2">
@@ -91,31 +91,7 @@ const handleCloseModal = (wasSuccessful) => {
 
                         </div>
 
-                        <div className="bg-[#fff] p-0 rounded-xl border">
-                            <h4 className="text-[24px] font-[600] mb-4 border-b-2 pl-6 pt-3 pb-3">Reviews</h4>
-                            {[1, 2, 3].map((_, index) => (
-                                <div key={index} className="border-b pb-4 mb-4 pl-6 pt-3 ">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <span className="text-yellow-500 text-lg">★★★★★</span>
-                                        <span className="text-sm font-semibold ml-2">4.5</span>
-                                    </div>
-                                    <p className="text-sm text-gray-700 mb-2">
-                                        Amazing product. I booked on Monday and I got my order on the next day. I'm highly impressed with their services. Highly recommended!
-                                    </p>
-                                    <div className="flex justify-between items-center text-xs text-gray-500 pr-8 pt-3">
-                                        <div className="flex items-center gap-2 text-[12px] text-black font-[500]">
-                                            <img src={usertwo} alt="Reviewer" className="w-[3em] h-[3em] rounded-full" />
-                                            Mike Smith
-                                        </div>
-                                        <span>Jan 22, 2024</span>
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="flex items-center gap-2 pl-6">
-                                <span className="text-yellow-500 text-lg">★★★★☆</span>
-                                <span className="text-sm font-semibold">4.5</span>
-                            </div>
-                        </div>
+                      
                     </div>
                 </div>
             </div>

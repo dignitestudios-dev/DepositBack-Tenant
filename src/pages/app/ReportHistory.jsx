@@ -72,7 +72,7 @@ export default function ReportHistory() {
       <div className="max-w-[90em] mx-auto py-6 px-[4em]">
         <div className="flex flex-wrap justify-between items-center gap-6 p-0">
           <div className="text-left">
-            <p className="mt-2 text-[32px] font-bold text-black pt-2">
+            <p className="mt-2 text-[32px] font-[600] text-black pt-2">
               Report History
             </p>
           </div>
