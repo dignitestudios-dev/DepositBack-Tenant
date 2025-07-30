@@ -270,7 +270,7 @@ const Dashboard = () => {
         }}
           onAction={() => {
             setRentProperty(false)
-            navigate("/app/property-detail");
+            navigate("/app/tentant-property-details");
           }}
         />
 
