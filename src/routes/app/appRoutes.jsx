@@ -1,4 +1,6 @@
+import Addinspectiondetail from "../../pages/app/Addinspectiondetail";
 import AddPropertyDetail from "../../pages/app/Addpropertydetail";
+import AddTenantProperty from "../../pages/app/AddTenantProperty";
 import Dashboard from "../../pages/app/Dashboard";
 import Deposittracker from "../../pages/app/Deposittracker";
 import Documents from "../../pages/app/Documents";
@@ -13,12 +15,14 @@ import Photo from "../../pages/app/Photo";
 import Privacypolicy from "../../pages/app/Privacypolicy";
 import PropertyDetail from "../../pages/app/PropertyDetail";
 import Propertydetaillink from "../../pages/app/Propertydetailslink";
+import Propertylinkedsuccess from "../../pages/app/Propertylinkedsuccess";
 import Receiptsanddeductions from "../../pages/app/Receiptsanddeductions";
 import Renthistory from "../../pages/app/Renthistory";
 import Resources from "../../pages/app/Resources";
 import Setting from "../../pages/app/Setting";
 import Subscriptionplans from "../../pages/app/Subscriptionplans";
 import Tenantrequests from "../../pages/app/Tenantrequests";
+import Tentantpropertydetail from "../../pages/app/Tentantpropertdetail";
 import Termsandconditions from "../../pages/app/Termsandconditions";
 import Uploaddeduction from "../../pages/app/Uploaddeduction";
 import Uploadfiles from "../../pages/app/Uploadfiles";
@@ -153,34 +157,58 @@ export const appRoutes = [
         name: "Setting",
         isPublic: true,
     },
-     {
+    {
         url: "link-rental-property",
         page: <Linkyourrentproperty />,
         name: "Link Rental Property",
         isPublic: true,
     },
-      {
+    {
         url: "property-detail-link",
         page: <Propertydetaillink />,
         name: "Property detail link",
         isPublic: true,
     },
-         {
+    {
         url: "pay-security-deposite",
         page: <Paysecuritydeposite />,
         name: "Pay Security Deposite",
         isPublic: true,
     },
-     {
+    {
         url: "tentant-account-status",
         page: <Pendingapproval />,
         name: "Pending",
         isPublic: true,
     },
-      {
+    {
         url: "tentant-property-details",
         page: <Linkpropertydetails />,
         name: "Property Details",
         isPublic: true,
     },
+    {
+        url: "add-inspection-details",
+        page: <Addinspectiondetail />,
+        name: "Add Inspection Detials",
+        isPublic: true,
+    },
+    {
+        url: "property-linked-success",
+        page: <Propertylinkedsuccess />,
+        name: "Property linked success",
+        isPublic: true,
+    },
+    {
+        url: "add-tentant-property",
+        page: <AddTenantProperty />,
+        name: "Add Tentant Property",
+        isPublic: true,
+    },
+    {
+        url: "tentant-property-detail",
+        page: <Tentantpropertydetail />,
+        name: "Tentant Property Details",
+        isPublic: true,
+    }
 ]

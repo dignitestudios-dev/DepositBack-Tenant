@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router';
 import { FaArrowLeft, FaChevronRight } from 'react-icons/fa';
 import Stripe from "../../assets/addproperty/Stripe.png";
 import { ImCross } from 'react-icons/im';
+import Footer from '../../components/global/Footer';
+import Header from '../../components/global/Header';
 
 const Paysecuritydeposite = () => {
     const navigate = useNavigate();
@@ -31,8 +33,11 @@ const Paysecuritydeposite = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#F3F8FF] p-20 rounded-2xl">
-            <div className="text-left mb-8">
+        <>
+        <Header/>
+
+          <div className="min-h-screen bg-[#F3F8FF] p-10 rounded-2xl ">
+            <div className="text-left mb-8 max-w-[1260px] mx-auto pt-0">
                 <div className='flex gap-3 items-center'>
                     <button type="button" onClick={() => navigate(-1)} >
                         <FaArrowLeft size={18} className='mb-2' />
@@ -46,7 +51,7 @@ const Paysecuritydeposite = () => {
                 </p>
             </div>
 
-            <div className="bg-white rounded-lg flex justify-center shadow-sm max-w-[7xl] w-full mx-auto p-8">
+            <div className="bg-white rounded-lg flex justify-center shadow-sm w-full mx-auto max-w-[1260px]  p-8">
                 <div className="space-y-6 max-w-md w-full">
                     {/* Only show the Add Stripe Account field if no card is added */}
                     {!addedCard && (
@@ -84,7 +89,9 @@ const Paysecuritydeposite = () => {
                         <button
                             className={`flex-1 py-3 px-6 text-white font-medium rounded-full transition-colors ${addedCard ? 'bg-[#003897] hover:bg-blue-700' : 'bg-[#BCBCBC]'}`}
                             disabled={!addedCard}
-                            onClick={() => alert('Proceeding with payment')}
+                            onClick={() => {
+                                navigate("/app/tentant-account-status")
+                            }}
                         >
                             Pay Deposit
                         </button>
@@ -151,6 +158,10 @@ const Paysecuritydeposite = () => {
                 </div>
             )}
         </div>
+        <Footer/>
+        
+        </>
+      
     );
 };
 
