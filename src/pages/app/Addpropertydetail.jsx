@@ -97,9 +97,7 @@ const removeMedias = (index) => {
                         </button>
                     )}
                     <h2 className="text-3xl font-semibold text-gray-900">Add Property Details</h2>
-
                 </div>
-
                 {/* Step Navigation */}
                 <div className="flex justify-between items-center mt-12 text-center mx-12">
                     {steps.map((stepItem, index) => (

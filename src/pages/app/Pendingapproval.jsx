@@ -15,7 +15,7 @@ const Pendingapproval = () => {
         const newIndex = prevIndex + 1;
         if (newIndex > 2) {
           clearTimeout(timer); // Clear the timeout when we reach the last screen
-          navigate("/app/home"); // Navigate to the home page
+          navigate("/app/add-inspection-details"); // Navigate to the home page
         }
         return newIndex;
       });

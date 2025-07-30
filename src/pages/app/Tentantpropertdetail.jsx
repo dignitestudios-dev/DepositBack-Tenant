@@ -19,7 +19,7 @@ import Modal from '../../components/global/Modal';
 import ImageGallery from '../../components/app/ImageGallery';
 
 
-const Linkpropertydetails = () => {
+const Tentantpropertydetail = () => {
     const navigate = useNavigate("");
     const [showModal, setShowModal] = useState(false);
     const images = [imagetwo, imageone, imagefive, imagethree, imagefour];
@@ -37,11 +37,11 @@ const Linkpropertydetails = () => {
                             <FaArrowLeft size={18} />
                         </button>
                         <div>
-                              <h1 className="text-[26px] font-[600]">Property Details </h1>
-                        <p>Confirm your rental property. Verify that the following property details match your rental agreement.</p>
+                            <h1 className="text-[26px] font-[600]">Property Details </h1>
+                            <p>Confirm your rental property. Verify that the following property details match your rental agreement.</p>
 
                         </div>
-                      
+
                     </div>
                     <div className="flex gap-4">
 
@@ -76,16 +76,18 @@ const Linkpropertydetails = () => {
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui. Curabitur ut libero non justo pellentesque sollicitudin. Nulla mauris est, venenatis et volutpat sit amet, efficitur sit amet lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui. Curabitur ut libero non justo pellentesque sollicitudin. Nulla mauris est, venenatis et volutpat sit amet, efficitur sit amet lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui. Curabitur ut libero non justo pellentesque sollicitudin. Nulla mauris est, venenatis et volutpat sit amet, efficitur sit amet lectus.
                             </p>
                         </div>
-                        <div className='bg-[#F3F8FF] p-3 flex items-center justify-between rounded-2xl mt-4'>
-                            <p>Deposit Amount</p>
-                            <span className="text-[#0151DA] font-[600] ml-4 text-2xl">$30000</span>
 
+                        <div className="mt-4">
+                            <h3 className="font-[500] text-gray-800 mb-1">More Contacts</h3>
+                            <ul className="text-sm text-gray-700">
+                                <li> <div className='flex items-center gap-3'><FaPhoneAlt color='#003897' size={12} /> +1 834 0570 746
+                                </div> </li>
+                                <li className='pt-2 pb-2'> <div className='flex items-center gap-3'><FaPhoneAlt color='#003897' size={12} /> +1 834 0570 746
+                                </div> </li>
+                                <li> <div className='flex items-center gap-3'><FaPhoneAlt color='#003897' size={12} /> +1 834 0570 746
+                                </div> </li>
+                            </ul>
                         </div>
-                        <button onClick={()=>{
-                            navigate("/app/pay-security-deposite")
-                        }} className="text-sm font-medium bg-gradient-to-r from-[#003897] to-[#0151DA] text-white p-3 rounded-full mt-7 w-full">
-                            Proceed to Deposit
-                        </button>
 
                     </div>
 
@@ -117,6 +119,22 @@ const Linkpropertydetails = () => {
                                         +1 834-0570-746</p>
                                 </div>
                             </div>
+
+
+                        </div>
+                        <div className="border-t pt-4 mt-4 cursor-pointer">
+                            <h5 className="font-[500] text-black mb-2">Property Documentation</h5>
+                            <div>
+                                <div onClick={() => {
+                                    navigate("/app/documents")
+                                }} className='bg-white flex justify-between rounded-2xl p-3 items-center mb-3'>
+                                    <button className='font-[500]'>Documents</button><br />
+                                    <BsChevronRight />
+                                </div>
+
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -126,4 +144,4 @@ const Linkpropertydetails = () => {
     );
 };
 
-export default Linkpropertydetails;
+export default Tentantpropertydetail;

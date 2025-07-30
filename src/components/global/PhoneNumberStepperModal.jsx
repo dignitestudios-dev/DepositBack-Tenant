@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { FaTimes, FaTrash, FaEdit } from "react-icons/fa";
 import usaflag from "../../assets/usaflag.png";
 import Input from "./Input";
+import { useNavigate } from "react-router";
 
 const PhoneNumberModal = ({ onClose }) => {
+    const navigate = useNavigate("");
     const [step, setStep] = useState(1);
     const [phoneNumbers, setPhoneNumbers] = useState([]);
     const [newNumber, setNewNumber] = useState("");
@@ -41,10 +43,10 @@ const PhoneNumberModal = ({ onClose }) => {
                             Add Phone Number
                         </label>
                         <div
-                            className="border-2 border-dashed border-[#0151DA] text-center py-10 rounded-xl cursor-pointer text-[#0151DA] font-medium"
+                            className="border-2 border-dashed bg-[#F6F6F6] border-[#0151DA] text-center py-10 rounded-xl cursor-pointer text-[#0151DA] font-medium"
                             onClick={() => setStep(2)}
                         >
-                            <span className="border-b border-[#0151DA]">
+                            <span className="border-b text-sm border-[#0151DA]">
                                 Add New Phone Number
                             </span>
                         </div>
@@ -81,7 +83,7 @@ const PhoneNumberModal = ({ onClose }) => {
                                     value={newNumber}
                                     onChange={(e) => setNewNumber(e.target.value)}
                                     placeholder="Add phone number"
-                                    className="!w-full bg-[#F6F6F6] h-[42px]"
+                                    className="!w-[26em] bg-[#F6F6F6] h-[42px]"
                                 />
                             </div>
                         </div>
@@ -101,7 +103,7 @@ const PhoneNumberModal = ({ onClose }) => {
                             Add Phone Number
                         </label>
                         <div
-                            className="border-2 border-dashed border-[#0151DA] text-center py-10 rounded-xl cursor-pointer text-[#0151DA] font-medium mb-4"
+                            className="border-2 border-dashed bg-[#F6F6F6] border-[#0151DA] text-center py-10 rounded-xl cursor-pointer text-[#0151DA] font-medium mb-4"
                             onClick={() => setStep(2)}
                         >
                             <span className="border-b border-[#0151DA]">
@@ -112,10 +114,13 @@ const PhoneNumberModal = ({ onClose }) => {
                         {phoneNumbers.map((num, idx) => (
                             <div
                                 key={idx}
-                                className="bg-[#F6F6F6] p-3 rounded-full flex justify-between items-center mb-2 px-5"
+                                className="bg-[#F6F6F6] p-3 rounded-2xl flex justify-between items-center mb-2 px-5"
                             >
-                                <h5 className="text-[#5E5F62] font-[400] text-[14px] " >Phone Number</h5>
-                                <span>{num}</span>
+                                <div>
+                                    <h5 className="text-[#5E5F62] font-[400] text-[14px] " >Phone Number</h5>
+                                    <span className="text-[14px]">{num}</span>
+                                </div>
+
                                 <div className="flex gap-2">
                                     <button
                                         className="text-red-500 hover:text-red-500"
@@ -132,7 +137,9 @@ const PhoneNumberModal = ({ onClose }) => {
 
                         <button
                             className="w-full mt-6 py-3 rounded-full bg-gradient-to-r from-[#003897] to-[#0151DA] text-white font-semibold"
-                            onClick={() => alert("Go to next step")}
+                            onClick={() => {
+                                navigate("/app/tentant-property-detail")
+                            }}
                         >
                             Next
                         </button>
