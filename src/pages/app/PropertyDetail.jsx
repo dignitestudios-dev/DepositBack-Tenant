@@ -30,7 +30,7 @@ const PropertyDetail = () => {
   const images = [imagetwo, imageone, imagefive, imagethree, imagefour];
   console.log(loc?.state?.role, "This is Images");
   return (
-    <div className="min-h-screen bg-[#f6f9ff] p-3">
+    <div className="min-h-screen bg-[#f6f9ff]">
       <Header />
       <div className="max-w-[1260px] mx-auto pt-10">
         <div className="flex justify-between items-center mb-6">
@@ -47,7 +47,7 @@ const PropertyDetail = () => {
               )}
             </h1>
           </div>
-          {!loc?.state?.role && (
+          {/* {!loc?.state?.role && (
             <div className="flex gap-4">
               <button className="bg-[#FF3B30] text-white flex items-center gap-3 rounded-3xl px-4 py-2  font-medium">
                 <RiDeleteBinFill />
@@ -58,7 +58,7 @@ const PropertyDetail = () => {
                 Edit
               </button>
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-1 gap-6 bg-white p-6 rounded-2xl">

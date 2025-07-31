@@ -44,7 +44,7 @@ export default function LandlordRequest() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F6FAFF] p-6 text-[#333]">
+    <div className="min-h-screen bg-[#F6FAFF]  text-[#333]">
       <Header />
       <div className="max-w-[1260px] mx-auto pt-8 pb-[10em]">
         {/* Top Navigation */}
