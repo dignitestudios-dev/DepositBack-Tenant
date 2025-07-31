@@ -115,8 +115,10 @@ const PropertyDetail = () => {
               </div>
             ) : (
               <div className=" pt-4 text-sm">
-                <div className="flex justify-between mb-2 items-center" >
-                  <h5 className="font-[500] text-[20px] text-black w-full">Rent Activity</h5>
+                <div className="flex justify-between mb-2 items-center">
+                  <h5 className="font-[500] text-[20px] text-black w-full">
+                    Rent Activity
+                  </h5>
                   <div className="flex justify-between w-full gap-3 ">
                     <button
                       className="w-full mt-3 bg-gradient-to-r from-[#003897] to-[#0151DA] text-white py-2 rounded-3xl font-semibold"
@@ -124,7 +126,7 @@ const PropertyDetail = () => {
                         setShowModal(true);
                       }}
                     >
-                     Pay Rent
+                      Pay Rent
                     </button>
                     <button
                       className="w-full mt-2 bg-gray-100 text-black py-2 rounded-3xl font-semibold"
@@ -136,19 +138,19 @@ const PropertyDetail = () => {
                     </button>
                   </div>
                 </div>
-                <div className="bg-white rounded-2xl p-3 leading-8">
-                  <p className="flex justify-between font-[500]">
-                    Current Month: <p>June 2025</p>{" "}
+                <div className="bg-[#F3F8FF] rounded-[14px] p-3 leading-8">
+                  <p className="flex justify-between text-[14px] font-[500]">
+                    Current Month: <p className="font-[400]">June 2025</p>{" "}
                   </p>
-                  <p className="flex justify-between font-[500]">
-                    Amount Due: <p>$1200</p>{" "}
+                  <p className="flex justify-between text-[14px] font-[500]">
+                    Amount Due: <p className="font-[400]">$1200</p>{" "}
                   </p>
-                  <p className="flex justify-between font-[500]">
-                    Due Date: <p>June 1, 2025</p>{" "}
+                  <p className="flex justify-between text-[14px] font-[500]">
+                    Due Date: <p className="font-[400]">June 1, 2025</p>{" "}
                   </p>
-                  <p className="flex justify-between font-[500]">
+                  <p className="flex justify-between text-[14px] font-[500]">
                     Payment Status:{" "}
-                    <span className="text-yellow-500 font-medium rounded-3xl pl-[1em] pr-[1em] bg-[#FF950040]">
+                    <span className="text-yellow-500 text-[12px] font-medium rounded-3xl pl-[1em] pr-[1em] bg-[#FF950040]">
                       Pending
                     </span>
                   </p>
@@ -312,7 +314,6 @@ const PropertyDetail = () => {
                 />
               </div>
             )}
-
             <div className="border-t pt-4 mt-4 cursor-pointer">
               <h5 className="font-[500] text-black mb-2">
                 Property Documentation
@@ -352,6 +353,18 @@ const PropertyDetail = () => {
                   <br />
                   <BsChevronRight />
                 </div>
+                {loc?.state?.role && (
+                  <div
+                    className="bg-[#EE3131] flex justify-center mt-4  rounded-full p-3 items-center"
+                    onClick={() => {
+                      navigate("/app/deposit-tracker");
+                    }}
+                  >
+                    <button className="font-[600]  text-white text-[14px]">
+                      Dispute Lease Date
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
