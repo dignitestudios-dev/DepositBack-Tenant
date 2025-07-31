@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import Header from '../../components/global/Header';
 import Footer from '../../components/global/Footer';
-import pdfIcon from '../../assets/pdfIcon.png';
+import pdfIcon from '../../assets/pdficon.png';
 import SearchBar from '../../components/global/Searchbar';
 import { useNavigate } from 'react-router';
 
