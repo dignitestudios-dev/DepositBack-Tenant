@@ -35,9 +35,7 @@ const Addinspectiondetail = () => {
 
 
     return (
-        <div className="min-h-screen bg-[#F6FAFF] p-6 text-[#333]">
-            <Header />
-            <div className="max-w-[1260px] mx-auto pt-8 pb-[10em]">
+            <div className="max-w-[1260px] mx-auto pt-8 pb-[10em] min-h-screen bg-[#F6FAFF] p-6 text-[#333]">
                 {/* Top Navigation */}
 
                 <div className='flex justify-between'>
@@ -144,8 +142,6 @@ const Addinspectiondetail = () => {
                 </div>
             </div>
 
-            <Footer />
-        </div>
     );
 };
 

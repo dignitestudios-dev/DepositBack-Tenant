@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { FaArrowLeft, FaChevronRight } from 'react-icons/fa';
 import Stripe from "../../assets/addproperty/Stripe.png";
 import { ImCross } from 'react-icons/im';
-import Footer from '../../components/global/Footer';
-import Header from '../../components/global/Header';
+import axios from '../../axios';
+import { SuccessToast } from '../../components/global/Toaster';
 
 const Paysecuritydeposite = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+  const depositAmount = location.state?.depositAmount;
+  const propertyId = location.state?.propertyId;
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
     const [stripeDetails, setStripeDetails] = useState({
         cardHolderName: '',
@@ -32,9 +35,20 @@ const Paysecuritydeposite = () => {
         console.log("Stripe account added:", stripeDetails);
     };
 
+    const handleDeposit =async()=>{
+        try {
+            const response = await axios.post(`properties/${propertyId}/pay`)
+            if(response.status === 200){
+                SuccessToast("Payment successful")
+                navigate("/app/tentant-account-status")
+            }
+        } catch (error) {
+            console.log("error==>  ",error.response.data.message)
+
+        }
+    }
+
     return (
-        <>
-        <Header/>
 
           <div className="min-h-screen bg-[#F3F8FF] p-10 rounded-2xl ">
             <div className="text-left mb-8 max-w-[1260px] mx-auto pt-0">
@@ -47,14 +61,17 @@ const Paysecuritydeposite = () => {
                     </h1>
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                    This property requires a deposit of $1500. The deposit will not be deducted until the landlord approves your request to rent this property. The deposit will be securely held in escrow and refunded at the end of your agreement, less any deductions for damages or unpaid rent.
+                    This property requires a deposit of ${depositAmount}. The deposit will not be deducted until the landlord approves your request to rent this property. The deposit will be securely held in escrow and refunded at the end of your agreement, less any deductions for damages or unpaid rent.
                 </p>
             </div>
 
             <div className="bg-white rounded-lg flex justify-center shadow-sm w-full mx-auto max-w-[1260px]  p-8">
                 <div className="space-y-6 max-w-md w-full">
+                     <label className="block text-sm font-medium text-gray-900 mb-3">
+                                Total Deposit Amount to be paid : {depositAmount}
+                            </label>
                     {/* Only show the Add Stripe Account field if no card is added */}
-                    {!addedCard && (
+                    {/* {!addedCard && (
                         <div>
                             <label className="block text-sm font-medium text-gray-900 mb-3">
                                 Add Stripe Account
@@ -73,7 +90,7 @@ const Paysecuritydeposite = () => {
                                 </div>
                             </div>
                         </div>
-                    )}
+                    )} */}
 
                     {/* Display added Stripe account info */}
                     {addedCard && (
@@ -87,11 +104,9 @@ const Paysecuritydeposite = () => {
 
                     <div className="flex space-x-3 pt-0">
                         <button
-                            className={`flex-1 py-3 px-6 text-white font-medium rounded-full transition-colors ${addedCard ? 'bg-[#003897] hover:bg-blue-700' : 'bg-[#BCBCBC]'}`}
-                            disabled={!addedCard}
-                            onClick={() => {
-                                navigate("/app/tentant-account-status")
-                            }}
+                            className={`flex-1 py-3 px-6 text-white font-medium rounded-full transition-colors ${ 'bg-[#003897] hover:bg-blue-700 '}`}
+                            
+                            onClick={handleDeposit}
                         >
                             Pay Deposit
                         </button>
@@ -158,9 +173,7 @@ const Paysecuritydeposite = () => {
                 </div>
             )}
         </div>
-        <Footer/>
-        
-        </>
+       
       
     );
 };

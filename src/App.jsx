@@ -5,36 +5,43 @@ import Login from "./pages/authentication/Login";
 import { AuthRoute } from "./routes/authentication/AuthRoutes";
 import { OnboardRoutes } from "./routes/onboarding/OnboardRoutes";
 import { appRoutes } from "./routes/app/appRoutes";
+import { useContext } from "react";
+import { AppContext } from "./context/AppContext";
+import OnBoardLayout from "./layouts/OnBoardLayout";
+import DashboardLayout from "./layouts/DashboardLayout";
 
 function App() {
+  const { token, userData } = useContext(AppContext);
+  console.log(userData,"USER DATA")
+
   return (
     <Routes>
+      <Route path="/" element={<Login />} />
+
+      <Route path="app" element={<DashboardLayout />}>
+        {appRoutes?.map((Link, i) => (
+          <Route path={Link.url} key={i} element={Link.page} />
+        ))}
+      </Route>
+
+      <Route path="auth" element={<AuthLayout token={token} />}>
+        {AuthRoute?.map((Link, i) => (
+          <Route path={Link.url} key={i} element={Link.page} />
+        ))}
+      </Route>
+
       <Route
-        path="login"
-        element={<Login/>}
-      />
-
-      <Route path="app">
-        {appRoutes?.map((Link , i) => (
-          <Route path={Link.url} key={i} element={Link.page} />
-        ))}
-      </Route>
-
-      <Route path="auth" element={<AuthLayout />}>
-        {AuthRoute?.map((Link , i) => (
-          <Route path={Link.url} key={i} element={Link.page} />
-        ))}
-      </Route>
-
-      <Route path="onboarding" >
-        {OnboardRoutes?.map((Link , i) => (
+        path="onboarding"
+        element={<OnBoardLayout token={token} userData={userData} />}
+      >
+        {OnboardRoutes?.map((Link, i) => (
           <Route path={Link.url} key={i} element={Link.page} />
         ))}
       </Route>
 
       <Route
         path="*"
-        element={<Login/>}
+        element={<div className="text-7xl">Page Not Found</div>}
       />
     </Routes>
   );

@@ -496,7 +496,7 @@ const Setting = () => {
 
   return (
     <div className="min-h-screen bg-[#F6FAFF] text-[#333]">
-      <Header />
+      {/* <Header /> */}
 
       <div className="max-w-[1260px] mx-auto px-6 pt-8 pb-0">
         <div className='flex gap-4 items-center mb-6'>
@@ -676,7 +676,7 @@ const Setting = () => {
           </div>
         )}
 
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );

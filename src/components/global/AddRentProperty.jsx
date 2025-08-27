@@ -5,6 +5,7 @@ export default function AddRentPropertyModal({
   isOpen,
   onClose,
   onAction,
+  setPropertyCode,
 }) {
   if (!isOpen) return null;
 
@@ -32,6 +33,7 @@ export default function AddRentPropertyModal({
               <Input
                 placeholder={"Text goes here"}
                 label={"Enter Unique Property Code"}
+                onChange={(e) => setPropertyCode(e.target.value)}
               />
             </div>
           </form>

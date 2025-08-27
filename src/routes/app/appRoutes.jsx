@@ -9,6 +9,7 @@ import LandlordRequest from "../../pages/app/LandlordRequest";
 import Linkpropertydetails from "../../pages/app/Linkpropertydetails";
 import Linkyourrentproperty from "../../pages/app/Linkyourrentproperty";
 import Message from "../../pages/app/Message";
+import Notifications from "../../pages/app/Notifications";
 import Paymentmethodplan from "../../pages/app/Paymentmethodplan";
 import Paysecuritydeposite from "../../pages/app/Paysecuritydeposite";
 import Pendingapproval from "../../pages/app/Pendingapproval";
@@ -71,7 +72,7 @@ export const appRoutes = [
         isPublic: true,
     },
     {
-        url: "property-detail",
+        url: "property-detail/:id",
         page: <PropertyDetail />,
         name: "Property Detail",
         isPublic: true,
@@ -82,6 +83,12 @@ export const appRoutes = [
         name: "Rent History",
         isPublic: true,
     },
+    {
+    url: "notifications",
+    page: <Notifications />,
+    name: "Notificationss",
+    isPublic: true,
+  },
     {
         url: "documents",
         page: <Documents />,

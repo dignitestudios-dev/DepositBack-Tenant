@@ -53,7 +53,6 @@ export default function Subscriptionplans() {
         <>
           
              <div className="min-h-screen bg-[#F6FAFF] text-[#333]">
-            <Header />
             <div className="max-w-[1260px] mx-auto px-6 pt-8 pb-20">
                 <div className="w-full max-w-7xl">
                     <div className="flex items-left gap-2 mb-4">
@@ -191,7 +190,6 @@ export default function Subscriptionplans() {
                     </div>
                 )}
             </div>
-            <Footer />
              </div>
         </>
     );

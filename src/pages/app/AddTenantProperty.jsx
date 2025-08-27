@@ -34,7 +34,6 @@ const AddTenantProperty = () => {
 
     return (
         <>
-            <Header />
             <div className="min-h-screen bg-[#ecf3fd] py-12 px-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex gap-3">
@@ -120,7 +119,6 @@ const AddTenantProperty = () => {
 
 
             {showModal && <PhoneNumberModal onClose={() => setShowModal(false)} />}
-            <Footer />
         </>
     );
 };

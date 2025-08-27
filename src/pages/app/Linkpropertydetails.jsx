@@ -8,7 +8,7 @@ import imagethree from "../../assets/propertydetail/home three.webp";
 import imagefour from "../../assets/propertydetail/home four.webp";
 import imagefive from "../../assets/propertydetail/home five.webp";
 import { FaArrowLeft, FaChevronRight, FaEnvelope, FaPhoneAlt, FaUser } from 'react-icons/fa';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { RiDeleteBinFill, RiEdit2Fill } from 'react-icons/ri';
 import user from "../../assets/user.png"
 import { IoChatbubbleEllipsesOutline } from 'react-icons/io5';
@@ -22,15 +22,32 @@ import ImageGallery from '../../components/app/ImageGallery';
 const Linkpropertydetails = () => {
     const navigate = useNavigate("");
     const [showModal, setShowModal] = useState(false);
-    const images = [imagetwo, imageone, imagefive, imagethree, imagefour];
+    // const images = [imagetwo, imageone, imagefive, imagethree, imagefour];
+    
+  const location = useLocation();
+  const propertyDetail = location.state?.propertyDetail?.property;
+  console.log("propertyDetail -- >", propertyDetail)
+
+  const {
+    name,
+    rent,
+    address,
+    uniquePropertyCode,
+    deposit,
+
+    description,
+id,
+    images,
+
+  } = propertyDetail;
 
     console.log(imageone)
 
-    console.log(images, "This is Images");
+    // console.log(images, "This is Images");
     return (
-        <div className="min-h-screen bg-[#f6f9ff] p-3">
-            <Header />
-            <div className="max-w-[1260px] mx-auto pt-10">
+        
+            
+            <div className="max-w-[1260px] min-h-screen bg-[#f6f9ff] mx-auto pt-10">
                 <div className="flex justify-between items-center mb-6">
                     <div className='flex gap-3'>
                         <button type="button" className='mb-6' onClick={() => navigate(-1)} >
@@ -60,29 +77,37 @@ const Linkpropertydetails = () => {
                         </div>
                     </div>
                     <div className="bg-white p-6 w-[44em]">
-                        <div className='flex justify-between'>
-                            <h2 className="!text-3xl font-semibold mb-2">Property Name</h2>
-                            <div>
-                                <span className="text-[#0151DA] font-[600] ml-4 text-3xl">$2500</span> <span className="text-sm font-medium text-gray-400">/monthly</span>
-                            </div>
-                        </div>
-                        <div className="flex items-center text-gray-600 mb-2 font-[500]"><LuMapPin className="mr-1" /> 456 Maple Street, Anytown, NY 12345</div>
-                        <p className="text-1xl font-[500] text-gray-600 mb-2">Unique Code: <span className="text-blue-600 font-medium">258496</span></p>
-
+                        <div className="flex justify-between">
+            <h2 className="!text-3xl font-semibold mb-2">{name}</h2>
+            <div>
+              <span className="text-[#0151DA] font-[600] ml-4 text-2xl">
+                ${rent}
+              </span>{" "}
+              <span className="text-sm font-medium text-gray-400">/month</span>
+            </div>
+          </div>
+                        <div className="flex items-center text-gray-600 mb-2 font-[500]">
+            <LuMapPin className="mr-1" /> {address}
+          </div>
+                        <p className="text-1xl font-[500] text-gray-600 mb-2">
+            Unique Code:{" "}
+            <span className="text-blue-600 font-medium">
+              {uniquePropertyCode}
+            </span>
+          </p>
                         <div className="mt-4">
                             <h3 className="!text-[20px] font-[500] mb-2">Description</h3>
                             <p className="text-sm text-gray-700 leading-relaxed">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui. Curabitur ut libero non justo pellentesque sollicitudin. Nulla mauris est, venenatis et volutpat sit amet, efficitur sit amet lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui.
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui. Curabitur ut libero non justo pellentesque sollicitudin. Nulla mauris est, venenatis et volutpat sit amet, efficitur sit amet lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui. Curabitur ut libero non justo pellentesque sollicitudin. Nulla mauris est, venenatis et volutpat sit amet, efficitur sit amet lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dictum libero. Vivamus ac aliquam dui. Curabitur ut libero non justo pellentesque sollicitudin. Nulla mauris est, venenatis et volutpat sit amet, efficitur sit amet lectus.
-                            </p>
+              {description}
+            </p>
                         </div>
                         <div className='bg-[#F3F8FF] p-3 flex items-center justify-between rounded-2xl mt-4'>
                             <p>Deposit Amount</p>
-                            <span className="text-[#0151DA] font-[600] ml-4 text-2xl">$30000</span>
+                            <span className="text-[#0151DA] font-[600] ml-4 text-2xl">${deposit}</span>
 
                         </div>
                         <button onClick={()=>{
-                            navigate("/app/pay-security-deposite")
+                            navigate("/app/pay-security-deposite", {state: {propertyId: id, depositAmount: deposit}})
                         }} className="text-sm font-medium bg-gradient-to-r from-[#003897] to-[#0151DA] text-white p-3 rounded-full mt-7 w-full">
                             Proceed to Deposit
                         </button>
@@ -121,8 +146,8 @@ const Linkpropertydetails = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
-        </div>
+            
+        
     );
 };
 
