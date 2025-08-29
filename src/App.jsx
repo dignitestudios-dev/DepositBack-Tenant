@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import "./App.css";
 import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/authentication/Login";
@@ -12,11 +12,11 @@ import DashboardLayout from "./layouts/DashboardLayout";
 
 function App() {
   const { token, userData } = useContext(AppContext);
-  console.log(userData,"USER DATA")
+  console.log(userData, "USER DATA");
 
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Navigate to="/auth/login" />} />
 
       <Route path="app" element={<DashboardLayout />}>
         {appRoutes?.map((Link, i) => (

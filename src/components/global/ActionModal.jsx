@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import AlertImage from "../../assets/alert.png";
-const ActionModal = ({ isOpen, setIsOpen, des }) => {
+const ActionModal = ({ isOpen, setIsOpen, des, onAction, actionLoading }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -28,12 +28,10 @@ const ActionModal = ({ isOpen, setIsOpen, des }) => {
               No
             </button>
             <button
-              onClick={() => {
-                setIsOpen(false);
-              }}
+              onClick={() => onAction()}
               className=" text-[12px] h-[50px] font-[600] w-full text-center rounded-full bg-[#EE3131] text-white "
             >
-              Yes
+              {actionLoading ? "Loading..." : "Yes"}
             </button>
           </div>
         </div>

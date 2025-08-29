@@ -110,13 +110,16 @@ const validatePropertyField = (field, value) => {
       if (!/^\d+(\.\d{1,2})?$/.test(value) || Number(value) <= 0)
         return "Enter a valid rent amount";
       return "";
-    case "dueDate":
-      if (!value || !/^\d+(\.\d{1,2})?$/.test(value) || Number(value) <= 0)
-        return "Due Date is required";
+    case "date":
+      if (!value) {
+        return " Date is required";
+      }
       return "";
+
     case "propertyType":
       if (!value) return "Property type is required";
       return "";
+
     case "depositAmount":
       // Allow empty value (optional field)
       if (!value) return "";
@@ -129,8 +132,7 @@ const validatePropertyField = (field, value) => {
     case "lateFeeAmount":
       // Allow empty value (optional field)
       if (!value) return "";
-
-      // If entered, must be a valid number
+      //   // If entered, must be a valid number
       if (!/^\d+(\.\d{1,2})?$/.test(value) || Number(value) <= 0) {
         return "Enter valid late fee amount";
       }
@@ -168,6 +170,30 @@ export const propertyFormReducer = (state, action) => {
       };
     }
 
+    case "DATE_FIELD": {
+      const { field, value } = action;
+      console.log("🚀 ~ propertyFormReducer ~ value:", value);
+      console.log("🚀 ~ propertyFormReducer ~ field:", field);
+
+      const error = validatePropertyField(field, value, state);
+      const updatedErrors = { ...state.errors };
+      console.log("🚀 ~ propertyFormReducer ~ updatedErrors:", updatedErrors);
+
+      if (error) {
+        updatedErrors[field] = error;
+      } else {
+        delete updatedErrors[field];
+      }
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          [field]: value,
+        },
+        errors: updatedErrors,
+      };
+    }
+
     case "VALIDATE_FORM": {
       const errors = {};
       for (const field in state.form) {
@@ -185,8 +211,6 @@ export const propertyFormReducer = (state, action) => {
   }
 };
 
-
 export const chatTime = (data) => {
   return moment(data.toDate()).format("hh:mm A");
 };
- 

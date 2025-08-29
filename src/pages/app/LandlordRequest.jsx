@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import Header from "../../components/global/Header";
 import { FaArrowLeft } from "react-icons/fa";
 import RequestFromLandlord from "../../components/app/RequestFromLandlord";
+import { useFetchData } from "../../hooks/api/Get";
+import axios from "../../axios";
+import { ErrorToast, SuccessToast } from "../../components/global/Toaster";
 
 const StatusIndicator = ({ statuses, onStatusChange, setStatus }) => {
   return (
@@ -32,6 +34,7 @@ export default function LandlordRequest() {
 
   const [activeStatus, setActiveStatus] = useState(0);
   const [status, setStatus] = useState("pending");
+  const [update, setUpdate] = useState(false);
 
   const statusOptions = [
     { label: "Pending", isActive: activeStatus === 0 },
@@ -41,7 +44,15 @@ export default function LandlordRequest() {
 
   const handleStatusChange = (index) => {
     setActiveStatus(index);
+    setUpdate((prev) => !prev);
   };
+
+  const { data, loading, pagination } = useFetchData(
+    `/requests/docs/${status?.toLowerCase()}`,
+    {},
+    1,
+    update
+  );
 
   return (
     <div className="min-h-screen bg-[#F6FAFF]  text-[#333]">
@@ -64,7 +75,7 @@ export default function LandlordRequest() {
             />
           </div>
         </div>
-        <RequestFromLandlord status={status} />
+        <RequestFromLandlord status={data} setUpdate={setUpdate} />
       </div>
     </div>
   );

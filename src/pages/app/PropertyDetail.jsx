@@ -14,6 +14,7 @@ import ImageGallery from "../../components/app/ImageGallery";
 import { useFetchById } from "../../hooks/api/Get";
 import { ErrorToast, SuccessToast } from "../../components/global/Toaster";
 import axios from "../../axios";
+import { getDateFormat } from "../../lib/helpers";
 
 const PropertyDetail = () => {
   const navigate = useNavigate("");
@@ -23,15 +24,16 @@ const PropertyDetail = () => {
   console.log("🚀 ~ PropertyDetail ~ propertyDetail:", propertyDetail);
 
   const [showModal, setShowModal] = useState(false);
-  const [update, setUpdate] = useState(false);
 
   const [isDelete, setIsDelete] = useState(false);
+  const [disputeModal, setDisputeModal] = useState(false);
+  const [disputeSuccess, setDisputeSuccess] = useState(false);
 
   //   const images = [imagetwo, imageone, imagefive, imagethree, imagefour];
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/properties/${id}`);
+      const response = await axios.delete(`/properties/tenant/${id}`);
       if (response.status === 200) {
         setIsDelete(false);
         SuccessToast("Deleted");
@@ -43,6 +45,7 @@ const PropertyDetail = () => {
   };
 
   const {
+    _id,
     name,
     rent,
     address,
@@ -54,7 +57,7 @@ const PropertyDetail = () => {
     lateFeeAmount,
     contactPersons,
     images,
-    tenant,
+    landlord,
     paymentStatus,
     landlordAgreements,
     landlordPropertyConditionImages,
@@ -64,7 +67,12 @@ const PropertyDetail = () => {
     tenantMoveInVideos,
     tenantMoveOutImages,
     tenantMoveOutVideos,
+    tenantAgreements,
+    tenantRepairsVideos,
+    tenantRepairsImages,
     uvLightImages,
+    ownedBy,
+    depositTracker,
   } = propertyDetail;
 
   return (
@@ -74,17 +82,19 @@ const PropertyDetail = () => {
           <button type="button" onClick={() => navigate(-1)}>
             <FaArrowLeft size={18} />
           </button>
-          <h1 className="text-[26px] font-[600]">
-            Property Details{" "}
-            <span
-              className={`l-2 px-3 py-1 text-sm font-normal ${
-                tenant ? "bg-green-500" : "bg-red-500"
-              } text-white rounded-full`}
-            >
-              {tenant ? "Active" : "Inactive"}
-            </span>
-          </h1>
+          <h1 className="text-[26px] font-[600]">Property Details </h1>
         </div>
+        {ownedBy === "tenant" && (
+          <div className="flex gap-4">
+            <button
+              onClick={() => setIsDelete(true)}
+              className="bg-[#FF3B30] text-white flex items-center gap-3 rounded-3xl px-4 py-2  font-medium"
+            >
+              <RiDeleteBinFill />
+              Delete
+            </button>
+          </div>
+        )}
         {/* <div className="flex gap-4">
             <button
               onClick={() => setIsDelete(true)}
@@ -138,20 +148,98 @@ const PropertyDetail = () => {
           </p>
 
           {/* {tenant && ( */}
-            <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 border-t pt-3 border-b pb-3">
-              <p className="border-r">
-                <span className="font-[500] text-black text-[14px]">
-                  Lease Start Date:
-                </span>
-                <br /> {new Date(leaseStartDate).toLocaleDateString()}
-              </p>
-              <p>
-                <span className="font-[500] text-black text-[14px]">
-                  Lease End Date:
-                </span>
-                <br /> {new Date(leaseEndDate).toLocaleDateString()}
-              </p>
+          {ownedBy === "landlord" && (
+            <div className="pt-4 text-sm">
+              <div className="flex justify-between items-center gap-3 pt-3 pb-3">
+                <div>
+                  <h5 className="text-[18px] font-[500] text-black">
+                    Rent Activity
+                  </h5>
+                </div>
+
+                <div className="flex justify-between items-center gap-2 w-[50%]">
+                  {paymentStatus !== "Paid" && (
+                    <button
+                      className="w-full bg-gradient-to-r from-[#003897] to-[#0151DA] text-white py-2 rounded-3xl font-semibold"
+                      onClick={() =>
+                        navigate("/app/rent-history", {
+                          state: {
+                            lateFeeAmount,
+                            rentDueDate,
+                            rent,
+                            paymentStatus,
+                            propertyId: _id,
+                          },
+                        })
+                      }
+                    >
+                      Pay Rent
+                    </button>
+                  )}
+                  <button
+                    className="w-full bg-gray-100 text-black py-2 rounded-3xl font-semibold"
+                    onClick={() =>
+                      navigate("/app/rent-history", {
+                        state: {
+                          lateFeeAmount,
+                          rentDueDate,
+                          rent,
+                          paymentStatus,
+                          propertyId: _id,
+                        },
+                      })
+                    }
+                  >
+                    View History
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-[#F3F8FF] rounded-2xl p-3 leading-8">
+                <p className="flex justify-between font-[500]">
+                  Current Month:{" "}
+                  <span>{getDateFormat(new Date().toISOString())}</span>
+                </p>
+                <p className="flex justify-between font-[500]">
+                  Amount Due: <span>${rent}</span>
+                </p>
+                <p className="flex justify-between font-[500]">
+                  Due Date:{" "}
+                  <span>
+                    {getDateFormat(
+                      new Date(
+                        new Date().getFullYear(),
+                        new Date().getMonth(),
+                        rentDueDate
+                      )
+                    )}
+                  </span>
+                </p>
+                <p className="flex justify-between font-[500]">
+                  Payment Status:{" "}
+                  <span className="text-yellow-500 font-medium rounded-3xl px-3 bg-[#FF950040]">
+                    {paymentStatus || "Pending"}
+                  </span>
+                </p>
+              </div>
+
+              <Modal
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                onAction={() => {
+                  setShowModal(false);
+                  navigate("/auth/login");
+                }}
+                data={{
+                  title: "Reminder Sent!",
+                  description:
+                    "Reminder of rent due has been sent to the tenant.",
+                  iconBgColor: "bg-blue-600",
+                }}
+              />
             </div>
+          )}
+
           {/* )} */}
 
           <div className="mt-4">
@@ -159,12 +247,14 @@ const PropertyDetail = () => {
             <p className="text-sm text-gray-700 leading-relaxed">
               {description}
             </p>
-            <p className="mt-3 text-sm text-black">
-              <span className="font-[600]">Rent Due Date:</span>{" "}
-              {rentDueDate
-                ? `Day ${rentDueDate} of each month`
-                : "Not specified"}
-            </p>
+            {ownedBy === "landlord" && (
+              <p className="mt-3 text-sm text-black">
+                <span className="font-[600]">Rent Due Date:</span>{" "}
+                {rentDueDate
+                  ? `Day ${rentDueDate} of each month`
+                  : "Not specified"}
+              </p>
+            )}
             <p className="text-sm text-black">
               <span className="font-[600]">Late Fee:</span>{" "}
               {lateFeeAmount ? `$${lateFeeAmount}` : "No late fee"}
@@ -192,7 +282,7 @@ const PropertyDetail = () => {
 
         {/* Tenant Sidebar */}
         <div className="bg-[#F3F8FF] w-[30em] rounded-2xl p-6">
-          {tenant && (
+          {landlord && (
             <>
               <div
                 style={{ backgroundImage: `url(${backimage})` }}
@@ -207,9 +297,9 @@ const PropertyDetail = () => {
                     />
                     <div>
                       <span className="text-1xl font-[500]">
-                        {tenant?.fullName || "N/A"}
+                        {landlord?.name || "N/A"}
                       </span>
-                      <p className="text-sm text-white">Tenant</p>
+                      <p className="text-sm text-white">Landlord</p>
                     </div>
                   </div>
                   <div>
@@ -223,69 +313,37 @@ const PropertyDetail = () => {
                   <div className="flex justify-start gap-3">
                     <p className="flex gap-2 items-center">
                       <FaEnvelope />
-                      {tenant?.email || "N/A"}
+                      {landlord?.email || "N/A"}
                     </p>
                     <p className="flex gap-2 items-center">
                       <FaPhoneAlt />
-                      {tenant?.phoneNo || "N/A"}
+                      {landlord?.phoneNo || "N/A"}
                     </p>
                   </div>
                   <p className="flex gap-2 items-center mt-2">
                     <IoIosWarning />
-                    Emergency: {tenant?.emergencyContact || "+1 000 000 000"}
+                    Emergency: {landlord?.emergencyContact || "+1 000 000 000"}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-4 text-sm">
-                <h5 className="font-[500] text-black mb-2">Rent Activity</h5>
-                <div className="bg-white rounded-2xl p-3 leading-8">
-                  <p className="flex justify-between font-[500]">
-                    Current Month: <span>August 2025</span>
-                  </p>
-                  <p className="flex justify-between font-[500]">
-                    Amount Due: <span>${rent}</span>
-                  </p>
-                  <p className="flex justify-between font-[500]">
-                    Due Date: <span>{`August ${rentDueDate}, 2025`}</span>
-                  </p>
-                  <p className="flex justify-between font-[500]">
-                    Payment Status:{" "}
-                    <span className="text-yellow-500 font-medium rounded-3xl px-3 bg-[#FF950040]">
-                      {paymentStatus || "Pending"}
+              <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 border-t mt-4 pt-3  pb-3">
+                {leaseStartDate && (
+                  <p className="border-r">
+                    <span className="font-[500] text-black text-[14px]">
+                      Lease Start Date:
                     </span>
+                    <br /> {new Date(leaseStartDate).toLocaleDateString()}
                   </p>
-
-                  <div className="flex justify-between gap-3 pt-3 pb-3">
-                    <button
-                      className="w-full mt-3 bg-gradient-to-r from-[#003897] to-[#0151DA] text-white py-2 rounded-3xl font-semibold"
-                      onClick={() => setShowModal(true)}
-                    >
-                      Send Reminder
-                    </button>
-                    <button
-                      className="w-full mt-2 bg-gray-100 text-black py-2 rounded-3xl font-semibold"
-                      onClick={() => navigate("/app/rent-history")}
-                    >
-                      View History
-                    </button>
-                  </div>
-                </div>
-
-                <Modal
-                  isOpen={showModal}
-                  onClose={() => setShowModal(false)}
-                  onAction={() => {
-                    setShowModal(false);
-                    navigate("/auth/login");
-                  }}
-                  data={{
-                    title: "Reminder Sent!",
-                    description:
-                      "Reminder of rent due has been sent to the tenant.",
-                    iconBgColor: "bg-blue-600",
-                  }}
-                />
+                )}
+                {leaseEndDate && (
+                  <p>
+                    <span className="font-[500] text-black text-[14px]">
+                      Lease End Date:
+                    </span>
+                    <br /> {new Date(leaseEndDate).toLocaleDateString()}
+                  </p>
+                )}
               </div>
             </>
           )}
@@ -293,16 +351,20 @@ const PropertyDetail = () => {
             <h5 className="font-[500] text-black mb-2">
               Property Documentation
             </h5>
-            <div>
+            <div className="mb-4">
               <div
                 onClick={() =>
                   navigate("/app/documents", {
                     state: {
+                      propertyId: id,
                       landlordAgreements,
                       landlordRules,
                       landlordPropertyConditionImages,
                       landlordPropertyConditionVideos,
                       uvLightImages,
+                      tenantAgreements,
+                      tenantRepairsVideos,
+                      tenantRepairsImages,
                     },
                   })
                 }
@@ -311,34 +373,51 @@ const PropertyDetail = () => {
                 <button className="font-[500]">Documents</button>
                 <BsChevronRight />
               </div>
-
-              <div
-                className="bg-white flex justify-between rounded-2xl p-3 items-center mb-3"
-                onClick={() =>
-                  navigate("/app/inspection", {
-                    state: {
-                      tenantMoveInImages,
-                      tenantMoveInVideos,
-                      tenantMoveOutImages,
-                      tenantMoveOutVideos,
-                    },
-                  })
-                }
-              >
-                <button className="font-[500]">
-                  Inspection (Move in/Move out)
-                </button>
-                <BsChevronRight />
-              </div>
-
-              <div
-                className="bg-white flex justify-between rounded-2xl p-3 items-center"
-                onClick={() => navigate("/app/deposit-tracker")}
-              >
-                <button className="font-[500]">Deposit Tracker</button>
-                <BsChevronRight />
-              </div>
+              {ownedBy === "landlord" && (
+                <div
+                  className="bg-white flex justify-between rounded-2xl p-3 items-center mb-3"
+                  onClick={() =>
+                    navigate("/app/inspection", {
+                      state: {
+                        tenantMoveInImages,
+                        tenantMoveInVideos,
+                        tenantMoveOutImages,
+                        tenantMoveOutVideos,
+                        propertyId: id,
+                      },
+                    })
+                  }
+                >
+                  <button className="font-[500]">
+                    Inspection (Move in/Move out)
+                  </button>
+                  <BsChevronRight />
+                </div>
+              )}
+              {depositTracker && (
+                <div
+                  className="bg-white flex justify-between rounded-2xl p-3 items-center"
+                  onClick={() =>
+                    navigate("/app/deposit-tracker", {
+                      state: { depositTracker },
+                    })
+                  }
+                >
+                  <button className="font-[500]">Deposit Tracker</button>
+                  <BsChevronRight />
+                </div>
+              )}
             </div>
+            {ownedBy === "landlord" && (
+              <div className=" flex justify-end ">
+                <button
+                  onClick={() => setDisputeModal(true)}
+                  className="bg-red-500 py-3 w-full text-white rounded-full font-[500] text-sm items-end"
+                >
+                  Dispute Lease Date
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -354,6 +433,35 @@ const PropertyDetail = () => {
             description: "You won't able to revert changes.",
             iconBgColor: "bg-red-600",
             actionText: "Delete",
+          }}
+        />
+      )}
+      {disputeModal && (
+        <Modal
+          isOpen={disputeModal}
+          onClose={() => setDisputeModal(false)}
+          onAction={() => {
+            setDisputeSuccess(true);
+            setDisputeModal(false);
+          }}
+          data={{
+            title: "Dispute Lease Date",
+            description: "Are you sure you want to dispute this lease date?",
+            iconBgColor: "bg-red-600",
+            actionText: "Yes",
+          }}
+        />
+      )}
+      {disputeSuccess && (
+        <Modal
+          isOpen={disputeSuccess}
+          onClose={() => {
+            setDisputeSuccess(false);
+          }}
+          data={{
+            title: "Dispute submitted successfully!",
+            description: "Your lease date dispute has been sent",
+            iconBgColor: "bg-blue-600", // Optional
           }}
         />
       )}

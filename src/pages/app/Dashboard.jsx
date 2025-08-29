@@ -14,20 +14,18 @@ import { useNavigate } from "react-router";
 import Chatai from "../../components/global/Chatai";
 import { useFetchData } from "../../hooks/api/Get";
 import DashboardSkeletonLoader from "../../components/app/dashboard/DashboardSkeletonLoader";
-import AddRentPropertyModal from '../../components/global/AddRentProperty';
+import AddRentPropertyModal from "../../components/global/AddRentProperty";
 import axios from "../../axios";
 import { ErrorToast } from "../../components/global/Toaster";
-
 
 const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState(false); // Manage modal visibility
   const [filterOpen, setFilterOpen] = useState(false);
-    const [RentProperty, setRentProperty] = useState(false);
-    const [propertyCode, setPropertyCode] = useState("");
-    console.log("🚀 ~ Dashboard ~ propertyCode:", propertyCode);
+  const [RentProperty, setRentProperty] = useState(false);
+  const [propertyCode, setPropertyCode] = useState("");
 
   const [filters, setFilters] = useState({});
-  console.log("🚀 ~ Dashboard ~ filters:", filters);
+
   const navigate = useNavigate("");
 
   const modalData = {
@@ -44,18 +42,21 @@ const Dashboard = () => {
     1,
     ""
   );
+  console.log("🚀 ~ Dashboard ~ data:", data);
 
-  const handlePropertyCodeVerification = async() => {
-      try {
-        const response = await axios.get(`/properties/code/${propertyCode}`);
-        if (response.status === 200) {
-          console.log("response.data", response.data);
-          setRentProperty(false);
-          navigate("/app/tentant-property-details", { state: { propertyDetail: response.data?.data } });
-        }
-      } catch (error) {
-        ErrorToast(error.response.data.message);
+  const handlePropertyCodeVerification = async () => {
+    try {
+      const response = await axios.get(`/properties/code/${propertyCode}`);
+      if (response.status === 200) {
+        console.log("response.data", response.data);
+        setRentProperty(false);
+        navigate("/app/tentant-property-details", {
+          state: { propertyDetail: response.data?.data },
+        });
       }
+    } catch (error) {
+      ErrorToast(error.response.data.message);
+    }
   };
 
   const PropertyFilterModal = ({ isOpen, onClose, onApply }) => {
@@ -187,7 +188,7 @@ const Dashboard = () => {
             className="py-3 px-6 w-[16em] bg-gradient-to-r from-[#003897] to-[#0151DA] text-white rounded-full font-semibold hover:opacity-90 transition"
             onClick={() => setModalOpen(true)} // Open the modal when clicked
           >
-          + Create Listing
+            + Create Listing
           </button>
         </div>
       </div>
@@ -209,14 +210,6 @@ const Dashboard = () => {
                   alt="Property"
                   className="w-full h-[13em] object-cover rounded-2xl"
                 />
-                {/* Status Badge */}
-                <span
-                  className={`absolute top-2 right-2 px-3 py-1 text-sm text-white rounded-full ${
-                    property.tenant ? "bg-green-500" : "bg-red-500"
-                  }`}
-                >
-                  {property.tenant ? "Active" : "Vacant"}
-                </span>
               </div>
 
               {/* Card Body */}
@@ -253,31 +246,41 @@ const Dashboard = () => {
 
                 {/* Tenant Info and Chat */}
                 <div className="flex gap-3 justify-between pt-3">
-                  <div className="flex gap-3">
-                    <img
-                      src={
-                        property.tenant?.profilePicture || "/default-user.jpg"
-                      }
-                      className="h-10 w-10 rounded-full object-cover cursor-pointer"
-                      alt="Tenant Avatar"
-                    />
-                    <div>
-                      <span className="text-1xl">
-                        {property.tenant?.name || "No Tenant"}
-                      </span>
-                      <p className="text-sm text-gray-500">Tenant</p>
+                  {property?.ownedBy === "landlord" ? (
+                    <div className="flex gap-3">
+                      <img
+                        src={
+                          property.landlord?.profilePicture ||
+                          "/default-user.jpg"
+                        }
+                        className="h-10 w-10 rounded-full object-cover cursor-pointer"
+                        alt="Tenant Avatar"
+                      />
+                      <div>
+                        <span className="text-1xl">
+                          {property.landlord?.name || "No Tenant"}
+                        </span>
+                        <p className="text-sm text-gray-500">Tenant</p>
+                      </div>
                     </div>
-                  </div>
-                  <div>
+                  ) : (
+                    <div></div>
+                  )}
+
+                  {property?.ownedBy === "landlord" ? (
                     <div
                       className="bg-[#0151DA] p-3 rounded-xl cursor-pointer"
                       onClick={() => {
-                        navigate("/app/messages");
+                        navigate("/app/messages", {
+                          state: { landlordId: property?.landlord?.uid },
+                        });
                       }}
                     >
                       <IoChatbubbleEllipsesOutline size={20} color="white" />
                     </div>
-                  </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
               </div>
             </div>
@@ -289,27 +292,27 @@ const Dashboard = () => {
       <Addmorepropertymodal
         isOpen={modalOpen}
         onAction={() => {
-          setRentProperty(true)
+          setRentProperty(true);
           setModalOpen(false);
         }} // Close modal when action is taken
         onSecondaryAction={() => {
-            navigate("/app/add-tentant-property");
+          navigate("/app/add-tentant-property");
 
           // setModalOpen(false);
         }}
         data={modalData}
       />
 
-      
-      <AddRentPropertyModal isOpen={RentProperty} onClose={() => {
-          setRentProperty(false)
+      <AddRentPropertyModal
+        isOpen={RentProperty}
+        onClose={() => {
+          setRentProperty(false);
         }}
-          onAction={() => {
-            handlePropertyCodeVerification();
-           
-          }}
-          setPropertyCode={setPropertyCode}
-        />
+        onAction={() => {
+          handlePropertyCodeVerification();
+        }}
+        setPropertyCode={setPropertyCode}
+      />
 
       <PropertyFilterModal
         isOpen={filterOpen}

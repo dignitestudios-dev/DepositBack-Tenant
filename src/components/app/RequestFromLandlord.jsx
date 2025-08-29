@@ -1,45 +1,36 @@
-import { useState } from "react";
-import userAvatar from "../../assets/userone.png";
-import ActionModal from "../global/ActionModal";
+/* eslint-disable react/prop-types */
 
-const RequestFromLandlord = ({ status }) => {
+import { useState } from "react";
+import ActionModal from "../global/ActionModal";
+import moment from "moment";
+import { ErrorToast, SuccessToast } from "../global/Toaster";
+import axios from "../../axios";
+
+const RequestFromLandlord = ({ status, setUpdate }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [requestId, setRequestId] = useState(null);
+  const [requestStatus, setRequestStatus] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false);
 
-  const [requests] = useState([
-    {
-      id: "1",
-      title: "Justin Timberlake",
-      description:
-        "has requested to you to give view access for move-in photos and videos.",
-      status: "pending",
-      time: "2hrs ago",
-    },
-    {
-      id: "2",
-      title: "Peter Parker",
-      description:
-        "has requested to you to give view access for move-in photos and videos.",
-      status: "approved",
-      time: "2hrs ago",
-    },
-    {
-      id: "3",
-      title: "Justin Timberlake",
-      description:
-        "has requested to you to give view access for move-in photos and videos.",
-      status: "pending",
-      time: "2hrs ago",
-    },
-    {
-      id: "4",
-      title: "Justin Timberlake",
-      description:
-        "has requested to you to give view access for move-in photos and videos.",
-      status: "rejected",
-      time: "2hrs ago",
-    },
-  ]);
+  const handleWatchRequest = async () => {
+    try {
+      setActionLoading(true);
+      const response = await axios.put(`/requests/docs/${requestId}`, {
+        status: requestStatus,
+      });
+      if (response.status === 200) {
+        SuccessToast(`Request ${requestStatus}`);
+        setShowModal(false);
+        setUpdate((prev) => !prev);
+      }
+    } catch (error) {
+      console.log("🚀 ~ handleWatchRequest ~ error:", error);
+      ErrorToast(error.response.data.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -47,65 +38,64 @@ const RequestFromLandlord = ({ status }) => {
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         {/* Request Cards */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {requests
-            .filter(
-              (el) =>
-                el.status.toLocaleLowerCase() == status?.toLocaleLowerCase()
-            )
-            .map((request) => (
-              <div
-                key={request.id}
-                className={`bg-[#FFFFFF] rounded-[15px] shadow-sm flex flex-col pb-3 items-center px-3  cursor-pointer hover:shadow-lg transition-shadow`}
-              >
-                <div className="flex items-start gap-3 ">
-                  <img
-                    src={userAvatar}
-                    alt=""
-                    className="w-[42px] rounded-full h-[42px]"
-                  />
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="text-[#181818] font-[500] text-[13px]">
-                        <span className="font-[600]">{request.title}</span>{" "}
-                        {request.description}
-                      </p>
-                      {request.status == "pending" && (
-                        <div className="mt-3  flex gap-3">
-                          <button
-                            onClick={() => {
-                              setShowModal(!showModal);
-                              setSelectedRequest(
-                                "Are you sure you want to give access to the landlord?"
-                              );
-                            }}
-                            className="h-[32px] text-[12px] font-[600] w-[100px] text-center rounded-full text-white gradient-color "
-                          >
-                            Accept
-                          </button>
-                          <button
-                            onClick={() => {
-                              setShowModal(!showModal);
-                              setSelectedRequest(
-                                "Are you sure you want to decline landlord’s view request?"
-                              );
-                            }}
-                            className="h-[32px] text-[12px] font-[600] w-[100px] text-center rounded-full text-[#242424] bg-[#ECECEC]"
-                          >
-                            Decline
-                          </button>
-                        </div>
-                      )}
-                    </div>
+          {status?.map((request) => (
+            <div
+              key={request._id}
+              className={`bg-[#FFFFFF] rounded-[15px] shadow-sm flex flex-col pb-3 items-center px-3  cursor-pointer hover:shadow-lg transition-shadow`}
+            >
+              <div className="flex items-start gap-3 ">
+                <img
+                  src={request?.landlord?.profilePicture}
+                  alt=""
+                  className="w-[42px] rounded-full h-[42px]"
+                />
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="text-[#181818] font-[500] text-[13px]">
+                      <span className="font-[600]">{request.name}</span>{" "}
+                      {request.description}
+                    </p>
+                    {request.status == "pending" && (
+                      <div className="mt-3  flex gap-3">
+                        <button
+                          onClick={() => {
+                            setShowModal(!showModal);
+                            setSelectedRequest(
+                              "Are you sure you want to give access to the landlord?"
+                            );
+                            setRequestId(request._id);
+                            setRequestStatus("approved");
+                          }}
+                          className="h-[32px] text-[12px] font-[600] w-[100px] text-center rounded-full text-white gradient-color "
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => {
+                            setShowModal(!showModal);
+                            setSelectedRequest(
+                              "Are you sure you want to decline landlord’s view request?"
+                            );
+                            setRequestId(request._id);
+                            setRequestStatus("rejected");
+                          }}
+                          className="h-[32px] text-[12px] font-[600] w-[100px] text-center rounded-full text-[#242424] bg-[#ECECEC]"
+                        >
+                          Decline
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
-                    <div>
-                      <span className="text-[#8C8C8C] text-nowrap font-[400] text-[10px]">
-                        {request.time}
-                      </span>
-                    </div>
+                  <div>
+                    <span className="text-[#8C8C8C] text-nowrap font-[400] text-[10px]">
+                      {moment(request.createdAt).format("hh:mm A")}
+                    </span>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </main>
 
@@ -113,6 +103,8 @@ const RequestFromLandlord = ({ status }) => {
         isOpen={showModal}
         des={selectedRequest}
         setIsOpen={setShowModal}
+        onAction={handleWatchRequest}
+        actionLoading={actionLoading}
       />
     </div>
   );

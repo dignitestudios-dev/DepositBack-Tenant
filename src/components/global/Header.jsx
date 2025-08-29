@@ -7,8 +7,6 @@ import { useNavigate } from "react-router";
 import { AppContext } from "../../context/AppContext";
 import { getDateFormat } from "../../lib/helpers";
 
-
-
 const Header = () => {
   const navigate = useNavigate("");
   const { logoutContext, notification, userData } = useContext(AppContext);
@@ -27,7 +25,6 @@ const Header = () => {
     if (isPopupOpen) setIsPopupOpen(false);
     setUserPopup(!userPopup);
   };
-
 
   useEffect(() => {
     let count = notification.filter((item) => !item.isRead);
@@ -123,7 +120,7 @@ const Header = () => {
             onClick={togglePopup}
           />
           {/* Notification Popup */}
-        {/* Notification Popup */}
+          {/* Notification Popup */}
           {isPopupOpen && (
             <div className="absolute top-12 z-10 right-0 w-[26em] p-4 bg-white shadow-lg rounded-lg border border-slate-200">
               <h3 className="text-lg font-semibold">Notifications</h3>
@@ -232,7 +229,7 @@ const Header = () => {
                 </button>
                 <button
                   onClick={() => {
-                    navigate("/app/login");
+                    navigate("/auth/login");
                   }}
                   className="px-16 py-2 text-sm bg-[#DC1D00] text-white rounded-full"
                 >

@@ -1,13 +1,13 @@
 export const addPropertyValues = {
   form: {
     propertyName: "",
+    propertyType: "",
     address: "",
     city: "",
     state: "",
     zipCode: "",
     rentAmount: "",
-    dueDate: "",
-    propertyType: "",
+    date: "",
   },
   errors: {},
 };
