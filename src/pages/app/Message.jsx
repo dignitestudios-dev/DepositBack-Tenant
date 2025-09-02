@@ -5,11 +5,7 @@ import { MdAttachFile } from "react-icons/md";
 import { FaArrowLeft, FaTimes } from "react-icons/fa";
 
 import { useLocation, useNavigate } from "react-router";
-import {
-  
-  getUserChatsWithDetails,
-  sendMessage,
-} from "../../firebase/messages";
+import { getUserChatsWithDetails, sendMessage } from "../../firebase/messages";
 import {
   collection,
   onSnapshot,
@@ -21,34 +17,34 @@ import { db } from "../../firebase/firebase";
 import { AppContext } from "../../context/AppContext";
 import moment from "moment";
 import { chatTime } from "../../lib/helpers";
- 
+
 const Message = () => {
   const { userData } = useContext(AppContext);
- 
+
   const location = useLocation();
   const tenantUid = location?.state?.tenantId;
- 
+
   const [selectedUser, setSelectedUser] = useState("");
- 
+
   const [chats, setChats] = useState({});
- 
+
   const [input, setInput] = useState("");
   const [attachments, setAttachments] = useState([]);
   const [chatList, setChatList] = useState([]);
   console.log("🚀 ~ Message ~ chatList:", chatList);
   const [selectedMessages, setSelectedMessages] = useState([]);
   console.log("🚀 ~ Message ~ selectedMessages:", selectedMessages);
- 
+
   const [chatId, setChatId] = useState("");
- 
+
   const fileInputRef = useRef();
   const navigate = useNavigate("");
- 
+
   const handleSendMessage = () => {
     sendMessage(chatId, userData?.uid, input);
- 
+
     const newMessages = [...(chats[selectedUser.uid] || [])];
- 
+
     if (input.trim()) {
       newMessages.push({
         sender: "me",
@@ -60,7 +56,7 @@ const Message = () => {
         }),
       });
     }
- 
+
     attachments.forEach((file) => {
       newMessages.push({
         file: URL.createObjectURL(file.file),
@@ -73,12 +69,12 @@ const Message = () => {
         }),
       });
     });
- 
+
     setChats((prev) => ({ ...prev, [selectedUser.uid]: newMessages }));
     setInput("");
     setAttachments([]);
   };
- 
+
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     const previews = files.map((file) => ({
@@ -87,13 +83,13 @@ const Message = () => {
     }));
     setAttachments((prev) => [...prev, ...previews]);
   };
- 
+
   const removeAttachment = (index) => {
     const updated = [...attachments];
     updated.splice(index, 1);
     setAttachments(updated);
   };
- 
+
   useEffect(() => {
     if (!userData?.uid) return;
     const unsubscribe = getUserChatsWithDetails(
@@ -104,21 +100,21 @@ const Message = () => {
         setChatList(chats);
       }
     );
- 
+
     // return () => unsubscribe();
   }, [userData]);
   // useEffect(() => {
   //   if (!selectedUser?.uid) return;
- 
+
   //   const unsubscribe = listenToMessages(selectedUser?.uid, (msgs) => {
   //     console.log("Messages for chat:", msgs);
   //     // setMessages(msgs);
   //   });
   //   console.log("🚀 ~ Message ~ unsubscribe:", unsubscribe);
- 
+
   //   return () => unsubscribe(); // cleanup when chatId changes
   // }, [selectedUser]);
- 
+
   // useEffect(() => {
   //   getOrCreateChat("0RZOn1pB1PdYqWiWSf5WuhrsbmR2", tenantUid);
   //   getUserChatsWithDetails(
@@ -127,57 +123,57 @@ const Message = () => {
   //     setChatList
   //   );
   // }, []);
- 
+
   // useEffect(() => {
   //   if (!userData?.uid) return;
- 
+
   //   // listen for chats where current user is a participant
   //   const q = query(
   //     collection(db, "chats"),
   //     where("participants." + "landlord", "==", userData?.uid) // OR tenant, adjust for your logic
   //     // you may need to use OR queries if user can be landlord OR tenant
   //   );
- 
+
   //   const unsub = onSnapshot(q, (snapshot) => {
   //     const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   //     const sorted = data.sort(
-  //       (a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0)
+  //       (a, b) => (b.timeStamp?.seconds || 0) - (a.timestamp?.seconds || 0)
   //     );
   //     console.log("🚀 ~ Message ~ sorted:", sorted);
   //     setChatList(sorted);
   //     // setLoadingChats(false);
   //   });
- 
+
   //   return () => unsub();
   // }, [userData]);
- 
+
   useEffect(() => {
     if (!chatId) return;
- 
+
     const q = query(
       collection(db, "chats", chatId, "messages"),
-      orderBy("timestamp", "asc")
+      orderBy("timeStamp", "asc")
     );
- 
+
     const unsub = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
- 
+
       setSelectedMessages(msgs);
       // setMessages(msgs);
       // setLoading(false);
     });
- 
+
     return () => unsub();
   }, [chatId]);
- 
+
   const messagesRef = collection(db, "chats");
- 
+
   onSnapshot(messagesRef, (snapshot) => {
     snapshot.docs.forEach((doc) => {
       console.log(doc.data());
     });
   });
- 
+
   return (
     <div className="max-w-[1260px] mx-auto px-6 py-10">
       <div className="flex items-center gap-2 mb-6">
@@ -225,18 +221,18 @@ const Message = () => {
                   </p> */}
                 </div>
                 <span className="text-xs text-gray-400">
-                  {user?.timestamp ? chatTime(user.timestamp) : ""}
+                  {user?.timeStamp ? chatTime(user.timeStamp) : ""}
                 </span>
               </div>
             ))}
           </div>
         </div>
- 
+
         {/* Chat Window */}
         {selectedUser ? (
           <div className="col-span-2 bg-white rounded-2xl p-4 shadow-sm flex flex-col justify-between">
             {/* Header */}
- 
+
             <div className="flex items-center gap-3 border-b pb-3">
               <div className="w-10 h-10 rounded-full">
                 <img
@@ -250,10 +246,10 @@ const Message = () => {
                 <p className="text-xs text-gray-500">Tenant</p>
               </div>
             </div>
- 
+
             <div className="py-6 space-y-6 overflow-y-auto text-sm text-gray-800 h-[500px] pr-2">
               <div className="text-center text-xs text-gray-400">Today</div>
- 
+
               {selectedMessages.map((msg, idx) => (
                 <div
                   key={idx}
@@ -284,12 +280,12 @@ const Message = () => {
                     </a>
                   )} */}
                   <span className="text-xs text-gray-400 mt-1">
-                    {msg?.timestamp ? chatTime(msg.timestamp) : ""}
+                    {msg?.timeStamp ? chatTime(msg.timeStamp) : ""}
                   </span>
                 </div>
               ))}
             </div>
- 
+
             {/* Preview Attachments */}
             {attachments.length > 0 && (
               <div className="flex flex-wrap gap-4 border-t pt-4 pb-2">
@@ -316,7 +312,7 @@ const Message = () => {
                 ))}
               </div>
             )}
- 
+
             {/* Chat Input */}
             <div className="flex items-center gap-3 pt-4 border-t">
               <button
@@ -354,7 +350,5 @@ const Message = () => {
     </div>
   );
 };
- 
+
 export default Message;
- 
- 
