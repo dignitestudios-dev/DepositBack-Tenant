@@ -250,7 +250,7 @@ const Dashboard = () => {
                     <div className="flex gap-3">
                       <img
                         src={
-                          property.landlord?.profilePicture ||
+                          property.tenant?.profilePicture ||
                           "/default-user.jpg"
                         }
                         className="h-10 w-10 rounded-full object-cover cursor-pointer"
@@ -258,7 +258,7 @@ const Dashboard = () => {
                       />
                       <div>
                         <span className="text-1xl">
-                          {property.landlord?.name || "No Tenant"}
+                          {property.tenant?.name || "No Tenant"}
                         </span>
                         <p className="text-sm text-gray-500">Tenant</p>
                       </div>
