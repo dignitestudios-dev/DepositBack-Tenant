@@ -342,6 +342,8 @@ export default function ReportDetailHistory() {
   const location = useLocation();
 
   const report = location.state?.report;
+  const id = location.state?.report?._id;
+  console.log("report history data ",report)
 
   if (!report) {
     return (
@@ -402,12 +404,9 @@ export default function ReportDetailHistory() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Landlord Card */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
+               <div className="bg-white mt-4 border-t border-gray-200 p-1">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 pt-1">
                   <div className="w-12 h-12 rounded-full gradient-color flex items-center justify-center text-white font-medium flex-shrink-0">
                     {report.landlord?.name
                       ?.split(" ")
@@ -424,16 +423,20 @@ export default function ReportDetailHistory() {
                 </div>
                 <div
                   onClick={() =>
-                    navigate("/app/property-detail", {
-                      state: { role: "history-detail" },
+                    navigate(`/app/property-detail/${report.property?._id}`, {
+                      state: { propertyDetail: report.property },
                     })
                   }
-                  className="w-10 h-10 gradient-color rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors flex-shrink-0"
+                  className="w-12 h-12 gradient-color rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors flex-shrink-0"
                 >
-                  <IoChevronForward className="w-5 h-5 text-white" />
+                  <IoChevronForward className="w-8 h-8 text-white" />
                 </div>
               </div>
             </div>
+            </div>
+
+            {/* Landlord Card */}
+           
           </div>
 
           {/* Right Column */}

@@ -11,7 +11,7 @@ import DashboardSkeletonLoader from "../../components/app/dashboard/DashboardSke
 export default function ReportHistory() {
   const navigate = useNavigate();
   const { data: reports, loading } = useFetchData("/reports"); // Adjust endpoint if needed
-
+console.log(reports,"reports data")
   return (
     <div className="min-h-screen">
       {/* <Header /> */}

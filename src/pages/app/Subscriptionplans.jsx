@@ -12,21 +12,15 @@ export default function Subscriptionplans() {
     const [subscriptionCancelled, setSubscriptionCancelled] = useState(false);
 
     const basicPlanData = {
-        name: "Basic Plan",
+        name: "Deposits Back",
         type: "Monthly Plan",
-        price: "49.99",
+        price: "19.87",
         features: [
-            "Lorem ipsum dolor sit amet consectetur eiusmod",
-            "Lorem ipsum dolor sit amet consectetur adipiscing",
-            "Lorem ipsum dolor sit amet",
-            "Lorem ipsum dolor sit amet consectetur",
-            "Lorem ipsum dolor sit amet consectetur eiusmod",
-            "Lorem ipsum dolor sit amet",
-            "Lorem ipsum dolor sit amet consectetur adipiscing",
-            "Lorem ipsum dolor sit amet consectetur",
-            "Lorem ipsum dolor sit amet consectetur adipiscing",
-            "Lorem ipsum dolor sit amet",
-            "Lorem ipsum dolor sit amet consectetur eiusmod",
+             "Enjoy full access to all features with no restrictions",
+            // "Deposits Tracker",
+            // "Track and Receive Rents",
+            // "AI Chatbot",
+            // "Knowledge Resource",
         ],
     };
 
@@ -65,23 +59,22 @@ export default function Subscriptionplans() {
                     </div>
 
                     <p className="text-left ml-[4em] text-gray-500 max-w-4xl mb-12 text-[15px] leading-relaxed">
-                        Choose from our subscription plans to suit your needs. Whether
-                        standard or premium, we have the right plan for you. For any
-                        questions, our support team is here to help.
+                                        Your subscription will begin immediately after pruchase at the price mentioned above and will automatically renew at the same price until you cancel.To avoid renewal,cancel at least 24 hours before the end of your billing cycle. Once susbcribed, you can manage and cancel your subscription anytime.
+
                     </p>
 
                     {/* Subscription Plans */}
-                    <div className="flex justify-between items-start gap-10 mr-[4em] ml-[4em]">
+                    <div className="flex justify-center items-start gap-10 mr-[4em] ml-[4em]">
                         {/* Basic Plan */}
                         <div className="bg-gradient-to-r from-blue-700 to-blue-500 w-1/2 p-6 rounded-3xl text-white pb-[8em]">
                             <div className="flex justify-between items-center">
                                 <div>
-                                    <p className="text-sm">Basic Plan</p>
+                                    <p className="text-sm">Deposits Back</p>
                                     <h1 className="text-xl font-[600]">Monthly Plan</h1>
                                 </div>
                                 <div className="flex gap-1">
                                     <p className="text-2xl">$</p>
-                                    <p className="text-4xl font-[600]">49.99</p>
+                                    <p className="text-4xl font-[600]">19.87</p>
                                 </div>
                             </div>
                             <div className="bg-white text-black p-8 rounded-2xl mt-3 -mr-10 -mb-[10em]">
@@ -124,7 +117,7 @@ export default function Subscriptionplans() {
                         </div>
 
                         {/* Premium Plan */}
-                        <div className="bg-gradient-to-r from-blue-700 to-blue-500 w-1/2 p-6 rounded-3xl text-white pb-[8em]">
+                        {/* <div className="bg-gradient-to-r from-blue-700 to-blue-500 w-1/2 p-6 rounded-3xl text-white pb-[8em]">
                             <div className="flex justify-between items-center">
                                 <div>
                                     <p className="text-sm">Premium Plan</p>
@@ -152,7 +145,7 @@ export default function Subscriptionplans() {
                                     </NavLink>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
