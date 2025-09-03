@@ -34,6 +34,8 @@ const Linkpropertydetails = () => {
   console.log("propertyDetail -- >", propertyDetail);
 
   const {
+    isSubscriptionPaid,
+    landlord,
     name,
     rent,
     address,
@@ -134,8 +136,10 @@ const Linkpropertydetails = () => {
                   alt="User Avatar"
                 />
                 <div>
-                  <span className="text-1xl font-[500]">Mike Smith</span>
-                  <p className="text-sm text-white">Tenant</p>
+                  <span className="text-1xl font-[500]">
+                    {landlord?.name || "N/A"}
+                  </span>
+                  <p className="text-sm text-white">Landlord</p>
                 </div>
               </div>
               <div>
@@ -144,17 +148,22 @@ const Linkpropertydetails = () => {
                 </div>
               </div>
             </div>
+
             <div className="text-sm text-white mb-4 mt-3 ml-3">
               <div className="flex justify-start gap-3">
                 <p className="flex gap-2 items-center">
                   <FaEnvelope />
-                  mikesmith@gmail.com
+                  {landlord?.email || "N/A"}
                 </p>
                 <p className="flex gap-2 items-center">
                   <FaPhoneAlt />
-                  +1 834-0570-746
+                  {landlord?.phoneNo || "N/A"}
                 </p>
               </div>
+              <p className="flex gap-2 items-center mt-2">
+                <IoIosWarning />
+                Emergency: {landlord?.emergencyContact || "+1 000 000 000"}
+              </p>
             </div>
           </div>
         </div>

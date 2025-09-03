@@ -33,7 +33,6 @@ const Message = () => {
   const [chatList, setChatList] = useState([]);
   console.log("🚀 ~ Message ~ chatList:", chatList);
   const [selectedMessages, setSelectedMessages] = useState([]);
-  console.log("🚀 ~ Message ~ selectedMessages:", selectedMessages);
 
   const [chatId, setChatId] = useState("");
 
@@ -96,7 +95,6 @@ const Message = () => {
       "tenant",
       userData?.uid,
       (chats) => {
-        console.log("Chats:", chats);
         setChatList(chats);
       }
     );
@@ -152,7 +150,7 @@ const Message = () => {
 
     const q = query(
       collection(db, "chats", chatId, "messages"),
-      orderBy("timeStamp", "asc")
+      orderBy("timestamp", "asc")
     );
 
     const unsub = onSnapshot(q, (snapshot) => {
@@ -170,7 +168,7 @@ const Message = () => {
 
   onSnapshot(messagesRef, (snapshot) => {
     snapshot.docs.forEach((doc) => {
-      console.log(doc.data());
+      console.log("170 --> message", doc.data());
     });
   });
 
@@ -221,7 +219,7 @@ const Message = () => {
                   </p> */}
                 </div>
                 <span className="text-xs text-gray-400">
-                  {user?.timeStamp ? chatTime(user.timeStamp) : ""}
+                  {user?.timestamp ? chatTime(user.timestamp) : ""}
                 </span>
               </div>
             ))}
@@ -243,7 +241,7 @@ const Message = () => {
               </div>
               <div>
                 <h4 className="text-sm font-semibold">{selectedUser?.name}</h4>
-                <p className="text-xs text-gray-500">Tenant</p>
+                <p className="text-xs text-gray-500">Landlord</p>
               </div>
             </div>
 
@@ -280,7 +278,7 @@ const Message = () => {
                     </a>
                   )} */}
                   <span className="text-xs text-gray-400 mt-1">
-                    {msg?.timeStamp ? chatTime(msg.timeStamp) : ""}
+                    {msg?.timestamp ? chatTime(msg.timestamp) : ""}
                   </span>
                 </div>
               ))}

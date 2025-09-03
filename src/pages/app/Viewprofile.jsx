@@ -104,7 +104,7 @@ const ViewProfile = () => {
                 </div>
 
                 {/* Government ID */}
-                <div className="pl-6 pt-3 pb-3">
+                {/* <div className="pl-6 pt-3 pb-3">
                   <p className="text-sm text-gray-500 mb-2 ">Government ID</p>
                   <div className="flex gap-4">
                     <div className="text-left bg-[#F6F6F6] p-4 rounded-2xl">
@@ -132,7 +132,7 @@ const ViewProfile = () => {
                       )}
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 
