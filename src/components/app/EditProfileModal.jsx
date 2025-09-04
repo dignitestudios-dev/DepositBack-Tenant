@@ -11,6 +11,7 @@ import { AppContext } from "../../context/AppContext";
 import axios from "../../axios";
 import { ErrorToast, SuccessToast } from "../global/Toaster";
 import { RiLoader5Line } from "react-icons/ri";
+import { formatSsnLast, phoneFormatter } from "../../lib/helpers";
 
 const initialState = {
   fullName: "",
@@ -65,8 +66,8 @@ function formReducer(state, action) {
 
 const EditProfileModal = ({ onClose }) => {
   const { userData } = useContext(AppContext);
+  console.log("🚀 ~ EditProfileModal ~ userData:", userData);
   const [state, dispatch] = useReducer(formReducer, initialState);
-  console.log("🚀 ~ EditProfileModal ~ state:", state);
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -104,25 +105,25 @@ const EditProfileModal = ({ onClose }) => {
       formData?.append("lastFourSSN", state?.ssn);
       formData?.append("language", "english");
       formData?.append("name", state?.fullName);
-// Assuming formData is a FormData object
-if (state?.profileImage) {
-  // Check if profileImage is a File object (i.e., a file)
-  if (state?.profileImage instanceof File) {
-    // If it's a file, append it to formData
-    formData.append("profilePicture", state?.profileImage);
-    console.log("Profile image is a file, appending to formData.");
-  } else {
-    // Otherwise, it's a URL (string), so we skip appending it to formData
-    try {
-      new URL(state?.profileImage); // Tries to create a URL object
-      // If it's a valid URL, do not append to formData
-      console.log("Profile image is a URL, skipping append.");
-    } catch (e) {
-      // If it's neither a URL nor a file, handle accordingly
-      console.error("Invalid profile image format.");
-    }
-  }
-}
+      // Assuming formData is a FormData object
+      if (state?.profileImage) {
+        // Check if profileImage is a File object (i.e., a file)
+        if (state?.profileImage instanceof File) {
+          // If it's a file, append it to formData
+          formData.append("profilePicture", state?.profileImage);
+          console.log("Profile image is a file, appending to formData.");
+        } else {
+          // Otherwise, it's a URL (string), so we skip appending it to formData
+          try {
+            new URL(state?.profileImage); // Tries to create a URL object
+            // If it's a valid URL, do not append to formData
+            console.log("Profile image is a URL, skipping append.");
+          } catch (e) {
+            // If it's neither a URL nor a file, handle accordingly
+            console.error("Invalid profile image format.");
+          }
+        }
+      }
       const response = await axios.put("/users", formData);
       if (response.status === 201 || response.status === 200) {
         onClose(true);
@@ -144,8 +145,8 @@ if (state?.profileImage) {
           phone: userData.phoneNo,
           ssn: userData.lastFourSSN,
           profileImage: userData.profilePicture,
-          frontIDImage: userData.governmentIdFront,
-          backIDImage: userData.governmentIdBack,
+          // frontIDImage: userData.governmentIdFront,
+          // backIDImage: userData.governmentIdBack,
           language: userData.language,
         },
       });
@@ -218,50 +219,52 @@ if (state?.profileImage) {
             />
           </div>
 
-          <div className="pt-3">
-            <span className="block text-[15px] text-gray-800 font-[500]">
-              Phone Number
-            </span>
-            <div className="flex gap-[10px] justify-start items-center">
-              <div className="bg-[#ECECEC] rounded-full p-3 pl-[13px] pr-[13px] flex items-center justify-center gap-3">
-                <img src={usaflag} className="h-5 w-[2.1em]" alt="USA Flag" />
-                <p>+1</p>
+          <div className="flex gap-[4px]">
+            <div className="mt-3">
+              <span className="block text-[15px] text-gray-800 font-[500]">
+                Phone Number
+              </span>
+              <div className="flex gap-[10px] justify-start items-center">
+                <div className="bg-[#ECECEC] rounded-full p-3 pl-[13px] pr-[13px] flex items-center justify-center gap-3">
+                  <img src={usaflag} className="h-5 w-[2.1em]" alt="USA Flag" />
+                  <p>+1</p>
+                </div>
+                <Input
+                  label=""
+                  type="text"
+                  value={phoneFormatter(state.phone)}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "phone",
+                      value: e.target.value.replace(/\D/g, ""),
+                    })
+                  }
+                  maxLength={14}
+                  placeholder="Add phone number"
+                  className="!w-[90%] bg-[#ECECEC]"
+                />
               </div>
-              <Input
-                label=""
-                type="text"
-                value={state.phone}
-                onChange={(e) =>
-                  dispatch({
-                    type: "SET_FIELD",
-                    field: "phone",
-                    value: e.target.value,
-                  })
-                }
-                placeholder="Add phone number"
-                className="!w-[37em] bg-[#ECECEC]"
-              />
             </div>
-          </div>
-          <div className="flex gap-[6em]">
             <div className="mt-3">
               <Input
                 label="Last Four Digits Of SSN"
                 type="text"
                 value={state.ssn}
+                maxLength={4}
                 onChange={(e) =>
                   dispatch({
                     type: "SET_FIELD",
                     field: "ssn",
-                    value: e.target.value,
+                    value: formatSsnLast(e.target.value, setErrors),
                   })
                 }
                 placeholder="XXXX"
-                className="bg-[#ECECEC] !w-[132%]"
+                className="bg-[#ECECEC] !w-[130%]"
               />
             </div>
-            <div className="mt-3">
-              {/* <Input
+            {/* <div className="mt-3">
+              <Input
                 label="Emergency Contact"
                 type="text"
                 value={state.emergencyContact}
@@ -274,16 +277,16 @@ if (state?.profileImage) {
                 }
                 placeholder="XXXX-XXXX-XXXX"
                 className="bg-[#ECECEC] !w-[132%]"
-              /> */}
-            </div>
+              />
+            </div> */}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            <div className="bg-gray-100 p-3 rounded-lg text-center">
+            {/* <div className="bg-gray-100 p-3 rounded-lg text-center">
               <p className="text-sm font-medium mb-2">Front ID Card</p>
               <div className="relative">
                 <img
-                  src={state?.frontIDImage}
+                  src={state?.frontIDImage || state?.idFrontPreview}
                   alt="Front ID"
                   className="h-28 mx-auto rounded-md"
                 />
@@ -299,7 +302,7 @@ if (state?.profileImage) {
               <p className="text-sm font-medium mb-2">Back ID Card</p>
               <div className="relative">
                 <img
-                  src={state?.backIDImage}
+                  src={state?.backIDImage || state?.idBackPreview}
                   alt="Back ID"
                   className="h-28 mx-auto rounded-md"
                 />
@@ -310,7 +313,7 @@ if (state?.profileImage) {
                   onChange={(e) => handleImageChange(e, "back")}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
 
           <button

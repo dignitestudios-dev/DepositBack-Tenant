@@ -23,7 +23,7 @@ export async function getUserChatsWithDetails(currentRole, userId, callback) {
   const q = query(
     chatsRef,
     where(`participants.${currentRole}`, "==", userId),
-    orderBy("timeStamp", "desc")
+    orderBy("timestamp", "desc")
   );
 
   return onSnapshot(q, async (snapshot) => {
@@ -71,6 +71,6 @@ export async function sendMessage(chatId, senderId, text) {
   await addDoc(messagesRef, {
     senderId,
     text,
-    timeStamp: serverTimestamp(),
+    timestamp: serverTimestamp(),
   });
 }

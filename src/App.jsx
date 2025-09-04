@@ -24,7 +24,10 @@ function App() {
         ))}
       </Route>
 
-      <Route path="auth" element={<AuthLayout token={token} />}>
+      <Route
+        path="auth"
+        element={<AuthLayout token={token} userData={userData} />}
+      >
         {AuthRoute?.map((Link, i) => (
           <Route path={Link.url} key={i} element={Link.page} />
         ))}
