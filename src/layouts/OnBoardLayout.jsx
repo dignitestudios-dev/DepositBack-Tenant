@@ -4,7 +4,6 @@ import { Navigate, Outlet, useLocation } from "react-router";
 const OnBoardLayout = ({ token, userData }) => {
   const location = useLocation();
   const path = location.pathname;
-
   if (!token) {
     return <Navigate to="/auth/login" replace />;
   }
@@ -17,18 +16,11 @@ const OnBoardLayout = ({ token, userData }) => {
   }
 
   if (userData?.isSessionComplete) {
-    if (
-      !userData?.isSubscriptionPaid &&
-      !path.startsWith("/onboarding/subscription-plans") &&
-      !path.startsWith("/onboard/payment-method")
-    ) {
-      return <Navigate to="/onboarding/subscription-plans" replace />;
+    if (userData?.isSubscriptionPaid) {
+      return <Navigate to="/app/dashboard" replace />;
     }
   }
 
-  // if (userData?.isSubscriptionPaid) {
-  //   return <Navigate to="/app/dashboard" replace />;
-  // }
   return <Outlet />;
 };
 

@@ -1,5 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { ErrorToast } from "../../global/Toaster";
+import { propertyTypes } from "../../../init/propertyValues";
+import stateCityData from "../../global/CountryData";
 
 const initialState = {
   form: {
@@ -239,9 +241,11 @@ const DetailStepOne = ({ nextStep, propertyDetail, stepOneData }) => {
             className="w-full p-3 border rounded-full"
           >
             <option value="">Select Dropdown</option>
-            <option value="Apartment">Apartment</option>
-            <option value="House">House</option>
-            <option value="Villa">Villa</option>
+            {propertyTypes.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
           </select>
           {errors.propertyType && (
             <p className="text-red-500 text-sm">{errors.propertyType}</p>
@@ -304,7 +308,7 @@ const DetailStepOne = ({ nextStep, propertyDetail, stepOneData }) => {
             className="w-full p-3 border rounded-full"
           >
             <option value="">Select State</option>
-            {Object.keys(states).map((st) => (
+            {Object.keys(stateCityData).map((st) => (
               <option key={st} value={st}>
                 {st}
               </option>
@@ -347,7 +351,7 @@ const DetailStepOne = ({ nextStep, propertyDetail, stepOneData }) => {
             className="w-full p-3 border rounded-full"
           >
             <option value="">Select City</option>
-            {states[form.state]?.map((city) => (
+            {stateCityData[form.state]?.map((city) => (
               <option key={city} value={city}>
                 {city}
               </option>

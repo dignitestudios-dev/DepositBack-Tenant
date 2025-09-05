@@ -30,9 +30,9 @@ const ELEMENT_OPTIONS = {
 };
 
 const PaymentForm = ({ planData, setShowModal }) => {
-  const navigate = useNavigate();
-
   console.log("🚀 ~  ~ planData:", planData);
+  const navigate = useNavigate();
+  const { loginContext } = useContext(AppContext);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -70,8 +70,10 @@ const PaymentForm = ({ planData, setShowModal }) => {
               sku: "deposits_back_tenant_monthly",
             }
           );
-          console.log("🚀 ~ handleSubmit ~ response:", response);
+          console.log("🚀 ~ handleSubmit ~ response:", response?.data);
+
           if (response.status === 200) {
+            loginContext(response?.data);
             setShowModal(true);
           }
         }

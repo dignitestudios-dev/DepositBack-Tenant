@@ -85,7 +85,7 @@ const Inspection = () => {
         <UploadPropertyDocs
           setIsUploadFile={() => {
             setIsUploadFile();
-            navigate("/dashboard");
+            navigate("/app/dashboard");
           }}
           activeCategory={activeCategory}
           propertyId={propertyId}
@@ -230,10 +230,12 @@ const Inspection = () => {
                       <div
                         key={idx}
                         className="relative group rounded-md overflow-hidden cursor-pointer"
-                        onClick={() => setPreviewItem({ type: "video", src })}
+                        onClick={() =>
+                          setPreviewItem({ type: "video", src: src?.fileUrl })
+                        }
                       >
-                        <img
-                          src={src}
+                        <video
+                          src={src?.fileUrl}
                           alt={`Video ${idx}`}
                           className={`w-full h-[150px] object-cover`}
                         />

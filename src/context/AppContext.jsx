@@ -16,6 +16,7 @@ const AppProvider = ({ children }) => {
   });
 
   const loginContext = (data) => {
+    console.log("🚀 ~ loginContext ~ data:", data);
     if (data) {
       if (data?.token) {
         Cookies.set("token", data?.token);
@@ -56,7 +57,7 @@ const AppProvider = ({ children }) => {
       }}
     >
       {children}
-    </AppContext.Provider>  
+    </AppContext.Provider>
   );
 };
 

@@ -40,13 +40,13 @@ function formReducer(state, action) {
     case "SET_FRONT":
       return {
         ...state,
-        idFront: action.file,
+        frontIDImage: action.file,
         idFrontPreview: action.preview,
       };
     case "SET_BACK":
       return {
         ...state,
-        idBack: action.file,
+        backIDImage: action.file,
         idBackPreview: action.preview,
       };
     case "SET_PROFILE":
@@ -66,8 +66,8 @@ function formReducer(state, action) {
 
 const EditProfileModal = ({ onClose }) => {
   const { userData } = useContext(AppContext);
-  console.log("🚀 ~ EditProfileModal ~ userData:", userData);
   const [state, dispatch] = useReducer(formReducer, initialState);
+  console.log("🚀 ~ EditProfileModal ~ state:", state?.frontIDImage);
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -111,11 +111,46 @@ const EditProfileModal = ({ onClose }) => {
         if (state?.profileImage instanceof File) {
           // If it's a file, append it to formData
           formData.append("profilePicture", state?.profileImage);
-          console.log("Profile image is a file, appending to formData.");
         } else {
           // Otherwise, it's a URL (string), so we skip appending it to formData
           try {
             new URL(state?.profileImage); // Tries to create a URL object
+            // If it's a valid URL, do not append to formData
+            console.log("Profile image is a URL, skipping append.");
+          } catch (e) {
+            // If it's neither a URL nor a file, handle accordingly
+            console.error("Invalid profile image format.");
+          }
+        }
+      }
+      if (state?.backIDImage) {
+        // Check if profileImage is a File object (i.e., a file)
+        if (state?.backIDImage instanceof File) {
+          // If it's a file, append it to formData
+          formData.append("governmentIdBack", state?.backIDImage);
+          console.log("Profile image is a file, appending to formData.");
+        } else {
+          // Otherwise, it's a URL (string), so we skip appending it to formData
+          try {
+            new URL(state?.backIDImage); // Tries to create a URL object
+            // If it's a valid URL, do not append to formData
+            console.log("Profile image is a URL, skipping append.");
+          } catch (e) {
+            // If it's neither a URL nor a file, handle accordingly
+            console.error("Invalid profile image format.");
+          }
+        }
+      }
+      if (state?.frontIDImage) {
+        // Check if profileImage is a File object (i.e., a file)
+        if (state?.frontIDImage instanceof File) {
+          // If it's a file, append it to formData
+          formData.append("governmentIdFront", state?.frontIDImage);
+          console.log("Profile image is a file, appending to formData.");
+        } else {
+          // Otherwise, it's a URL (string), so we skip appending it to formData
+          try {
+            new URL(state?.frontIDImage); // Tries to create a URL object
             // If it's a valid URL, do not append to formData
             console.log("Profile image is a URL, skipping append.");
           } catch (e) {
@@ -145,8 +180,8 @@ const EditProfileModal = ({ onClose }) => {
           phone: userData.phoneNo,
           ssn: userData.lastFourSSN,
           profileImage: userData.profilePicture,
-          // frontIDImage: userData.governmentIdFront,
-          // backIDImage: userData.governmentIdBack,
+          frontIDImage: userData.governmentIdFront,
+          backIDImage: userData.governmentIdBack,
           language: userData.language,
         },
       });
@@ -206,6 +241,7 @@ const EditProfileModal = ({ onClose }) => {
             <Input
               label="Email Address"
               type="email"
+              disabled={true}
               value={state.email}
               onChange={(e) =>
                 dispatch({
@@ -282,11 +318,11 @@ const EditProfileModal = ({ onClose }) => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            {/* <div className="bg-gray-100 p-3 rounded-lg text-center">
+            <div className="bg-gray-100 p-3 rounded-lg text-center">
               <p className="text-sm font-medium mb-2">Front ID Card</p>
               <div className="relative">
                 <img
-                  src={state?.frontIDImage || state?.idFrontPreview}
+                  src={state?.idFrontPreview || state?.frontIDImage}
                   alt="Front ID"
                   className="h-28 mx-auto rounded-md"
                 />
@@ -313,7 +349,7 @@ const EditProfileModal = ({ onClose }) => {
                   onChange={(e) => handleImageChange(e, "back")}
                 />
               </div>
-            </div> */}
+            </div>
           </div>
 
           <button

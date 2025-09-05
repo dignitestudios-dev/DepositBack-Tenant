@@ -37,7 +37,6 @@ export default function LoginPage() {
             let data = response?.data?.data;
             SuccessToast("Success");
             loginContext(data);
-            navigate("/app/Dashboard");
           }
         } catch (error) {
           ErrorToast(error.response.data.message);
@@ -93,7 +92,7 @@ export default function LoginPage() {
                   type="button"
                   className="text-sm text-[#0084FF] hover:underline text-[13px]"
                 >
-                  <NavLink to={"/auth/forgot-password"}>  
+                  <NavLink to={"/auth/forgot-password"}>
                     Forgot Password?
                   </NavLink>
                 </button>

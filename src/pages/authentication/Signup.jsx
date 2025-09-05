@@ -42,7 +42,7 @@ export default function Signup() {
           const newUser = await createUserWithEmailAndPassword(
             auth,
             values.email.toLocaleLowerCase(),
-            "Test@123"
+            values.email.toLocaleLowerCase()
           );
           const token = await getIdToken(newUser.user);
           if (token) {
@@ -56,7 +56,7 @@ export default function Signup() {
               const userCredential = await signInWithEmailAndPassword(
                 auth,
                 values.email.toLocaleLowerCase(),
-                "Test@123"
+                values.email.toLocaleLowerCase()
               );
               const user = userCredential?.user;
               //   // Get the ID token
@@ -94,7 +94,7 @@ export default function Signup() {
     };
     try {
       const response = await axios.post("/auth/emailSignUp", payload);
-      console.log("response--> ", response);
+
       if (response.status === 201) {
         SuccessToast("Account created successfully");
         navigate("/auth/signup-otp", { state: { email: values.email } });

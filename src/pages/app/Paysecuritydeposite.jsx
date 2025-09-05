@@ -39,7 +39,8 @@ const Paysecuritydeposite = () => {
     try {
       const response = await axios.post(`properties/${propertyId}/pay`);
       if (response.status === 200) {
-        SuccessToast("Payment successful");
+        // SuccessToast("Request Sub");
+        // navigate("/app/tentant-account-status ");
         navigate("/app/tentant-account-status");
       }
     } catch (error) {

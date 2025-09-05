@@ -218,7 +218,7 @@ const AddPropertyDetail = () => {
                       Routing Number
                     </label>
                     <input
-                      id="routingNumber" 
+                      id="routingNumber"
                       type="tel"
                       placeholder="Enter Routing Number"
                       value={routingNumber}

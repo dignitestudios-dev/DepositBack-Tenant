@@ -64,12 +64,12 @@ const Linkpropertydetails = () => {
             </p>
           </div>
         </div>
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <button className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white flex items-center gap-1 rounded-3xl px-4 py-2 font-medium">
             <FaUser />
             Report
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-1 gap-6 bg-white p-6 rounded-2xl">

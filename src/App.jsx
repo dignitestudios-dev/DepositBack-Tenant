@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from "react-router";
 import "./App.css";
 import AuthLayout from "./layouts/AuthLayout";
-import Login from "./pages/authentication/Login";
 import { AuthRoute } from "./routes/authentication/AuthRoutes";
 import { OnboardRoutes } from "./routes/onboarding/OnboardRoutes";
 import { appRoutes } from "./routes/app/appRoutes";
@@ -18,7 +17,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/auth/login" />} />
 
-      <Route path="app" element={<DashboardLayout />}>
+      <Route
+        path="app"
+        element={<DashboardLayout token={token} userData={userData} />}
+      >
         {appRoutes?.map((Link, i) => (
           <Route path={Link.url} key={i} element={Link.page} />
         ))}

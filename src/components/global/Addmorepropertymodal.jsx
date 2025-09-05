@@ -1,5 +1,5 @@
 import { TiWarning } from "react-icons/ti";
- 
+
 export default function Addmorepropertymodal({
   isOpen,
   onClose,
@@ -8,13 +8,9 @@ export default function Addmorepropertymodal({
   data,
 }) {
   if (!isOpen) return null;
- 
-  const {
-    iconBgColor,
-    title,
-    description,
-  } = data || {};
- 
+
+  const { iconBgColor, title, description } = data || {};
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white rounded-2xl p-6 w-full max-w-[26em] text-center shadow-lg relative">
@@ -28,18 +24,20 @@ export default function Addmorepropertymodal({
             &times;
           </button>
         )}
- 
+
         {/* Icon */}
         <div className="flex justify-center mb-4">
-          <div className={`w-20 h-20 ${iconBgColor} rounded-full flex items-center justify-center`}>
+          <div
+            className={`w-20 h-20 ${iconBgColor} rounded-full flex items-center justify-center`}
+          >
             <TiWarning size={40} color="white" />
           </div>
         </div>
- 
+
         {/* Title & Description */}
         <h2 className="text-2xl font-semibold mb-2">{title}</h2>
         <p className="text-gray-600 mb-6">{description}</p>
- 
+
         {/* Action Buttons */}
         <div className="flex gap-3 items-center">
           <button

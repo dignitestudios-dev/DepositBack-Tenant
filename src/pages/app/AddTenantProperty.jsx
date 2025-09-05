@@ -122,7 +122,11 @@ const AddTenantProperty = () => {
       <div className="min-h-screen bg-[#ecf3fd] py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex gap-3">
-            <button type="button" className="border-0">
+            <button
+              onClick={() => navigate(-1)}
+              type="button"
+              className="border-0"
+            >
               <FaArrowLeft size={20} />
             </button>
             <h2 className="text-3xl font-semibold text-gray-900">

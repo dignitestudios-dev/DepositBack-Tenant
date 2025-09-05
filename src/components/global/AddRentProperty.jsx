@@ -6,9 +6,9 @@ export default function AddRentPropertyModal({
   onClose,
   onAction,
   setPropertyCode,
+  loading,
 }) {
   if (!isOpen) return null;
-
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
@@ -22,13 +22,18 @@ export default function AddRentPropertyModal({
           >
             &times;
           </button>
-        )}        
+        )}
 
         {/* Title & Description */}
-        <h2 className="text-2xl font-semibold mt-2 mb-2">Link Your Rental Property</h2>
-        <p className="text-gray-600 mb-2">Enter the unique property code provided by your landlord to securely link your account to the correct rental property.</p>
-        <div className="py-4" >
-          <form action="" onSubmit={(e) => e.preventDefault()} >
+        <h2 className="text-2xl font-semibold mt-2 mb-2">
+          Link Your Rental Property
+        </h2>
+        <p className="text-gray-600 mb-2">
+          Enter the unique property code provided by your landlord to securely
+          link your account to the correct rental property.
+        </p>
+        <div className="py-4">
+          <form action="" onSubmit={(e) => e.preventDefault()}>
             <div>
               <Input
                 placeholder={"Text goes here"}
@@ -44,7 +49,7 @@ export default function AddRentPropertyModal({
             onClick={onAction}
             className="w-full px-4 py-2 gradient-color text-white rounded-full font-semibold hover:bg-blue-700 transition"
           >
-            Verify
+            {loading ? "Verifying..." : "Verify"}
           </button>
         </div>
       </div>

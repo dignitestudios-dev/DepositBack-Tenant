@@ -9,7 +9,9 @@ import { getDateFormat } from "../../lib/helpers";
 
 const Header = () => {
   const navigate = useNavigate("");
-  const { logoutContext, notification, userData } = useContext(AppContext);
+  const { logoutContext, notification, userData, setUpdate } =
+    useContext(AppContext);
+  console.log("🚀 ~ Header ~ userData:", userData);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userPopup, setUserPopup] = useState(false);
@@ -30,37 +32,6 @@ const Header = () => {
     let count = notification.filter((item) => !item.isRead);
     setUnreadCount(count);
   }, [notification]);
-
-  const notifications = [
-    {
-      title: "View Request Accepted",
-      time: "7:30 PM",
-      message:
-        "Lorem ipsum dolor sit amet consectetur. In volutpat et mattis ut tristique viverra blandit.",
-      unreadCount: 1,
-    },
-    {
-      title: "Lease Date Dispute Received",
-      time: "7:30 PM",
-      message:
-        "Lorem ipsum dolor sit amet consectetur. In volutpat et mattis ut tristique viverra blandit.",
-      unreadCount: 1,
-    },
-    {
-      title: "Tenant Moved Out",
-      time: "7:30 PM",
-      message:
-        "Lorem ipsum dolor sit amet consectetur. In volutpat et mattis ut tristique viverra blandit.",
-      unreadCount: 0,
-    },
-    {
-      title: "Title goes here",
-      time: "7:30 PM",
-      message:
-        "Lorem ipsum dolor sit amet consectetur. In volutpat et mattis ut tristique viverra blandit.",
-      unreadCount: 0,
-    },
-  ];
 
   return (
     <div className="bg-gradient-to-r from-[#003897] to-[#0151DA] flex justify-between items-center rounded-3xl px-[6em] py-4 shadow-md ml-[1em] mr-[1em] mt-[1em]">
@@ -163,7 +134,7 @@ const Header = () => {
 
         {/* User Avatar */}
         <img
-          src={user}
+          src={userData?.profilePicture}
           className="h-10 w-10 rounded-full object-cover cursor-pointer"
           alt="User Avatar"
           onClick={toggleUserpopup}
@@ -229,7 +200,7 @@ const Header = () => {
                 </button>
                 <button
                   onClick={() => {
-                    navigate("/auth/login");
+                    logoutContext();
                   }}
                   className="px-16 py-2 text-sm bg-[#DC1D00] text-white rounded-full"
                 >

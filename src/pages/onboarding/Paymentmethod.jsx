@@ -100,7 +100,7 @@ export default function Paymentmethod() {
               onClose={() => setShowModal(false)}
               onAction={() => {
                 setShowModal(false);
-                navigate("/onboarding/request-submitted");
+                navigate("/app/dashboard");
               }}
               data={{
                 title: "Congratulations!",

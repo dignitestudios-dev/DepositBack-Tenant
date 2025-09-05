@@ -1,44 +1,42 @@
-import React, { useContext, useState } from 'react';
-import { FaCheck, FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa';
-import Input from '../../global/Input';
+import React, { useContext, useState } from "react";
+import { FaCheck, FaTimes, FaEye, FaEyeSlash } from "react-icons/fa";
+import Input from "../../global/Input";
 import axios from "../../../axios";
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router'; // Step 1
-import { AppContext } from '../../../context/AppContext';
-
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router"; // Step 1
+import { AppContext } from "../../../context/AppContext";
 
 const DeleteAccount = () => {
   const { logoutContext } = useContext(AppContext);
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [accountDeleted, setAccountDeleted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Step 2
 
-
- const handleDelete = async (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
 
     if (!password) {
-      setError('Please enter your password.');
+      setError("Please enter your password.");
       return;
     }
 
     try {
       setLoading(true);
-      setError('');
+      setError("");
 
-      const res = await axios.post('/auth/delete', {
+      const res = await axios.post("/auth/delete", {
         password: password,
       });
 
       if (res.data?.success) {
         setAccountDeleted(true);
-        setPassword('');
+        setPassword("");
 
         Cookies.remove("token");
-        Cookies.remove("user");        // User info if stored
+        Cookies.remove("user"); // User info if stored
         localStorage.clear();
         sessionStorage.clear();
 
@@ -47,16 +45,16 @@ const DeleteAccount = () => {
           logoutContext();
         }, 1000);
       } else {
-        setError(res.data?.message || 'Something went wrong.');
+        setError(res.data?.message || "Something went wrong.");
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to delete account. Try again.');
+      setError(
+        err.response?.data?.message || "Failed to delete account. Try again."
+      );
     } finally {
       setLoading(false);
     }
   };
-
-
 
   return (
     <>
@@ -75,7 +73,7 @@ const DeleteAccount = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               className="bg-[#F3F8FF]"
             />
             <button
@@ -92,7 +90,7 @@ const DeleteAccount = () => {
             disabled={loading}
             className="bg-red-600 text-white px-6 py-3 rounded-full font-medium hover:bg-red-700 transition disabled:opacity-60 w-full"
           >
-            {loading ? 'Deleting...' : 'Delete Account'}
+            {loading ? "Deleting..." : "Delete Account"}
           </button>
         </form>
       </div>

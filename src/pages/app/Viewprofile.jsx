@@ -17,12 +17,10 @@ const ViewProfile = () => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleCloseModal = (wasSuccessful) => {
+    console.log("🚀 ~ handleCloseModal ~ wasSuccessful:", wasSuccessful);
     setShowEditModal(false);
-    if (wasSuccessful) {
-      setTimeout(() => {
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 2000);
-      }, 500); // wait for modal to close
+    if (wasSuccessful === true) {
+      setShowSuccess(true);
     }
   };
 
@@ -104,7 +102,7 @@ const ViewProfile = () => {
                 </div>
 
                 {/* Government ID */}
-                {/* <div className="pl-6 pt-3 pb-3">
+                <div className="pl-6 pt-3 pb-3">
                   <p className="text-sm text-gray-500 mb-2 ">Government ID</p>
                   <div className="flex gap-4">
                     <div className="text-left bg-[#F6F6F6] p-4 rounded-2xl">
@@ -132,7 +130,7 @@ const ViewProfile = () => {
                       )}
                     </div>
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>
 
@@ -163,7 +161,10 @@ const ViewProfile = () => {
 
       {showSuccess && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-sm text-center">
+          <div
+            onClick={() => setShowSuccess(false)}
+            className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-sm text-center"
+          >
             <div className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white p-6 w-fit mx-auto rounded-full mb-3">
               <FaCheck size={30} />
             </div>

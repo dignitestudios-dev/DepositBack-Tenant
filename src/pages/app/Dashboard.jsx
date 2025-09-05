@@ -24,6 +24,8 @@ const Dashboard = () => {
   const [RentProperty, setRentProperty] = useState(false);
   const [propertyCode, setPropertyCode] = useState("");
 
+  const [codeLoading, setCodeLoading] = useState(false);
+
   const [filters, setFilters] = useState({});
 
   const navigate = useNavigate("");
@@ -45,6 +47,7 @@ const Dashboard = () => {
   console.log("🚀 ~ Dashboard ~ data:", data);
 
   const handlePropertyCodeVerification = async () => {
+    setCodeLoading(true);
     try {
       const response = await axios.get(`/properties/code/${propertyCode}`);
       if (response.status === 200) {
@@ -56,6 +59,8 @@ const Dashboard = () => {
       }
     } catch (error) {
       ErrorToast(error.response.data.message);
+    } finally {
+      setCodeLoading(false);
     }
   };
 
@@ -250,7 +255,7 @@ const Dashboard = () => {
                     <div className="flex gap-3">
                       <img
                         src={
-                          property.tenant?.profilePicture ||
+                          property.landlord?.profilePicture ||
                           "/default-user.jpg"
                         }
                         className="h-10 w-10 rounded-full object-cover cursor-pointer"
@@ -258,9 +263,9 @@ const Dashboard = () => {
                       />
                       <div>
                         <span className="text-1xl">
-                          {property.tenant?.name || "No Tenant"}
+                          {property.landlord?.name || "No Landlord"}
                         </span>
-                        <p className="text-sm text-gray-500">Tenant</p>
+                        <p className="text-sm text-gray-500">Landlord</p>
                       </div>
                     </div>
                   ) : (
@@ -290,6 +295,7 @@ const Dashboard = () => {
 
       {/* Add Property Modal */}
       <Addmorepropertymodal
+        onClose={() => setModalOpen(false)}
         isOpen={modalOpen}
         onAction={() => {
           setRentProperty(true);
@@ -304,6 +310,7 @@ const Dashboard = () => {
       />
 
       <AddRentPropertyModal
+        loading={codeLoading}
         isOpen={RentProperty}
         onClose={() => {
           setRentProperty(false);
