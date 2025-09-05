@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 import { AppContext } from "../../context/AppContext";
 import { ErrorToast } from "../../components/global/Toaster";
 import { RiLoader5Line } from "react-icons/ri";
+import { useFetchData } from "../../hooks/api/Get";
 
 const ELEMENT_OPTIONS = {
   style: {
@@ -73,8 +74,18 @@ const PaymentForm = ({ planData, setShowModal }) => {
           console.log("🚀 ~ handleSubmit ~ response:", response?.data);
 
           if (response.status === 200) {
-            loginContext(response?.data);
-            setShowModal(true);
+            try {
+              const res = await axios.get(`/users/me`);
+              if(res.status === 200){
+                console.log("🚀 ~ handleSubmit ~ res:", res)
+                loginContext({user:res?.data?.data});
+                setShowModal(true);
+              }
+              
+            } catch (error) {
+              ErrorToast(error?.response?.data?.message);
+            }
+
           }
         }
       } catch (apiError) {

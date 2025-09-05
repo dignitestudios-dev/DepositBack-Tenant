@@ -32,7 +32,7 @@ const settingsMenu = [
   { key: "languages", label: "Languages", icon: <IoEarthOutline /> },
   { key: "change_password", label: "Change Password", icon: <MdLockOutline /> },
   { key: "change_number", label: "Change Number", icon: <IoCallOutline /> },
-  { key: "payment", label: "Payment Method", icon: <CiCreditCard1 /> },
+  // { key: "payment", label: "Payment Method", icon: <CiCreditCard1 /> },
   { key: "terms", label: "Terms & Conditions", icon: <CgLoadbarDoc /> },
   { key: "privacy", label: "Privacy Policy", icon: <RiErrorWarningLine /> },
   {
@@ -59,10 +59,10 @@ const renderSettingContent = () => {
         return (
           <PrivacyPolicy/>
         );
-      case "payment":
-        return (
-          <PaymentSetting/>
-        );
+      // case "payment":
+      //   return (
+      //     <PaymentSetting/>
+      //   );
       case "languages":
         return (
           <Language />
