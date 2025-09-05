@@ -7,8 +7,8 @@ export const baseUrl = "https://backend.depositsback.com";
 // export const baseUrl = "https://155e-45-199-187-86.ngrok-free.app";
 
 async function getDeviceFingerprint() {
-  const fp = await FingerprintJS.load();
-  const result = await fp.get();
+  const fp = FingerprintJS.load();
+  const result = fp.get();
   console.log(result.visitorId); // Unique device ID
   return result.visitorId;
 }
@@ -19,7 +19,7 @@ const instance = axios.create({
     devicemodel: getDeviceFingerprint(),
     deviceuniqueid: getDeviceFingerprint(),
   },
-  timeout: 100000, // 10 seconds timeout
+  timeout: 10000, // 10 seconds timeout
 });
 
 instance.interceptors.request.use((request) => {
