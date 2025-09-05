@@ -72,6 +72,7 @@ const PropertyDetail = () => {
     tenantRepairsImages,
     uvLightImages,
     ownedBy,
+    contract,
     depositTracker,
   } = propertyDetail || {};
 
@@ -169,6 +170,7 @@ const PropertyDetail = () => {
                             rent,
                             paymentStatus,
                             propertyId: _id,
+                            contractId: contract,
                           },
                         })
                       }
@@ -186,6 +188,7 @@ const PropertyDetail = () => {
                           rent,
                           paymentStatus,
                           propertyId: _id,
+                          contractId: contract,
                         },
                       })
                     }

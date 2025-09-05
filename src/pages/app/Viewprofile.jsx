@@ -25,8 +25,6 @@ const ViewProfile = () => {
   };
 
   const { data, loading } = useFetchData(`/users/me`, {}, 1, "");
-  console.log("🚀 ~ ViewProfile ~ loading:", loading);
-  console.log("🚀 ~ ViewProfile ~ data:", data);
 
   return (
     <div className="min-h-screen bg-[#F6FAFF] text-[#333]">
