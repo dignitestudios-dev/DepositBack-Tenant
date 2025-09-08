@@ -21,8 +21,6 @@ const PropertyDetail = () => {
   const { id } = useParams();
   const location = useLocation();
   const propertyDetail = location.state?.propertyDetail;
-  console.log("🚀 ~ PropertyDetail ~ propertyDetail:", propertyDetail);
-
   const [showModal, setShowModal] = useState(false);
 
   const [isDelete, setIsDelete] = useState(false);
@@ -294,7 +292,7 @@ const PropertyDetail = () => {
                 <div className="flex gap-3 justify-between pt-3">
                   <div className="flex gap-3">
                     <img
-                      src={user}
+                      src={landlord?.profilePicture}
                       className="h-[3.3em] w-[3.3em] rounded-full object-cover cursor-pointer"
                       alt="User Avatar"
                     />
@@ -306,7 +304,10 @@ const PropertyDetail = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="bg-[#fff] p-3 rounded-xl">
+                    <div
+                      onClick={() => navigate("/app/messages")}
+                      className="bg-[#fff] p-3 rounded-xl cursor-pointer"
+                    >
                       <IoChatbubbleEllipsesOutline size={20} color="blue" />
                     </div>
                   </div>
