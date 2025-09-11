@@ -33,7 +33,7 @@ const Language = () => {
 
       {/* Language List */}
       <div className="space-y-3 overflow-auto h-[16em]">
-        {["English", "Spanish", "Portuguese", "Russian", "French"].map(
+        {["English"].map(
           (lang, index) => (
             <label
               key={index}
