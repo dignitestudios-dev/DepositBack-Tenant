@@ -338,7 +338,7 @@ const EditProfileModal = ({ onClose }) => {
               <p className="text-sm font-medium mb-2">Back ID Card</p>
               <div className="relative">
                 <img
-                  src={state?.backIDImage || state?.idBackPreview}
+                  src={state?.idBackPreview || state?.backIDImage}
                   alt="Back ID"
                   className="h-28 mx-auto rounded-md"
                 />
