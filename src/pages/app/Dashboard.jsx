@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState  } from "react";
 import Header from "../../components/global/Header";
 import Footer from "../../components/global/Footer";
 import SearchBar from "../../components/global/Searchbar";
@@ -17,8 +17,10 @@ import DashboardSkeletonLoader from "../../components/app/dashboard/DashboardSke
 import AddRentPropertyModal from "../../components/global/AddRentProperty";
 import axios from "../../axios";
 import { ErrorToast } from "../../components/global/Toaster";
+import { AppContext } from "../../context/AppContext";
 
 const Dashboard = () => {
+  const { userData, setUpdate } = useContext(AppContext);
   const [modalOpen, setModalOpen] = useState(false); // Manage modal visibility
   const [filterOpen, setFilterOpen] = useState(false);
   const [RentProperty, setRentProperty] = useState(false);
@@ -167,7 +169,7 @@ const Dashboard = () => {
       <div className="flex flex-wrap justify-between items-center gap-6 p-0">
         <div className="text-left">
           <h1 className="text-3xl font-[500]">
-            Hello, <span className="font-[600]">Justin!</span>
+            Hello, <span className="font-[600]">{userData?.name}!</span>
           </h1>
           <p className="mt-2 text-2xl font-medium text-black pt-2">
             My Properties
@@ -202,95 +204,98 @@ const Dashboard = () => {
       {loading ? (
         <DashboardSkeletonLoader />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
-          {data.map((property, index) => (
-            <div
-              key={index}
-              className="bg-white p-3 rounded-2xl shadow-lg overflow-hidden"
-            >
-              {/* Property Image */}
-              <div className="relative">
-                <img
-                  src={property.images?.[0] || "/default-property.jpg"} // fallback image
-                  alt="Property"
-                  className="w-full h-[13em] object-cover rounded-2xl"
-                />
-              </div>
-
-              {/* Card Body */}
-              <div className="p-4">
-                <div className="flex justify-between items-center">
-                  <span
-                    className="text-[18px] font-[500] cursor-pointer"
-                    onClick={() => {
-                      navigate(`/app/property-detail/${property._id}`, {
-                        state: { propertyDetail: property },
-                      });
-                    }}
-                  >
-                    {property.name}
-                  </span>
-                  <p className="mt-2 text-lg font-semibold text-[#0151DA]">
-                    ${property.rent}
-                  </p>
-                </div>
-
-                <div className="flex gap-1 pt-2 items-center">
-                  <LuMapPin size={16} />
-                  <p className="text-gray-500 font-[500] text-sm">
-                    {property.address}
-                  </p>
-                </div>
-
-                <span className="text-sm text-black">
-                  Unique Code: &nbsp;
-                  <span className="text-blue-600 font-semibold">
-                    {property.uniquePropertyCode}
-                  </span>
-                </span>
-
-                {/* Tenant Info and Chat */}
-                <div className="flex gap-3 justify-between pt-3">
-                  {property?.ownedBy === "landlord" ? (
-                    <div className="flex gap-3">
-                      <img
-                        src={
-                          property.landlord?.profilePicture ||
-                          "/default-user.jpg"
-                        }
-                        className="h-10 w-10 rounded-full object-cover cursor-pointer"
-                        alt="Tenant Avatar"
-                      />
-                      <div>
-                        <span className="text-1xl">
-                          {property.landlord?.name || "No Landlord"}
-                        </span>
-                        <p className="text-sm text-gray-500">Landlord</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
-
-                  {property?.ownedBy === "landlord" ? (
-                    <div
-                      className="bg-[#0151DA] p-3 rounded-xl cursor-pointer"
-                      onClick={() => {
-                        navigate("/app/messages", {
-                          state: { landlordId: property?.landlord?.uid },
-                        });
-                      }}
-                    >
-                      <IoChatbubbleEllipsesOutline size={20} color="white" />
-                    </div>
-                  ) : (
-                    <div></div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+  {data.length > 0 ? (
+    data.map((property, index) => (
+      <div
+        key={index}
+        className="bg-white p-3 rounded-2xl shadow-lg overflow-hidden"
+      >
+        {/* Property Image */}
+        <div className="relative">
+          <img
+            src={property.images?.[0] || "/default-property.jpg"} // fallback image
+            alt="Property"
+            className="w-full h-[13em] object-cover rounded-2xl"
+          />
         </div>
+
+        {/* Card Body */}
+        <div className="p-4">
+          <div className="flex justify-between items-center">
+            <span
+              className="text-[18px] font-[500] cursor-pointer"
+              onClick={() => {
+                navigate(`/app/property-detail/${property._id}`, {
+                  state: { propertyDetail: property },
+                });
+              }}
+            >
+              {property.name}
+            </span>
+            <p className="mt-2 text-lg font-semibold text-[#0151DA]">
+              ${property.rent}
+            </p>
+          </div>
+
+          <div className="flex gap-1 pt-2 items-center">
+            <LuMapPin size={16} />
+            <p className="text-gray-500 font-[500] text-sm">
+              {property.address}
+            </p>
+          </div>
+
+          <span className="text-sm text-black">
+            Unique Code: &nbsp;
+            <span className="text-blue-600 font-semibold">
+              {property.uniquePropertyCode}
+            </span>
+          </span>
+
+          {/* Tenant Info and Chat */}
+          <div className="flex gap-3 justify-between pt-3">
+            {property?.ownedBy === "landlord" ? (
+              <div className="flex gap-3">
+                <img
+                  src={
+                    property.landlord?.profilePicture ||
+                    "/default-user.jpg"
+                  }
+                  className="h-10 w-10 rounded-full object-cover cursor-pointer"
+                  alt="Tenant Avatar"
+                />
+                <div>
+                  <span className="text-1xl">
+                    {property.landlord?.name || "No Landlord"}
+                  </span>
+                  <p className="text-sm text-gray-500">Landlord</p>
+                </div>
+              </div>
+            ) : null}
+
+            {property?.ownedBy === "landlord" ? (
+              <div
+                className="bg-[#0151DA] p-3 rounded-xl cursor-pointer"
+                onClick={() => {
+                  navigate("/app/messages", {
+                    state: { landlordId: property?.landlord?.uid },
+                  });
+                }}
+              >
+                <IoChatbubbleEllipsesOutline size={20} color="white" />
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className="col-span-full text-center text-gray-500">
+      No properties found.
+    </div>
+  )}
+</div>
+
       )}
 
       {/* Add Property Modal */}
