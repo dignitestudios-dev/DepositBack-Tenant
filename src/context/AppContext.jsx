@@ -15,6 +15,10 @@ const AppProvider = ({ children }) => {
     return cookieData ? JSON.parse(cookieData) : null;
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [notification, setNotification] = useState([]);
+
   const loginContext = (data) => {
     console.log("🚀 ~ loginContext ~ data:", data);
     if (data) {
@@ -37,12 +41,26 @@ const AppProvider = ({ children }) => {
     navigate("/auth/login");
   };
 
-  const { data: notification, loading: isLoading } = useFetchData(
-    `/notification`,
-    {},
-    1,
-    update
-  );
+  const handleNotifications = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get("/notification");
+      console.log("🚀 ~ handleNotifications ~ data:", data);
+      if (data.success) {
+        setNotification(data.data);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      ErrorToast(error.response.data.message);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      handleNotifications();
+    }
+  }, []);
 
   return (
     <AppContext.Provider
