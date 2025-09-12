@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import logo from "../../assets/mainlogowhite.png";
 import { IoLogOut, IoNotificationsOutline } from "react-icons/io5";
 import user from "../../assets/user.png";
@@ -18,6 +18,10 @@ const Header = () => {
   const [logoutpopup, setLogoutpopup] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
+  const notificationRef = useRef(null);
+  const userPopupRef = useRef(null);
+
+
   const togglePopup = () => {
     if (userPopup) setUserPopup(false);
     setIsPopupOpen(!isPopupOpen);
@@ -28,10 +32,38 @@ const Header = () => {
     setUserPopup(!userPopup);
   };
 
+    const closePopup = () => {
+    setIsPopupOpen(false); // Close notification popup
+  };
+
   useEffect(() => {
     let count = notification.filter((item) => !item.isRead);
     setUnreadCount(count);
-  }, [notification]);
+
+    // Close the popups if clicked outside
+    const handleClickOutside = (event) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target) &&
+        isPopupOpen
+      ) {
+        setIsPopupOpen(false); // Close notification popup if clicked outside
+      }
+
+      if (
+        userPopupRef.current &&
+        !userPopupRef.current.contains(event.target) &&
+        userPopup
+      ) {
+        setUserPopup(false); // Close user dropdown if clicked outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isPopupOpen, userPopup, notification]);
 
   return (
     <div className="bg-gradient-to-r from-[#003897] to-[#0151DA] flex justify-between items-center rounded-3xl px-[6em] py-4 shadow-md ml-[1em] mr-[1em] mt-[1em]">
@@ -41,13 +73,16 @@ const Header = () => {
       </div>
 
       {/* Navigation and User Section */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6"             ref={userPopupRef}
+>
         {/* Navigation Links */}
         <ul className="flex text-white gap-6 text-sm font-medium">
           <li
             className="hover:underline cursor-pointer"
             onClick={() => {
               navigate("/app/Dashboard");
+              closePopup(); 
+
             }}
           >
             Home
@@ -56,6 +91,8 @@ const Header = () => {
             className="hover:underline cursor-pointer"
             onClick={() => {
               navigate("/app/resources");
+              closePopup(); 
+
             }}
           >
             Resources
@@ -64,6 +101,7 @@ const Header = () => {
             className="hover:underline cursor-pointer"
             onClick={() => {
               navigate("/app/report-history");
+              closePopup();
             }}
           >
             Report History
@@ -72,6 +110,7 @@ const Header = () => {
             className="hover:underline cursor-pointer"
             onClick={() => {
               navigate("/app/req-from-landlord");
+              closePopup();
             }}
           >
             Request from Landlord
@@ -80,12 +119,13 @@ const Header = () => {
         <button
           onClick={() => {
             navigate("/app/messages");
+            closePopup();
           }}
         >
           <img src={ChatIcon} className="w-[24px] h-[24px]" />
         </button>
         {/* Notification Icon with Popup toggle */}
-        <div className="relative">
+        <div className="relative" ref={notificationRef}>
           <IoNotificationsOutline
             className="text-white text-2xl cursor-pointer"
             onClick={togglePopup}
@@ -93,7 +133,8 @@ const Header = () => {
           {/* Notification Popup */}
           {/* Notification Popup */}
           {isPopupOpen && (
-            <div className="absolute top-12 z-10 right-0 w-[26em] p-4 bg-white shadow-lg rounded-lg border border-slate-200">
+            <div className="absolute top-12 z-10 right-0 w-[26em] p-4 bg-white shadow-lg rounded-lg border border-slate-200" 
+>
               <h3 className="text-lg font-semibold">Notifications</h3>
               <div className="mt-4 space-y-4">
                 {notification.slice(0, 3).map((notification, index) => (
@@ -121,7 +162,10 @@ const Header = () => {
                 ))}
                 <div className="flex justify-center items-center ">
                   <button
-                    onClick={() => navigate("/app/notifications")}
+                    onClick={() => {
+                      navigate("/app/notifications");
+                      closePopup(); 
+                    }}
                     className="text-sm text-blue-600 font-medium px-4 py-1 rounded-lg hover:bg-blue-50 cursor-pointer transition"
                   >
                     View All
@@ -141,12 +185,15 @@ const Header = () => {
         />
 
         {userPopup && (
-          <div className="absolute top-[6em] right-10 w-[9em] p-4 bg-white shadow-lg rounded-lg border border-slate-200">
+          <div className="absolute top-[6em] right-10 w-[9em] p-4 bg-white shadow-lg rounded-lg border border-slate-200"             ref={userPopupRef}
+>
             <div className="space-y-3">
               <span
                 className="block text-[12px] font-[500] hover:text-blue-500 cursor-pointer"
                 onClick={() => {
                   navigate("/app/view-profile");
+                                        closePopup(); 
+
                 }}
               >
                 View Profile
@@ -155,6 +202,8 @@ const Header = () => {
                 className="block text-[12px] font-[500] hover:text-blue-500 cursor-pointer"
                 onClick={() => {
                   navigate("/app/subscription-plans");
+                                        closePopup(); 
+
                 }}
               >
                 Subscription Plans
@@ -163,6 +212,8 @@ const Header = () => {
                 className="block text-[12px] font-[500] hover:text-blue-500 cursor-pointer"
                 onClick={() => {
                   navigate("/app/settings");
+                                        closePopup(); 
+
                 }}
               >
                 Settings

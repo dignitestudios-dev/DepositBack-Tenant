@@ -65,7 +65,7 @@ const ChangePassword = () => {
           <form onSubmit={handleSubmit} className="ml-[6em] mr-[6em]">
             {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
 
-            <div className="relative">
+            <div className="relative mb-2">
               <Input
                 label="Current password"
                 value={currentpassword}
@@ -79,11 +79,11 @@ const ChangePassword = () => {
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-4 top-10 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
 
-            <div className="relative">
+            <div className="relative mb-2">
               <Input
                 label="New password"
                 value={password}
@@ -97,11 +97,11 @@ const ChangePassword = () => {
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-4 top-10 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
 
-            <div className="relative">
+            <div className="relative mb-2">
               <Input
                 label="Confirm password"
                 value={newpassword}
@@ -115,11 +115,11 @@ const ChangePassword = () => {
                 onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-4 top-10 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
 
-            <div className="mt-[8em] flex justify-center">
+            <div className="mt-[8em] flex justify-center mb-2">
               <button
                 type="submit"
                 disabled={loading}
