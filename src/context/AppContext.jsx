@@ -1,7 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 import { useFetchData } from "../hooks/api/Get";
+import axios from "../axios";
+import { ErrorToast } from "../components/global/Toaster";
 
 const AppContext = createContext();
 
@@ -60,7 +62,7 @@ const AppProvider = ({ children }) => {
     if (token) {
       handleNotifications();
     }
-  }, []);
+  }, [update]);
 
   return (
     <AppContext.Provider
