@@ -27,6 +27,7 @@ const Documents = () => {
     tenantRepairsVideos = [],
     tenantRepairsImages = [],
   } = location.state || {};
+  console.log("🚀 ~ Documents ~ tenantAgreements:", landlordAgreements);
 
   const landlordTabs = ["Agreements", "Property Conditions", "Rules"];
   const tenantTabs = ["Agreements", "Repairs"];
@@ -70,11 +71,12 @@ const Documents = () => {
 
   const landlordDocuments = [landlordAgreements[0]];
 
-  const tenantDocuments = [tenantAgreements[0]];
+  const tenantDocuments = tenantAgreements;
 
   const currentTabs = viewMode === "landlord" ? landlordTabs : tenantTabs;
   const currentDocuments =
     viewMode === "landlord" ? landlordDocuments : tenantDocuments;
+  console.log("🚀 ~ Documents ~ currentDocuments:", currentDocuments);
 
   return (
     <div className="max-w-[1260px] mx-auto pt-8 pb-[10em] p-6 text-[#333]">
@@ -126,8 +128,9 @@ const Documents = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex justify-end gap-2">
-                <button
+              {viewMode === "tenant" && (
+                <div className="flex justify-end gap-2">
+                  {/* <button
                   onClick={() => {
                     setActiveCategory("uv");
                     setIsUploadFile(true);
@@ -135,15 +138,16 @@ const Documents = () => {
                   className="bg-gradient-to-r from-[#314ba1] to-[#0a55d6] hover:bg-[#0151DA] text-white text-sm px-4 py-3 rounded-full font-medium"
                 >
                   + Upload UV Images
-                </button>
-                <button
-                  disabled={viewMode === "landlord"}
-                  onClick={() => setIsUploadFile(true)}
-                  className="bg-gradient-to-r from-[#003897] to-[#0151DA] hover:bg-[#0151DA] text-white text-sm px-4 py-3 rounded-full font-medium"
-                >
-                  + Upload Files
-                </button>
-              </div>
+                </button> */}
+                  <button
+                    disabled={viewMode === "landlord"}
+                    onClick={() => setIsUploadFile(true)}
+                    className="bg-gradient-to-r from-[#003897] to-[#0151DA] hover:bg-[#0151DA] text-white text-sm px-4 py-3 rounded-full font-medium"
+                  >
+                    + Upload Files
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -173,6 +177,13 @@ const Documents = () => {
             />
           ) : activeCategory === "Rules" ? (
             <Repairs rules={landlordRules} />
+          ) : activeCategory === "Repairs" ? (
+            <Propertycondition
+              videos={tenantRepairsVideos}
+              images={tenantRepairsImages}
+              uvLightImages={[]}
+              isLandLord={false}
+            />
           ) : (
             <>
               {currentDocuments?.length > 0 &&

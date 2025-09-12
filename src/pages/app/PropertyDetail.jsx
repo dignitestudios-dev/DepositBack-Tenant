@@ -21,6 +21,7 @@ const PropertyDetail = () => {
   const { id } = useParams();
   const location = useLocation();
   const propertyDetail = location.state?.propertyDetail;
+
   const [showModal, setShowModal] = useState(false);
 
   const [isDelete, setIsDelete] = useState(false);
@@ -326,7 +327,8 @@ const PropertyDetail = () => {
                   </div>
                   <p className="flex gap-2 items-center mt-2">
                     <IoIosWarning />
-                    Emergency: {landlord?.emergencyContact || "+1 000 000 000"}
+                    Emergency:{" "}
+                    {landlord?.emergencyContact || "-- Not provided --"}
                   </p>
                 </div>
               </div>

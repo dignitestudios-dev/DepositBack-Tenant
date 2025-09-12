@@ -136,7 +136,7 @@ const Deposittracker = () => {
                 {data?.deductions?.map((item, index) => (
                   <div
                     key={item._id || index}
-                    className="bg-[#F3F3F3] p-6 rounded-2xl items-start"
+                    className="bg-[#F3F3F3] p-6 rounded-2xl items-start my-2"
                   >
                     <h1 className="font-[500]">{item.title}</h1>
                     <p className="text-sm pt-1 pb-1">{item.description}</p>
@@ -189,7 +189,7 @@ const Deposittracker = () => {
               Remaining Balance
             </h3>
             <p className="text-4xl font-[600] text-blue-700">
-              ${data?.depositTracker?.totalDeposit}
+              ${data?.depositTracker?.remainingBalance}
             </p>
           </div>
         </>

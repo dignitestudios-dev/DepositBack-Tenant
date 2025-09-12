@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Propertycondition = ({ images, videos, uvLightImages }) => {
+const Propertycondition = ({ images, videos, uvLightImages, isLandlord }) => {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
   const [showAllVideos, setShowAllVideos] = useState(false);
   const [showAllUvImages, setShowAllUvImages] = useState(false);
@@ -104,7 +104,7 @@ const Propertycondition = ({ images, videos, uvLightImages }) => {
         </div>
       )}
 
-      {viewingOnly !== "photos" && viewingOnly !== "videos" && (
+      {viewingOnly !== "photos" && viewingOnly !== "videos" && isLandlord && (
         <div className="mt-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">

@@ -83,8 +83,12 @@ const UploadPropertyDocs = ({
       }
 
       if (activeCategoryName === "repairs") {
-        documentFiles.forEach((file) => {
-          formData.append("tenantRepairs", file);
+        mediaFiles.forEach((file) => {
+          if (file.type.startsWith("image/")) {
+            formData.append("tenantRepairsImages", file);
+          } else {
+            formData.append("tenantRepairsVideos", file);
+          }
         });
       }
 
@@ -147,8 +151,7 @@ const UploadPropertyDocs = ({
               type="file"
               id="fileUpload"
               accept={
-                activeCategoryName === "agreements" ||
-                activeCategoryName === "repairs"
+                activeCategoryName === "agreements"
                   ? "application/pdf"
                   : "image/*,video/*"
               }
