@@ -74,6 +74,7 @@ const PropertyDetail = () => {
     contract,
     depositTracker,
   } = propertyDetail || {};
+  console.log("🚀 ~ PropertyDetail ~ paymentStatus:", paymentStatus);
 
   return (
     <div className="max-w-[1260px] mx-auto pt-10">
