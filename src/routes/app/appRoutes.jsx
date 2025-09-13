@@ -20,6 +20,7 @@ import Propertydetaillink from "../../pages/app/Propertydetailslink";
 import Propertylinkedsuccess from "../../pages/app/Propertylinkedsuccess";
 import Receiptsanddeductions from "../../pages/app/Receiptsanddeductions";
 import Renthistory from "../../pages/app/Renthistory";
+import Report from "../../pages/app/Report";
 import ReportHistory from "../../pages/app/ReportHistory";
 import ReportDetailHistory from "../../pages/app/ReportHistoryDetail";
 import Resources from "../../pages/app/Resources";
@@ -46,6 +47,13 @@ export const appRoutes = [
     name: "Report History",
     isPublic: true,
   },
+  {
+    url: "report/:_id",
+    page: <Report />,
+    name: "Report",
+    isPublic: true,
+  },
+  
   {
     url: "report-detail",
     page: <ReportDetailHistory />,
