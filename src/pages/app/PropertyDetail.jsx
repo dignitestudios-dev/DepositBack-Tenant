@@ -93,7 +93,18 @@ const PropertyDetail = () => {
               <RiDeleteBinFill />
               Delete
             </button>
-          </div>
+          </div>        
+        )}
+        {ownedBy === "landlord" && (
+          <div className="flex gap-4">
+            <button
+           onClick={() => navigate(`/app/report/${_id}`)}
+              className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white flex items-center gap-3 rounded-3xl px-4 py-2  font-medium"
+            >
+              <RiDeleteBinFill />
+              Report
+            </button>
+          </div>        
         )}
         {/* <div className="flex gap-4">
             <button
