@@ -16,7 +16,8 @@ const RentHistory = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const currentDate = useMemo(() => new Date().toISOString(), []);
-
+  const [isRentPaid, setIsRentPaid] = useState(false);
+  
   const handlePayRent = async () => {
     try {
       setLoading(true);
@@ -27,8 +28,9 @@ const RentHistory = () => {
         if (response?.data?.data) {
           console.log("Response --- > ", response);
         } else {
-          SuccessToast("Rent Paid");
-          navigate(-1);
+          // SuccessToast("Rent Paid");
+          isRentPaid(true);
+          // navigate(-1);
         }
       }
     } catch (error) {
@@ -189,9 +191,20 @@ const RentHistory = () => {
               title: "Reminder Sent!",
               description: "Reminder of rent due has been sent to the tenant.",
 
-              iconBgColor: "bg-blue-600", // Optional
+              iconBgColor: "bg-blue-600", 
             }}
           />
+          {isRentPaid && (<Modal
+            isOpen={isRentPaid}
+            onClose={() => setIsRentPaid(false)}
+            data={{
+              title: "Rent Paid",
+              description: "Your rent for this has been paid successfully.",
+
+              iconBgColor: "bg-blue-600",
+            }}
+          />) }
+          
         </div>
       )}
     </div>

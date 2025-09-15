@@ -231,11 +231,17 @@ const PropertyDetail = () => {
                   </span>
                 </p>
                 <p className="flex justify-between font-[500]">
-                  Payment Status:{" "}
-                  <span className="text-yellow-500 font-medium rounded-3xl px-3 bg-[#FF950040]">
-                    {paymentStatus || "Pending"}
-                  </span>
-                </p>
+  Payment Status:{" "}
+  <span
+    className={`${
+      paymentStatus === "Paid"
+        ? "text-white bg-gradient-to-r from-[#003897] to-[#0151DA]" // Blue background if paid
+        : "text-yellow-500 bg-[#FF950040]" // Yellow background if not paid
+    } font-medium rounded-3xl px-3`}
+  >
+    {paymentStatus || "Pending"}
+  </span>
+</p>
               </div>
 
               <Modal
