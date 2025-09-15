@@ -174,9 +174,11 @@ const RentHistory = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-center">
+              <div className="bg-white shadow-md justify-items-center p-8 items-center rounded-2xl w-full">
+              <p className="text-gray-500 text-center" >
                 No rent history available
               </p>
+              </div>
             )}
           </div>
 
