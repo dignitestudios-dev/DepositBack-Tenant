@@ -123,7 +123,7 @@ export default function Addpersonalinfo() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="text-2xl text-blue-500">+</span>
+                  <span className="text-2xl text-blue-50docu0">+</span>
                 )}
                 <input
                   id="profilePic"
@@ -154,7 +154,7 @@ export default function Addpersonalinfo() {
               <p className="text-red-500 text-xs">{errors.fullname}</p>
             )}
             <Input
-              label="Last four digits of SSN"
+              label="Last Four Digits Of SSN"
               type="tel"
               value={Ssnnumber}
               onChange={(e) =>

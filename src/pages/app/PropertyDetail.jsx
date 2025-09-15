@@ -15,6 +15,7 @@ import { useFetchById } from "../../hooks/api/Get";
 import { ErrorToast, SuccessToast } from "../../components/global/Toaster";
 import axios from "../../axios";
 import { getDateFormat } from "../../lib/helpers";
+import DisputeModal from "../../components/app/propertyDetail/DisputeModal";
 
 const PropertyDetail = () => {
   const navigate = useNavigate("");
@@ -455,7 +456,7 @@ const PropertyDetail = () => {
         />
       )}
       {disputeModal && (
-        <Modal
+        <DisputeModal
           isOpen={disputeModal}
           onClose={() => setDisputeModal(false)}
           onAction={() => {
