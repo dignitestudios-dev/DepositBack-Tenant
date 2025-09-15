@@ -3,15 +3,13 @@ import { LuMapPin } from "react-icons/lu";
 
 import { FaArrowLeft, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { RiDeleteBinFill, RiEdit2Fill } from "react-icons/ri";
-import user from "../../assets/user.png";
+import { RiDeleteBinFill } from "react-icons/ri";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import backimage from "../../assets/propertydetail/back.png";
 import { IoIosWarning } from "react-icons/io";
 import { BsChevronRight } from "react-icons/bs";
 import Modal from "../../components/global/Modal";
 import ImageGallery from "../../components/app/ImageGallery";
-import { useFetchById } from "../../hooks/api/Get";
 import { ErrorToast, SuccessToast } from "../../components/global/Toaster";
 import axios from "../../axios";
 import { getDateFormat } from "../../lib/helpers";
@@ -28,6 +26,10 @@ const PropertyDetail = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [disputeModal, setDisputeModal] = useState(false);
   const [disputeSuccess, setDisputeSuccess] = useState(false);
+  const [disputeLoading, setDisputeLoading] = useState(false);
+
+  const [confirmDispute, setConfirmDispute] = useState(false);
+  const [successLease, setSuccessLease] = useState(false);
 
   //   const images = [imagetwo, imageone, imagefive, imagethree, imagefour];
 
@@ -41,6 +43,40 @@ const PropertyDetail = () => {
       }
     } catch (error) {
       ErrorToast(error.response.data.message);
+    }
+  };
+
+  const handleDispute = async () => {
+    setDisputeLoading(true);
+    try {
+      const response = await axios.post(`/properties/leaseDispute/${id}`);
+      if (response.status === 200) {
+        setDisputeSuccess(true);
+        setDisputeModal(false);
+      }
+    } catch (error) {
+      console.log("🚀 ~ handleDispute ~ error:", error);
+      ErrorToast(error.response.data.message);
+    } finally {
+      setDisputeLoading(false);
+    }
+  };
+
+  const handleConfirmDispute = async () => {
+    setDisputeLoading(true);
+    try {
+      const response = await axios.post(`/properties/leaseConfirm/${id}`, {
+        isConfirmed: true,
+      });
+      if (response.status === 200) {
+        setConfirmDispute(false);
+        setSuccessLease(true);
+      }
+    } catch (error) {
+      console.log("🚀 ~ handleDispute ~ error:", error);
+      ErrorToast(error.response.data.message);
+    } finally {
+      setDisputeLoading(false);
     }
   };
 
@@ -74,8 +110,10 @@ const PropertyDetail = () => {
     ownedBy,
     contract,
     depositTracker,
+    isLeaseDateResolved,
+    isLeaseDateConfirmed,
   } = propertyDetail || {};
-  console.log("🚀 ~ PropertyDetail ~ paymentStatus:", paymentStatus);
+  console.log("🚀 ~ PropertyDetail ~ paymentStatus:", propertyDetail);
 
   return (
     <div className="max-w-[1260px] mx-auto pt-10">
@@ -95,18 +133,18 @@ const PropertyDetail = () => {
               <RiDeleteBinFill />
               Delete
             </button>
-          </div>        
+          </div>
         )}
         {ownedBy === "landlord" && (
           <div className="flex gap-4">
             <button
-           onClick={() => navigate(`/app/report/${_id}`)}
+              onClick={() => navigate(`/app/report/${_id}`)}
               className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white flex items-center gap-3 rounded-3xl px-4 py-2  font-medium"
             >
               <RiDeleteBinFill />
               Report
             </button>
-          </div>        
+          </div>
         )}
         {/* <div className="flex gap-4">
             <button
@@ -428,13 +466,32 @@ const PropertyDetail = () => {
               )}
             </div>
             {ownedBy === "landlord" && (
-              <div className=" flex justify-end ">
-                <button
-                  onClick={() => setDisputeModal(true)}
-                  className="bg-red-500 py-3 w-full text-white rounded-full font-[500] text-sm items-end"
-                >
-                  Dispute Lease Date
-                </button>
+              <div>
+                {!isLeaseDateConfirmed ? (
+                  <div className="space-x-2 flex justify-between w-full">
+                    <button
+                      onClick={() => setConfirmDispute(true)}
+                      className="bg-green-500 py-3 px-4 text-white rounded-full font-medium text-sm w-full"
+                    >
+                      Confirm Lease Date
+                    </button>
+
+                    <button
+                      onClick={() => setDisputeModal(true)}
+                      className="bg-red-500 py-3 px-4 text-white rounded-full font-medium text-sm w-full"
+                    >
+                      Dispute Again
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    disabled={isLeaseDateConfirmed && isLeaseDateResolved}
+                    onClick={() => setDisputeModal(true)}
+                    className="bg-red-500 py-3 px-4 text-white rounded-full font-medium text-sm w-full"
+                  >
+                    Dispute Lease Date
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -457,16 +514,17 @@ const PropertyDetail = () => {
       )}
       {disputeModal && (
         <DisputeModal
+          disputeLoading={disputeLoading}
           isOpen={disputeModal}
           onClose={() => setDisputeModal(false)}
           onAction={() => {
-            setDisputeSuccess(true);
-            setDisputeModal(false);
+            handleDispute();
           }}
           data={{
             title: "Dispute Lease Date",
             description: "Are you sure you want to dispute this lease date?",
             iconBgColor: "bg-red-600",
+            hoverBgColor: "hover:bg-red-700",
             actionText: "Yes",
           }}
         />
@@ -481,6 +539,36 @@ const PropertyDetail = () => {
             title: "Dispute submitted successfully!",
             description: "Your lease date dispute has been sent",
             iconBgColor: "bg-blue-600", // Optional
+          }}
+        />
+      )}
+      {successLease && (
+        <Modal
+          isOpen={successLease}
+          onClose={() => {
+            setSuccessLease(false);
+          }}
+          data={{
+            title: "Lease accepted successfully!",
+            description: "Lease date has been accepted",
+            iconBgColor: "bg-blue-600", // Optional
+          }}
+        />
+      )}
+      {confirmDispute && (
+        <DisputeModal
+          disputeLoading={disputeLoading}
+          isOpen={confirmDispute}
+          onClose={() => setConfirmDispute(false)}
+          onAction={() => {
+            handleConfirmDispute();
+          }}
+          data={{
+            title: "Confirm Lease Date",
+            description: "Are you sure you want to confirm this lease date?",
+            iconBgColor: "bg-blue-600",
+            hoverBgColor: "hover:bg-blue-700",
+            actionText: "Yes",
           }}
         />
       )}
