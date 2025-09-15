@@ -12,6 +12,7 @@ const Paysecuritydeposite = () => {
   const depositAmount = location.state?.depositAmount;
   const propertyId = location.state?.propertyId;
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [isLoading, setIsLoading] = useState(false);
   const [stripeDetails, setStripeDetails] = useState({
     cardHolderName: "",
     cardNumber: "",
@@ -37,6 +38,7 @@ const Paysecuritydeposite = () => {
 
   const handleDeposit = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.post(`properties/${propertyId}/pay`);
       if (response.status === 200) {
         // SuccessToast("Request Sub");
@@ -46,6 +48,8 @@ const Paysecuritydeposite = () => {
     } catch (error) {
       ErrorToast(error.response.data.message);
       console.log("error==>  ", error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -74,27 +78,6 @@ const Paysecuritydeposite = () => {
           <label className="block text-sm font-medium text-gray-900 mb-3">
             Total Deposit Amount to be paid : {depositAmount}
           </label>
-          {/* Only show the Add Stripe Account field if no card is added */}
-          {/* {!addedCard && (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-900 mb-3">
-                                Add Stripe Account
-                            </label>
-
-                            <div className="w-full">
-                                <div
-                                    className="p-3 mt-2 border rounded-2xl font-[500] bg-[#F0F4FF] flex justify-between items-center cursor-pointer"
-                                    onClick={() => setIsModalOpen(true)}
-                                >
-                                    <div className="flex items-center gap-2">
-                                        <img src={Stripe} alt="Stripe" className="h-6" />
-                                        <p className='text-sm'>Stripe</p>
-                                    </div>
-                                    <div className="text-sm"><FaChevronRight /></div>
-                                </div>
-                            </div>
-                        </div>
-                    )} */}
 
           {/* Display added Stripe account info */}
           {addedCard && (
@@ -111,10 +94,11 @@ const Paysecuritydeposite = () => {
 
           <div className="flex space-x-3 pt-0">
             <button
+              disabled={isLoading}
               className={`flex-1 py-3 px-6 text-white font-medium rounded-full transition-colors ${"bg-[#003897] hover:bg-blue-700 "}`}
               onClick={handleDeposit}
             >
-              Pay Deposit
+              {isLoading ? "Processing..." : "Pay Deposit"}
             </button>
           </div>
         </div>

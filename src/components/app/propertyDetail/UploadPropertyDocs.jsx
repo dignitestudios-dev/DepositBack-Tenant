@@ -12,10 +12,7 @@ const UploadPropertyDocs = ({
   propertyId,
 }) => {
   const activeCategoryName = activeCategory.split(" ")[0].toLowerCase();
-  console.log(
-    "🚀 ~ UploadPropertyDocs ~ activeCategoryName:",
-    activeCategoryName
-  );
+
   const [mediaError, setMediaError] = useState(null);
 
   const [loading, setLoading] = useState(false);
@@ -31,6 +28,11 @@ const UploadPropertyDocs = ({
       (file) => file.type.startsWith("image/") || file.type.startsWith("video/")
     );
     const documents = files.filter((file) => file.type === "application/pdf");
+
+    if (documents.length + imagesAndVideos.length > 5) {
+      setMediaError("You can upload up to 5 images only.");
+      return; // Exit early if the limit is exceeded
+    }
 
     setDocumentFiles([...documentFiles, ...documents]);
     setMediaFiles([...mediaFiles, ...imagesAndVideos]);
@@ -146,7 +148,7 @@ const UploadPropertyDocs = ({
             className=" rounded-lg p-10 text-center cursor-pointer"
           >
             <p className="text-black">Upload “Documents”</p>
-            <p className="text-sm text-gray-400">Upto 20mbps PDF, JPG, PNG</p>
+            <p className="text-sm text-gray-400">Upto 20mb PDF, JPG, PNG</p>
             <input
               type="file"
               id="fileUpload"
