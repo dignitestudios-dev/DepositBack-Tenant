@@ -1,6 +1,6 @@
 import { TiWarning } from "react-icons/ti";
 
-export default function Modal({ isOpen, onClose, onAction, data }) {
+export default function DisputeModal({ isOpen, onClose, onAction, data }) {
     if (!isOpen) return null;
 
     const {
