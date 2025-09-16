@@ -11,38 +11,40 @@ import { useLocation } from "react-router";
 const Receiptsanddeductions = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    title,
-
-    invoices,
-
-    description,
-    amount,
-    date,
-  } = location.state || {};
+  const { title, invoices, description, amount, date } = location.state || {};
 
   return (
     <div className="max-w-[1260px] mx-auto px-6 pt-8 pb-20 min-h-screen bg-[#F6FAFF] text-[#333]">
       {/* Back + Heading */}
-      <div className="flex items-center gap-3 mb-6">
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="text-gray-700 hover:text-black"
-        >
-          <FaArrowLeft size={20} />
-        </button>
-        <h1 className="text-3xl font-semibold">Receipts and Deductions</h1>
+      <div className="flex items-center justify-between gap-3 mb-6">
+        <div>
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="text-gray-700 hover:text-black"
+          >
+            <FaArrowLeft size={20} />
+          </button>
+          <h1 className="text-3xl font-semibold">Receipts and Deductions</h1>
+        </div>
+        <div className="w-[200px]">
+          <button
+            onClick={() => navigate("/app/messages")}
+            className="bg-red-500 py-3 px-4 text-white rounded-full font-medium text-sm w-full"
+          >
+            Dispute Deduction
+          </button>
+        </div>
       </div>
 
       {/* Details Box */}
-      <div className="bg-white shadow-md rounded-xl p-6 mb-10">
+      <div className="bg-white rounded-xl p-6 mb-10">
         <div className="">
-          <div className="flex items-center justify-between border-b-[1px] pb-1 border-slate-200">
+          <div className="flex items-center justify-between border-b-[1px] py-2 border-slate-200">
             <h2 className="text-[15px] text-black font-[500] pt-3">Title</h2>
             <p className="text-[14px] font-[500] ">{title}</p>
           </div>
-          <div className="flex items-center justify-between border-b-[1px] pb-1 border-slate-200">
+          <div className="flex items-center justify-between border-b-[1px] py-2 border-slate-200">
             <h2 className="text-[15px] text-black font-[500] pt-3">Date</h2>
             <p className="text-[14px] font-[500]">
               {" "}
@@ -53,7 +55,7 @@ const Receiptsanddeductions = () => {
               })}
             </p>
           </div>
-          <div className="flex items-center justify-between border-b-[1px] pb-1 border-slate-200">
+          <div className="flex items-center justify-between border-b-[1px] py-2 border-slate-200">
             <h2 className="text-[15px] text-black font-[500] pt-3">
               Deduction Amount
             </h2>
