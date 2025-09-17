@@ -55,28 +55,57 @@ export default function LandlordRequest() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F6FAFF]  text-[#333]">
-      {/* <Header /> */}
-      <div className="max-w-[1260px] mx-auto pt-8 pb-[10em]">
-        {/* Top Navigation */}
-
-        <div className="flex justify-between">
-          <div className="flex gap-3 items-center mb-6 pt-3">
-            <button type="button" onClick={() => navigate(-1)}>
-              <FaArrowLeft size={20} />
-            </button>
-            <h1 className="text-3xl font-[600]">Request from Landlord</h1>
+    <div className="min-h-screen bg-[#F6FAFF] text-[#333]">
+      {loading ? (
+        <div className="max-w-[1260px] mx-auto pt-8 pb-[10em] animate-pulse">
+          <div className="flex justify-between">
+            <div className="flex gap-3 items-center mb-6 pt-3">
+              <div className="h-6 w-6 bg-gray-300 rounded-full"></div>
+              <div className="h-8 w-64 bg-gray-300 rounded-md"></div>
+            </div>
+            <div className="flex justify-center">
+              <div className="h-10 w-32 bg-gray-300 rounded-full"></div>
+            </div>
           </div>
-          <div className="flex justify-center">
-            <StatusIndicator
-              statuses={statusOptions}
-              setStatus={setStatus}
-              onStatusChange={handleStatusChange}
-            />
+          <div className="flex gap-4 w-full">
+            <div className=" p-6 rounded-2xl shadow-md flex gap-2 w-full">
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+            </div>
+            <div className=" p-6 rounded-2xl shadow-md flex gap-2 w-full">
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+            </div>
+            <div className=" p-6 rounded-2xl shadow-md flex gap-2 w-full">
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+              <div className="h-34 w-full bg-gray-300 rounded-xl"></div>
+            </div>
           </div>
         </div>
-        <RequestFromLandlord status={data} setUpdate={setUpdate} />
-      </div>
+      ) : (
+        <div className="max-w-[1260px] mx-auto pt-8 pb-[10em]">
+          <div className="flex justify-between">
+            <div className="flex gap-3 items-center mb-6 pt-3">
+              <button type="button" onClick={() => navigate(-1)}>
+                <FaArrowLeft size={20} />
+              </button>
+              <h1 className="text-3xl font-[600]">Request from Landlord</h1>
+            </div>
+            <div className="flex justify-center">
+              <StatusIndicator
+                statuses={statusOptions}
+                setStatus={setStatus}
+                onStatusChange={handleStatusChange}
+              />
+            </div>
+          </div>
+
+          <RequestFromLandlord status={data} setUpdate={setUpdate} />
+        </div>
+      )}
     </div>
   );
 }

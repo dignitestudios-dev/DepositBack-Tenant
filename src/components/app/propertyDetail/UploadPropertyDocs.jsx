@@ -7,6 +7,8 @@ import { ErrorToast } from "../../global/Toaster";
 import { RiLoader5Line } from "react-icons/ri";
 
 const UploadPropertyDocs = ({
+  setFeedback,
+  handleUpload,
   setIsUploadFile,
   activeCategory,
   propertyId,
@@ -119,7 +121,12 @@ const UploadPropertyDocs = ({
       console.log("🚀 ~ handleUploadFile ~ response:", response);
 
       if (response.status === 200) {
-        setIsUploadFile(false);
+        if (activeCategoryName === "out") {
+          setIsUploadFile(false);
+          setFeedback(true);
+        } else {
+          handleUpload();
+        }
       }
     } catch (error) {
       ErrorToast(error?.response?.data?.message);

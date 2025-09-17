@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 import { TiWarning } from "react-icons/ti";
 
-<<<<<<< HEAD
-export default function Modal({
+export default function DisputeModal({
   isOpen,
   onClose,
   onAction,
@@ -9,10 +9,6 @@ export default function Modal({
   disputeLoading,
 }) {
   if (!isOpen) return null;
-=======
-export default function DisputeModal({ isOpen, onClose, onAction, data }) {
-    if (!isOpen) return null;
->>>>>>> 42840f4706ee6f37762616d3feff6d54005f1ea0
 
   const {
     icon = <TiWarning className="h-10 w-10 text-white" />,

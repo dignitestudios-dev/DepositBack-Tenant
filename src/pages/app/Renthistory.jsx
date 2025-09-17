@@ -12,12 +12,11 @@ const RentHistory = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { propertyId, contractId } = location.state || {};
-  console.log("🚀 ~ RentHistory ~ contractId 15-->:", contractId);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const currentDate = useMemo(() => new Date().toISOString(), []);
   const [isRentPaid, setIsRentPaid] = useState(false);
-  
+
   const handlePayRent = async () => {
     try {
       setLoading(true);
@@ -177,9 +176,9 @@ const RentHistory = () => {
               </div>
             ) : (
               <div className="bg-white shadow-md justify-items-center p-8 items-center rounded-2xl w-full">
-              <p className="text-gray-500 text-center" >
-                No rent history available
-              </p>
+                <p className="text-gray-500 text-center">
+                  No rent history available
+                </p>
               </div>
             )}
           </div>
@@ -191,20 +190,21 @@ const RentHistory = () => {
               title: "Reminder Sent!",
               description: "Reminder of rent due has been sent to the tenant.",
 
-              iconBgColor: "bg-blue-600", 
-            }}
-          />
-          {isRentPaid && (<Modal
-            isOpen={isRentPaid}
-            onClose={() => setIsRentPaid(false)}
-            data={{
-              title: "Rent Paid",
-              description: "Your rent for this has been paid successfully.",
-
               iconBgColor: "bg-blue-600",
             }}
-          />) }
-          
+          />
+          {isRentPaid && (
+            <Modal
+              isOpen={isRentPaid}
+              onClose={() => setIsRentPaid(false)}
+              data={{
+                title: "Rent Paid",
+                description: "Your rent for this has been paid successfully.",
+
+                iconBgColor: "bg-blue-600",
+              }}
+            />
+          )}
         </div>
       )}
     </div>
