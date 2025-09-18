@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
-import { FaTimes, FaCheck } from 'react-icons/fa';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FaTimes, FaCheck } from "react-icons/fa";
+
+const languages = ["English", "Spanish"];
 
 const Language = () => {
   // State to control the popup visibility
   const [language, setLanguage] = useState(false);
+
+  const { i18n } = useTranslation();
+
+  const handleLanguageChange = (e) => {
+    const selected = e.target.value;
+    const langCode = selected === "English" ? "en" : "es";
+    i18n.changeLanguage(langCode);
+  };
 
   return (
     <div className="p-6">
@@ -33,23 +44,26 @@ const Language = () => {
 
       {/* Language List */}
       <div className="space-y-3 overflow-auto h-[16em]">
-        {["English"].map(
-          (lang, index) => (
-            <label
-              key={index}
-              className="flex items-center justify-between bg-[#F9F9F9] px-4 py-3 rounded-xl cursor-pointer hover:bg-gray-100"
-            >
-              <span className="text-sm">{lang}</span>
-              <input
-                type="radio"
-                name="language"
-                value={lang}
-                className="accent-blue-600 w-4 h-4"
-                defaultChecked={lang === "English"}
-              />
-            </label>
-          )
-        )}
+        {languages.map((lang, index) => (
+          <label
+            key={index}
+            className="flex items-center justify-between bg-[#F9F9F9] px-4 py-3 rounded-xl cursor-pointer hover:bg-gray-100"
+          >
+            <span className="text-sm">{lang}</span>
+            <input
+              type="radio"
+              name="language"
+              value={lang}
+              className="accent-blue-600 w-4 h-4"
+              defaultChecked={lang === "English"}
+              onChange={handleLanguageChange}
+              checked={
+                (lang === "English" && i18n.language === "en") ||
+                (lang === "Spanish" && i18n.language === "es")
+              }
+            />
+          </label>
+        ))}
       </div>
 
       {/* Update Button */}

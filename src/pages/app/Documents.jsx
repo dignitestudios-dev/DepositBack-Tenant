@@ -7,8 +7,10 @@ import Propertycondition from "../../components/app/Propertycondition";
 import { useLocation } from "react-router";
 import Repairs from "../../components/app/Repairs";
 import UploadPropertyDocs from "../../components/app/propertyDetail/UploadPropertyDocs";
+import { useTranslation } from "react-i18next";
 
 const Documents = () => {
+  const { t } = useTranslation();
   const [isUploadFile, setIsUploadFile] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Agreements");
 
@@ -93,7 +95,7 @@ const Documents = () => {
               <button type="button" onClick={() => navigate(-1)}>
                 <FaArrowLeft size={20} />
               </button>
-              <h1 className="text-3xl font-[600]">Documents</h1>
+              <h1 className="text-3xl font-[600]">{t("headings.documents")}</h1>
             </div>
 
             {/* View Mode Buttons */}

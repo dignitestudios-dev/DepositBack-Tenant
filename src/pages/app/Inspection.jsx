@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import Moveout from "../../components/app/Moveout";
 import UploadPropertyDocs from "../../components/app/propertyDetail/UploadPropertyDocs";
 import FeedbackModal from "../../components/app/FeedbackModal";
+import { useTranslation } from "react-i18next";
 
 // const dummyImages = [
 //   Homeone,
@@ -52,6 +53,7 @@ const Inspection = () => {
   const [feedback, setFeedback] = useState(false);
 
   const location = useLocation();
+  const { t } = useTranslation();
 
   const {
     propertyId,
@@ -101,7 +103,7 @@ const Inspection = () => {
                   ? "Photos"
                   : viewingOnly === "videos"
                   ? "Videos"
-                  : "Inspection"}
+                  : t("headings.inspection")}
               </h1>
             </div>
 

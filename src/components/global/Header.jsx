@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import logo from "../../assets/mainlogowhite.png";
 import { IoLogOut, IoNotificationsOutline } from "react-icons/io5";
-import user from "../../assets/user.png";
 import ChatIcon from "../../assets/chat-icon.png";
 import { useNavigate } from "react-router";
 import { AppContext } from "../../context/AppContext";
 import { getDateFormat } from "../../lib/helpers";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const navigate = useNavigate("");
   const { logoutContext, notification, userData, setUpdate } =
     useContext(AppContext);
-  console.log("🚀 ~ Header ~ userData:", userData);
+  const { t } = useTranslation();
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [userPopup, setUserPopup] = useState(false);
@@ -20,7 +20,6 @@ const Header = () => {
 
   const notificationRef = useRef(null);
   const userPopupRef = useRef(null);
-
 
   const togglePopup = () => {
     if (userPopup) setUserPopup(false);
@@ -32,7 +31,7 @@ const Header = () => {
     setUserPopup(!userPopup);
   };
 
-    const closePopup = () => {
+  const closePopup = () => {
     setIsPopupOpen(false); // Close notification popup
   };
 
@@ -72,30 +71,27 @@ const Header = () => {
         <img src={logo} className="h-[4.4em] w-auto" alt="Company Logo" />
       </div>
 
-      {/* Navigation and User Section */}
-      <div className="flex items-center gap-6"             ref={userPopupRef}
->
-        {/* Navigation Links */}
+      {/* header and User Section */}
+      <div className="flex items-center gap-6" ref={userPopupRef}>
+        {/* header Links */}
         <ul className="flex text-white gap-6 text-sm font-medium">
           <li
             className="hover:underline cursor-pointer"
             onClick={() => {
               navigate("/app/Dashboard");
-              closePopup(); 
-
+              closePopup();
             }}
           >
-            Home
+            {t("header.home")}
           </li>
           <li
             className="hover:underline cursor-pointer"
             onClick={() => {
               navigate("/app/resources");
-              closePopup(); 
-
+              closePopup();
             }}
           >
-            Resources
+            {t("header.resources")}
           </li>
           <li
             className="hover:underline cursor-pointer"
@@ -104,7 +100,7 @@ const Header = () => {
               closePopup();
             }}
           >
-            Report History
+            {t("header.reportHistory")}
           </li>
           <li
             className="hover:underline cursor-pointer"
@@ -113,9 +109,11 @@ const Header = () => {
               closePopup();
             }}
           >
-            Request from Landlord
+            {t("header.requestFromLandlord")}
           </li>
         </ul>
+
+        {/* Messages */}
         <button
           onClick={() => {
             navigate("/app/messages");
@@ -124,18 +122,19 @@ const Header = () => {
         >
           <img src={ChatIcon} className="w-[24px] h-[24px]" />
         </button>
-        {/* Notification Icon with Popup toggle */}
+
+        {/* Notification Icon with Popup */}
         <div className="relative" ref={notificationRef}>
           <IoNotificationsOutline
             className="text-white text-2xl cursor-pointer"
             onClick={togglePopup}
           />
-          {/* Notification Popup */}
-          {/* Notification Popup */}
+
           {isPopupOpen && (
-            <div className="absolute top-12 z-10 right-0 w-[26em] p-4 bg-white shadow-lg rounded-lg border border-slate-200" 
->
-              <h3 className="text-lg font-semibold">Notifications</h3>
+            <div className="absolute top-12 z-10 right-0 w-[26em] p-4 bg-white shadow-lg rounded-lg border border-slate-200">
+              <h3 className="text-lg font-semibold">
+                {t("header.notifications")}
+              </h3>
               <div className="mt-4 space-y-4">
                 {notification.slice(0, 3).map((notification, index) => (
                   <div key={index}>
@@ -151,24 +150,20 @@ const Header = () => {
                       <p className="text-[13px] mr-[3em]">
                         {notification.description}
                       </p>
-                      {/* {notification.unreadCount > 0 && (
-                        <span className="text-sm bg-red-600 h-5 w-8 items-center flex justify-center text-white rounded-full">
-                          {notification.unreadCount}
-                        </span>
-                      )} */}
                     </div>
                     <hr />
                   </div>
                 ))}
-                <div className="flex justify-center items-center ">
+
+                <div className="flex justify-center items-center">
                   <button
                     onClick={() => {
                       navigate("/app/notifications");
-                      closePopup(); 
+                      closePopup();
                     }}
                     className="text-sm text-blue-600 font-medium px-4 py-1 rounded-lg hover:bg-blue-50 cursor-pointer transition"
                   >
-                    View All
+                    {t("header.viewAll")}
                   </button>
                 </div>
               </div>
@@ -177,46 +172,49 @@ const Header = () => {
         </div>
 
         {/* User Avatar */}
-        <img
-          src={userData?.profilePicture}
-          className="h-10 w-10 rounded-full object-cover cursor-pointer"
-          alt="User Avatar"
+        <div
+          className="h-10 w-10 rounded-full overflow-hidden cursor-pointer"
           onClick={toggleUserpopup}
-        />
+        >
+          <img
+            src={userData?.profilePicture}
+            alt="User Avatar"
+            className="h-full w-full object-cover"
+          />
+        </div>
 
         {userPopup && (
-          <div className="absolute top-[6em] right-10 w-[9em] p-4 bg-white shadow-lg rounded-lg border border-slate-200"             ref={userPopupRef}
->
+          <div
+            className="absolute top-[6em] right-10 w-[9em] p-4 bg-white shadow-lg rounded-lg border border-slate-200"
+            ref={userPopupRef}
+          >
             <div className="space-y-3">
               <span
                 className="block text-[12px] font-[500] hover:text-blue-500 cursor-pointer"
                 onClick={() => {
                   navigate("/app/view-profile");
-                                        closePopup(); 
-
+                  closePopup();
                 }}
               >
-                View Profile
+                {t("header.viewProfile")}
               </span>
               <span
                 className="block text-[12px] font-[500] hover:text-blue-500 cursor-pointer"
                 onClick={() => {
                   navigate("/app/subscription-plans");
-                                        closePopup(); 
-
+                  closePopup();
                 }}
               >
-                Subscription Plans
+                {t("header.subscriptionPlans")}
               </span>
               <span
                 className="block text-[12px] font-[500] hover:text-blue-500 cursor-pointer"
                 onClick={() => {
                   navigate("/app/settings");
-                                        closePopup(); 
-
+                  closePopup();
                 }}
               >
-                Settings
+                {t("header.settings")}
               </span>
               <span
                 onClick={() => {
@@ -224,30 +222,31 @@ const Header = () => {
                 }}
                 className="block text-[12px] font-[500] text-red-600 hover:text-red-700 cursor-pointer"
               >
-                Log Out
+                {t("header.logout")}
               </span>
             </div>
           </div>
         )}
 
+        {/* Logout Popup */}
         {logoutpopup && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
             <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-sm text-center">
-              <div className=" p-0 w-fit mx-auto rounded-full mb-3">
+              <div className="p-0 w-fit mx-auto rounded-full mb-3">
                 <IoLogOut size={60} color="#FF3B30" />
               </div>
               <h2 className="font-semibold text-[#DC1D00] text-[20px] mb-2">
-                Logout
+                {t("header.logoutTitle")}
               </h2>
               <p className="text-sm text-gray-600 mb-4">
-                Are you sure you want to logout your account?
+                {t("header.logoutMessage")}
               </p>
               <div className="flex justify-center gap-3">
                 <button
                   className="px-16 py-2 text-sm bg-gray-200 rounded-full"
                   onClick={() => setLogoutpopup(false)}
                 >
-                  No
+                  {t("header.no")}
                 </button>
                 <button
                   onClick={() => {
@@ -255,7 +254,7 @@ const Header = () => {
                   }}
                   className="px-16 py-2 text-sm bg-[#DC1D00] text-white rounded-full"
                 >
-                  Yes
+                  {t("header.yes")}
                 </button>
               </div>
             </div>

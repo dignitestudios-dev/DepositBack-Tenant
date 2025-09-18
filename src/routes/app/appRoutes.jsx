@@ -5,6 +5,7 @@ import Dashboard from "../../pages/app/Dashboard";
 import Deposittracker from "../../pages/app/Deposittracker";
 import Documents from "../../pages/app/Documents";
 import Inspection from "../../pages/app/Inspection";
+import LandlordProfile from "../../pages/app/LandlordProfile";
 import LandlordRequest from "../../pages/app/LandlordRequest";
 import Linkpropertydetails from "../../pages/app/Linkpropertydetails";
 import Linkyourrentproperty from "../../pages/app/Linkyourrentproperty";
@@ -53,7 +54,7 @@ export const appRoutes = [
     name: "Report",
     isPublic: true,
   },
-  
+
   {
     url: "report-detail",
     page: <ReportDetailHistory />,
@@ -64,6 +65,12 @@ export const appRoutes = [
     url: "property-detail/:id",
     page: <PropertyDetail />,
     name: "Property Detail",
+    isPublic: true,
+  },
+  {
+    url: "landlord-profile",
+    page: <LandlordProfile />,
+    name: "Landlord Profile",
     isPublic: true,
   },
   {

@@ -64,7 +64,7 @@ function formReducer(state, action) {
   }
 }
 
-const EditProfileModal = ({ onClose }) => {
+const EditProfileModal = ({ onClose, setUpdate }) => {
   const { userData } = useContext(AppContext);
   const [state, dispatch] = useReducer(formReducer, initialState);
   console.log("🚀 ~ EditProfileModal ~ state:", state?.frontIDImage);
@@ -161,6 +161,7 @@ const EditProfileModal = ({ onClose }) => {
       }
       const response = await axios.put("/users", formData);
       if (response.status === 201 || response.status === 200) {
+        setUpdate((prev) => !prev);
         onClose(true);
       }
     } catch (error) {

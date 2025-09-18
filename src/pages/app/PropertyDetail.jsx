@@ -16,6 +16,7 @@ import { getDateFormat } from "../../lib/helpers";
 import DisputeModal from "../../components/app/propertyDetail/DisputeModal";
 import { useFetchData } from "../../hooks/api/Get";
 import PropertyHeaderSkeleton from "../../components/app/PropertyHeaderSkeleton";
+import { useTranslation } from "react-i18next";
 
 const PropertyDetail = () => {
   const navigate = useNavigate("");
@@ -125,7 +126,7 @@ const PropertyDetail = () => {
   } = propertyDetail?.property || {};
 
   // const isActive = userId === propertyData?.tenant;
-
+  const { t } = useTranslation();
   return (
     <div className="max-w-[1260px] mx-auto pt-10">
       {loading ? (
@@ -137,7 +138,9 @@ const PropertyDetail = () => {
               <button type="button" onClick={() => navigate(-1)}>
                 <FaArrowLeft size={18} />
               </button>
-              <h1 className="text-[26px] font-[600]">Property Details </h1>
+              <h1 className="text-[26px] font-[600]">
+                {t("headings.myProperties")}
+              </h1>
             </div>
             {ownedBy === "tenant" && (
               <div className="flex gap-4">
@@ -366,7 +369,12 @@ const PropertyDetail = () => {
                     className="bg-cover bg-center rounded-3xl p-3 text-white"
                   >
                     <div className="flex gap-3 justify-between pt-3">
-                      <div className="flex gap-3">
+                      <div
+                        onClick={() =>
+                          navigate("/app/landlord-profile", { state: landlord })
+                        }
+                        className="flex gap-3 cursor-pointer"
+                      >
                         <img
                           src={landlord?.profilePicture}
                           className="h-[3.3em] w-[3.3em] rounded-full object-cover cursor-pointer"

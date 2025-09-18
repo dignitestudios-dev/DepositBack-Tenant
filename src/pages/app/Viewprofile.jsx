@@ -15,6 +15,7 @@ const ViewProfile = () => {
   const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   const handleCloseModal = (wasSuccessful) => {
     console.log("🚀 ~ handleCloseModal ~ wasSuccessful:", wasSuccessful);
@@ -24,7 +25,7 @@ const ViewProfile = () => {
     }
   };
 
-  const { data, loading } = useFetchData(`/users/me`, {}, 1, "");
+  const { data, loading } = useFetchData(`/users/me`, {}, 1, update);
 
   return (
     <div className="min-h-screen bg-[#F6FAFF] text-[#333]">
@@ -45,11 +46,13 @@ const ViewProfile = () => {
           {/* Profile Card */}
           <div className="flex items-center p-8 rounded-2xl justify-between bg-white">
             <div className="flex items-center gap-6">
-              <img
-                src={data?.profilePicture || "/default-user.png"}
-                alt="Profile"
-                className="w-[6em] h-[6em] rounded-full object-cover"
-              />
+              <div className="w-[6em] h-[6em] rounded-full overflow-hidden flex-shrink-0">
+                <img
+                  src={data?.profilePicture || "/default-user.png"}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div>
                 <h3 className="text-2xl font-semibold">
                   {data?.name || "N/A"}
@@ -155,7 +158,9 @@ const ViewProfile = () => {
         </div>
       )}
 
-      {showEditModal && <EditProfileModal onClose={handleCloseModal} />}
+      {showEditModal && (
+        <EditProfileModal onClose={handleCloseModal} setUpdate={setUpdate} />
+      )}
 
       {showSuccess && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">

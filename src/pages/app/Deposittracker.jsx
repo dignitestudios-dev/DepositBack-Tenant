@@ -6,8 +6,10 @@ import { useLocation } from "react-router";
 import { TiWarning } from "react-icons/ti";
 import { IoMdCheckmark } from "react-icons/io";
 import { useFetchData } from "../../hooks/api/Get";
+import { useTranslation } from "react-i18next";
 
 const Deposittracker = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate("");
   const location = useLocation();
   const { depositTracker } = location.state || {};
@@ -30,7 +32,7 @@ const Deposittracker = () => {
           <FaArrowLeft size={20} />
         </button>
 
-        <h1 className="text-3xl font-[600]">Deposit Tracker</h1>
+        <h1 className="text-3xl font-[600]">{t("headings.depositTracker")}</h1>
       </div>
       {/* <p className="text-lg text-gray-600 mb-6 max-w-full pt-3">
         {isReleasing

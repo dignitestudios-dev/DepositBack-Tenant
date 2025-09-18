@@ -4,8 +4,10 @@ import { AppContext } from "../../context/AppContext";
 import axios from "../../axios";
 import { ErrorToast } from "../../components/global/Toaster";
 import moment from "moment/moment";
+import { useTranslation } from "react-i18next";
 
 const Notifications = () => {
+  const { t } = useTranslation();
   const { notification, isLoading, setUpdate } = useContext(AppContext);
 
   const convertText = (string = "") => {
@@ -53,7 +55,9 @@ const Notifications = () => {
   return (
     <Fragment>
       <div className="max-w-[1260px] mx-auto px-6 ">
-        <h1 className="text-[24px] font-semibold py-4">Notifications</h1>
+        <h1 className="text-[24px] font-semibold py-4">
+          {t("headings.notifications")}
+        </h1>
         <div className="rounded-lg shadow-customShadow bg-white p-8">
           {/* <div className="h-14 w-full flex justify-between items-center">
             <div className="w-[90%] h-full border-b-2 border-gray-100">

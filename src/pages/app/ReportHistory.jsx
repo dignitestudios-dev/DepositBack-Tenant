@@ -7,11 +7,13 @@ import { useNavigate } from "react-router";
 import user from "../../assets/user.png";
 import { useFetchData } from "../../hooks/api/Get";
 import DashboardSkeletonLoader from "../../components/app/dashboard/DashboardSkeletonLoader";
+import { useTranslation } from "react-i18next";
 
 export default function ReportHistory() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: reports, loading } = useFetchData("/reports"); // Adjust endpoint if needed
-console.log(reports,"reports data")
+
   return (
     <div className="min-h-screen">
       {/* <Header /> */}
@@ -19,7 +21,7 @@ console.log(reports,"reports data")
         <div className="flex flex-wrap justify-between items-center gap-6 p-0">
           <div className="text-left">
             <p className="mt-2 text-[32px] font-[600] text-black pt-2">
-              Report History
+              {t("headings.reportHistory")}
             </p>
           </div>
         </div>
@@ -46,7 +48,9 @@ console.log(reports,"reports data")
                     <div className="flex justify-between items-center">
                       <span
                         className="text-[18px] font-[500] cursor-pointer"
-onClick={() => navigate("/app/report-detail", { state: { report } })}
+                        onClick={() =>
+                          navigate("/app/report-detail", { state: { report } })
+                        }
                       >
                         {property?.name || "Unnamed Property"}
                       </span>
@@ -96,7 +100,9 @@ onClick={() => navigate("/app/report-detail", { state: { report } })}
               );
             })
           ) : loading ? (
-            <div className="text-center col-span-3"><DashboardSkeletonLoader/></div>
+            <div className="text-center col-span-3">
+              <DashboardSkeletonLoader />
+            </div>
           ) : (
             <p className="text-center col-span-3">No reports found.</p>
           )}

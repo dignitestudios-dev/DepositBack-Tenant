@@ -11,8 +11,10 @@ import { chatTime } from "../../lib/helpers";
 import axios from "../../axios";
 import { ErrorToast } from "../../components/global/Toaster";
 import { RiLoader3Fill } from "react-icons/ri";
+import { useTranslation } from "react-i18next";
 
 const Message = () => {
+  const { t } = useTranslation();
   const { userData } = useContext(AppContext);
 
   const navigate = useNavigate();
@@ -123,7 +125,7 @@ const Message = () => {
         <button type="button" onClick={() => navigate("/app/dashboard")}>
           <FaArrowLeft size={16} />
         </button>
-        <h1 className="text-2xl font-semibold">Messages</h1>
+        <h1 className="text-2xl font-semibold">{t("headings.messages")}</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

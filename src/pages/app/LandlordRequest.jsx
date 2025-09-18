@@ -5,6 +5,7 @@ import RequestFromLandlord from "../../components/app/RequestFromLandlord";
 import { useFetchData } from "../../hooks/api/Get";
 import axios from "../../axios";
 import { ErrorToast, SuccessToast } from "../../components/global/Toaster";
+import { useTranslation } from "react-i18next";
 
 const StatusIndicator = ({ statuses, onStatusChange, setStatus }) => {
   return (
@@ -30,6 +31,7 @@ const StatusIndicator = ({ statuses, onStatusChange, setStatus }) => {
 };
 
 export default function LandlordRequest() {
+  const { t } = useTranslation();
   const navigate = useNavigate("");
 
   const [activeStatus, setActiveStatus] = useState(0);
@@ -92,7 +94,9 @@ export default function LandlordRequest() {
               <button type="button" onClick={() => navigate(-1)}>
                 <FaArrowLeft size={20} />
               </button>
-              <h1 className="text-3xl font-[600]">Request from Landlord</h1>
+              <h1 className="text-3xl font-[600]">
+                {t("headings.requestFromLandlord")}
+              </h1>
             </div>
             <div className="flex justify-center">
               <StatusIndicator

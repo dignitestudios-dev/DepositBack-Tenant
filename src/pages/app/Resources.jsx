@@ -8,8 +8,10 @@ import SearchBar from "../../components/global/Searchbar";
 import { useNavigate } from "react-router";
 import { useFetchData } from "../../hooks/api/Get";
 import ResourceTextModal from "../../components/app/resources/ResourceTextModal";
+import { useTranslation } from "react-i18next";
 
 const Resources = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate("");
   const [searchTerm, setSearchTerm] = useState("");
   const [textModal, setTextModal] = useState(false);
@@ -44,7 +46,7 @@ const Resources = () => {
           >
             <FaArrowLeft size={20} />
           </button>
-          <h1 className="text-3xl font-[600]">Resources</h1>
+          <h1 className="text-3xl font-[600]">{t("headings.resources")}</h1>
         </div>
         <div>
           <SearchBar
