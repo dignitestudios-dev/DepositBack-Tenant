@@ -484,6 +484,7 @@ const AddTenantProperty = () => {
 
       {contactPersons && (
         <AddContactPersonModal
+          setContactPersons={setContactPersons}
           onClose={() => {
             handleNext();
           }}

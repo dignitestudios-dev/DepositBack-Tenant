@@ -4,7 +4,7 @@ import { LuMapPin } from "react-icons/lu";
 import { FaArrowLeft, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";
 import { RiDeleteBinFill } from "react-icons/ri";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { IoChatbubbleEllipsesOutline, IoPerson } from "react-icons/io5";
 import backimage from "../../assets/propertydetail/back.png";
 import { IoIosWarning } from "react-icons/io";
 import { BsChevronRight } from "react-icons/bs";
@@ -156,10 +156,10 @@ const PropertyDetail = () => {
             {ownedBy === "landlord" && (
               <div className="flex gap-4">
                 <button
-                  onClick={() => navigate(`/app/report/${_id}`)}
+                  onClick={() => navigate(`/app/report/${id}`)}
                   className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white flex items-center gap-3 rounded-3xl px-4 py-2  font-medium"
                 >
-                  <RiDeleteBinFill />
+                  <IoPerson />
                   Report
                 </button>
               </div>

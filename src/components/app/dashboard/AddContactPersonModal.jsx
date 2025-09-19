@@ -10,6 +10,7 @@ const AddContactPersonModal = ({
   personsData,
   setPersonsData,
   type,
+  setContactPersons,
 }) => {
   const [addNumber, setAddNumber] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -37,7 +38,10 @@ const AddContactPersonModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-[26em] text-center shadow-lg relative">
+      <div
+        onClick={() => setContactPersons(false)}
+        className="bg-white rounded-2xl p-6 w-full max-w-[26em] text-center shadow-lg relative"
+      >
         <div className="flex justify-start">
           <h2 className="text-2xl font-[600] mb-2">Add Contact Persons</h2>
         </div>
@@ -83,13 +87,19 @@ const AddContactPersonModal = ({
             {/* Add button */}
             <div className="mt-6 flex justify-end gap-3">
               <button
-                onClick={() => setAddNumber(false)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAddNumber(false);
+                }}
                 className="px-4 py-2 bg-gray-200 rounded-lg text-sm"
               >
                 Cancel
               </button>
               <button
-                onClick={handleAddPerson}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddPerson;
+                }}
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm"
               >
                 Add
@@ -105,7 +115,10 @@ const AddContactPersonModal = ({
 
             <div
               className="border-2 border-dashed bg-white border-blue-500 rounded-lg p-4 text-center cursor-pointer block"
-              onClick={() => setAddNumber(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setAddNumber(true);
+              }}
             >
               <p className="text-blue-500 text-sm">Add New Phone Number</p>
             </div>
@@ -122,7 +135,10 @@ const AddContactPersonModal = ({
                     <div className="text-xs text-gray-500">{person.phone}</div>
                     <button
                       className="absolute -top-2 -right-2 bg-white text-black rounded-full w-6 h-6 flex items-center justify-center shadow"
-                      onClick={() => removePerson(index)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removePerson(index);
+                      }}
                     >
                       ✕
                     </button>
@@ -131,7 +147,10 @@ const AddContactPersonModal = ({
                 <button
                   disabled={loading}
                   type="button"
-                  onClick={() => onClose()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClose();
+                  }}
                   className="px-[10em] py-3 rounded-full bg-gradient-to-r from-blue-700 to-blue-500 text-white font-medium"
                 >
                   <div className="flex justify-center items-center">
@@ -146,7 +165,10 @@ const AddContactPersonModal = ({
             {type === "edit" && (
               <button
                 disabled={loading}
-                onClick={() => onClose()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
                 className="w-full mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg text-sm"
               >
                 <div className="flex justify-center items-center">
