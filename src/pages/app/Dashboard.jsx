@@ -31,6 +31,7 @@ const Dashboard = () => {
   const [codeLoading, setCodeLoading] = useState(false);
 
   const [filters, setFilters] = useState({});
+  console.log("🚀 ~ Dashboard ~ filters:", filters);
 
   const navigate = useNavigate("");
 

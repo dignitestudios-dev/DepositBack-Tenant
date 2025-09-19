@@ -127,7 +127,7 @@ const Notifications = () => {
             <div className=" h-[430px] overflow-y-auto ">
               {filteredTasks?.map((item, index) => (
                 <div key={index}>
-                  <div className="flex justify-between items-center w-[95%]  border-gray-100">
+                  <div className="flex justify-between items-center w-[95%] border-gray-100">
                     <div className="bg-white flex p-2 min-w-[84%] max-w-[90%]">
                       {/* <div className="py-3 px-2 mt-1">
                   <img
