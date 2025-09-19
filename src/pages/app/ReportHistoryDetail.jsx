@@ -1,4 +1,3 @@
-import React from "react";
 import {
   IoChevronBack,
   IoChevronForward,
@@ -6,8 +5,7 @@ import {
   IoEllipsisHorizontal,
   IoPlay,
 } from "react-icons/io5";
-import Footer from "../../components/global/Footer";
-import Header from "../../components/global/Header";
+
 import Pdficon from "../../assets/pdficon.png";
 import { useNavigate, useLocation } from "react-router";
 
@@ -16,8 +14,7 @@ export default function ReportDetailHistory() {
   const location = useLocation();
 
   const report = location.state?.report;
-  const id = location.state?.report?._id;
-  console.log("report history data ",report)
+  console.log("report history data ", report);
 
   if (!report) {
     return (
@@ -27,8 +24,14 @@ export default function ReportDetailHistory() {
     );
   }
 
+  const handleDownload = (doc) => {
+    // Ensure doc.url contains the valid PDF URL
+    const url = doc.url || doc; // Use doc.url if available, otherwise fallback to doc
+    window.open(url, "_blank");
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-4">
       <div className="max-w-7xl mt-10 mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6 sm:mb-8">
@@ -78,39 +81,38 @@ export default function ReportDetailHistory() {
                   </div>
                 </div>
               </div>
-               <div className="bg-white mt-4 border-t border-gray-200 p-1">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4 pt-1">
-                  <div className="w-12 h-12 rounded-full gradient-color flex items-center justify-center text-white font-medium flex-shrink-0">
-                    {report.landlord?.name
-                      ?.split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase() || "LL"}
+              <div className="bg-white mt-4 border-t border-gray-200 p-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4 pt-1">
+                    <div className="w-12 h-12 rounded-full gradient-color flex items-center justify-center text-white font-medium flex-shrink-0">
+                      {report.landlord?.name
+                        ?.split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase() || "LL"}
+                    </div>
+                    <div>
+                      <h3 className="font-[500] text-[14px] text-[#181818]">
+                        {report.landlord?.name || "Unknown"}
+                      </h3>
+                      <p className="text-gray-500 text-sm">Landlord</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-[500] text-[14px] text-[#181818]">
-                      {report.landlord?.name || "Unknown"}
-                    </h3>
-                    <p className="text-gray-500 text-sm">Landlord</p>
+                  <div
+                    onClick={() =>
+                      navigate(`/app/property-detail/${report.property?._id}`, {
+                        state: { propertyDetail: report.property },
+                      })
+                    }
+                    className="w-12 h-12 gradient-color rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors flex-shrink-0"
+                  >
+                    <IoChevronForward className="w-8 h-8 text-white" />
                   </div>
-                </div>
-                <div
-                  onClick={() =>
-                    navigate(`/app/property-detail/${report.property?._id}`, {
-                      state: { propertyDetail: report.property },
-                    })
-                  }
-                  className="w-12 h-12 gradient-color rounded-lg flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors flex-shrink-0"
-                >
-                  <IoChevronForward className="w-8 h-8 text-white" />
                 </div>
               </div>
             </div>
-            </div>
 
             {/* Landlord Card */}
-           
           </div>
 
           {/* Right Column */}
@@ -150,11 +152,10 @@ export default function ReportDetailHistory() {
                     type="time"
                     value={
                       report.time
-                        ? new Date(report.time)
-                            .toLocaleTimeString("en-GB", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })
+                        ? new Date(report.time).toLocaleTimeString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
                         : ""
                     }
                     readOnly
@@ -166,18 +167,20 @@ export default function ReportDetailHistory() {
 
             {/* Witnesses */}
             <h3 className="font-[500] text-[14px] text-[#181818]">Witnesses</h3>
-            <div className="grid grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {report.witnesses?.length > 0 ? (
                 report.witnesses.map((witness, i) => (
                   <div
                     key={i}
-                    className="bg-[#FFFFFF] rounded-[16px] h-[45px] flex items-center justify-center"
+                    className="bg-[#FFFFFF] w-full rounded-[16px] h-[45px] flex items-center justify-center"
                   >
                     <span className="text-[#727272] text-sm">{witness}</span>
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-gray-500 col-span-6">No witnesses.</p>
+                <p className="text-sm text-gray-500 col-span-6">
+                  No witnesses.
+                </p>
               )}
             </div>
 
@@ -235,33 +238,31 @@ export default function ReportDetailHistory() {
               </div>
             )}
 
+            {report.mediaImages?.length > 0 && (
+              <div className="mt-6">
+                <h3 className="font-[500] text-[14px] text-[#181818] mb-2">
+                  Images
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {report.mediaImages.map((image, idx) => (
+                    <div
+                      key={idx}
+                      className="relative group cursor-pointer rounded-lg overflow-hidden"
+                    >
+                      <img
+                        src={image.fileUrl} // Corrected to use <img> instead of <image>
+                        alt={`Media Image ${idx}`}
+                        className="w-full h-24 sm:h-28 object-cover rounded-lg"
+                      />
 
-           {report.mediaImages?.length > 0 && (
-  <div className="mt-6">
-    <h3 className="font-[500] text-[14px] text-[#181818] mb-2">
-      Images
-    </h3>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {report.mediaImages.map((image, idx) => (
-        <div
-          key={idx}
-          className="relative group cursor-pointer rounded-lg overflow-hidden"
-        >
-          <img
-            src={image.fileUrl} // Corrected to use <img> instead of <image>
-            alt={`Media Image ${idx}`}
-            className="w-full h-24 sm:h-28 object-cover rounded-lg"
-          />
-          
-          {/* <div className="absolute top-2 right-2 bg-[#FFFFFFA6] w-[25px] h-[15px] rounded-full flex items-center justify-center">
+                      {/* <div className="absolute top-2 right-2 bg-[#FFFFFFA6] w-[25px] h-[15px] rounded-full flex items-center justify-center">
             <IoEllipsisHorizontal className="w-4 h-4 text-black" />
           </div> */}
-        </div>
-      ))}
-    </div>
-  </div>
-)}
-
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Documents */}
             {report.documents?.length > 0 && (
@@ -273,13 +274,9 @@ export default function ReportDetailHistory() {
                   {report.documents.map((doc, idx) => (
                     <div
                       key={idx}
+                      onClick={() => handleDownload(doc)}
                       className="flex bg-[#FFFFFF] p-2 shadow-md rounded-[14px] flex-col items-center cursor-pointer group"
                     >
-                      {/* <div className="text-end flex w-full justify-end">
-                        <button className="bg-[#FFFFFFA6] w-[25px] h-[15px] shadow-sm rounded-full">
-                          <IoEllipsisHorizontal className="w-4 h-4 text-[#181818] mx-auto" />
-                        </button>
-                      </div> */}
                       <img
                         src={Pdficon}
                         alt="PDF"
@@ -288,6 +285,12 @@ export default function ReportDetailHistory() {
                       <span className="text-[9px] text-nowrap mt-2 font-[500] text-center max-w-20">
                         {doc.name || "Document"}
                       </span>
+                      <div
+                        onClick={() => handleDownload(doc)}
+                        className="absolute top-3 right-5 text-gray-900 text-xl cursor-pointer"
+                      >
+                        <IoEllipsisHorizontal className="w-4 h-4 text-[#181818]" />
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -299,4 +302,3 @@ export default function ReportDetailHistory() {
     </div>
   );
 }
-

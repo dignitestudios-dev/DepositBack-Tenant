@@ -1,13 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaArrowLeft, FaChevronRight } from "react-icons/fa";
-import {
-  IoNotificationsOutline,
-  IoEarthOutline,
-  IoCallOutline,
-} from "react-icons/io5";
+import { IoNotificationsOutline, IoEarthOutline } from "react-icons/io5";
 import { MdLockOutline } from "react-icons/md";
 import { useNavigate } from "react-router";
-import { CiCreditCard1 } from "react-icons/ci";
 import { CgLoadbarDoc } from "react-icons/cg";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { RxCrossCircled } from "react-icons/rx";
@@ -15,9 +10,7 @@ import hand from "../../assets/hand.png";
 import NotificationSettings from "../../components/app/settings/NotificationSettings";
 import ChangePassword from "../../components/app/settings/ChangePassword";
 import DeleteAccount from "../../components/app/settings/DeleteAccount";
-import ChangeNumber from "../../components/app/settings/ChangeNumber";
 import Language from "../../components/app/settings/Language";
-import PaymentSetting from "../../components/app/settings/PaymentSetting";
 import PrivacyPolicy from "../../components/app/settings/PrivacyPolicy";
 import TermsandConditions from "../../components/app/settings/TermsandConditions";
 import { useTranslation } from "react-i18next";

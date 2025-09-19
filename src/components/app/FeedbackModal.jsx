@@ -49,7 +49,7 @@ const FeedbackModal = ({ landlordId, isOpen, onClose }) => {
           <FaTimes size={20} />
         </button>
 
-        <h2 className="text-xl font-semibold mb-4">Leave Feedback</h2>
+        <h2 className="text-xl font-semibold mb-4">Share Your Experience</h2>
 
         {/* Rating */}
         <div className="flex gap-2 mb-4">

@@ -67,14 +67,14 @@ const Language = () => {
       </div>
 
       {/* Update Button */}
-      <div className="mt-[7em] flex justify-center">
+      {/* <div className="mt-[7em] flex justify-center">
         <button
           onClick={() => setLanguage(true)} // Show the popup when "Update" is clicked
           className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white px-[10em] py-3 rounded-full font-medium shadow hover:from-blue-600 hover:to-blue-800 transition"
         >
           Update
         </button>
-      </div>
+      </div> */}
 
       {/* Success Popup */}
       {language && (

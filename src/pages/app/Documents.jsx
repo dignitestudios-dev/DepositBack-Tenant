@@ -84,6 +84,7 @@ const Documents = () => {
     <div className="max-w-[1260px] mx-auto pt-8 pb-[10em] p-6 text-[#333]">
       {isUploadFile ? (
         <UploadPropertyDocs
+          handleUpload={() => navigate(-1)}
           setIsUploadFile={setIsUploadFile}
           activeCategory={activeCategory}
           propertyId={propertyId}
@@ -222,12 +223,12 @@ const Documents = () => {
                           >
                             Download
                           </button>
-                          <button
+                          {/* <button
                             onClick={() => handleDelete(doc.id)}
                             className="block w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                           >
                             Delete
-                          </button>
+                          </button> */}
                         </div>
                       )}
                     </div>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import pdfIcon from "../../assets/pdficon.png";
 
 const Repairs = ({ rules }) => {
-  console.log("🚀 ~ Repairs ~ rules:", rules);
   const [activePopup, setActivePopup] = useState(null); // track which popup is open
 
   const handleTogglePopup = (docId) => {
@@ -65,12 +64,12 @@ const Repairs = ({ rules }) => {
                   >
                     Download
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => handleDelete(doc.id)}
                     className="block w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                   >
                     Delete
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>

@@ -96,7 +96,7 @@ const Uploaddeduction = () => {
               className="bg-white border border-dashed border-gray-400 rounded-xl p-10 text-center text-sm text-gray-600 cursor-pointer"
             >
               <p className="font-semibold">Upload “Property Images”</p>
-              <p className="text-xs text-gray-400 mt-1">Upto 20mb JPG, PNG</p>
+              <p className="text-xs text-gray-400 mt-1">Upto 20MB JPG, PNG</p>
             </div>
 
             <input

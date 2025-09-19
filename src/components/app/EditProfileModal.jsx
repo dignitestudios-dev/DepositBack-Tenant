@@ -105,6 +105,9 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
       formData?.append("lastFourSSN", state?.ssn);
       formData?.append("language", "english");
       formData?.append("name", state?.fullName);
+      if (state?.emergencyContact?.trim()) {
+        formData.append("emergencyContact", state.emergencyContact.trim());
+      }
       // Assuming formData is a FormData object
       if (state?.profileImage) {
         // Check if profileImage is a File object (i.e., a file)
@@ -180,6 +183,7 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
           email: userData.email,
           phone: userData.phoneNo,
           ssn: userData.lastFourSSN,
+          emergencyContact: userData.emergencyContact,
           profileImage: userData.profilePicture,
           frontIDImage: userData.governmentIdFront,
           backIDImage: userData.governmentIdBack,
@@ -300,22 +304,27 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
                 className="bg-[#ECECEC] !w-[130%]"
               />
             </div>
-            {/* <div className="mt-3">
+            <div className="relative">
+              <div className="absolute top-[43px] z-20">
+                <p className="text-sm pl-[1px]">+1</p>
+              </div>
               <Input
+                required={false}
                 label="Emergency Contact"
                 type="text"
-                value={state.emergencyContact}
+                maxLength={14}
+                value={phoneFormatter(state.emergencyContact)}
                 onChange={(e) =>
                   dispatch({
                     type: "SET_FIELD",
                     field: "emergencyContact",
-                    value: e.target.value,
+                    value: e.target.value.replace(/\D/g, ""),
                   })
                 }
                 placeholder="XXXX-XXXX-XXXX"
                 className="bg-[#ECECEC] !w-[132%]"
               />
-            </div> */}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">

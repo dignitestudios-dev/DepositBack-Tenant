@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
-import { FaCheck, FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa';
-import Input from '../../global/Input';
+import React, { useState } from "react";
+import { FaCheck, FaTimes, FaEye, FaEyeSlash } from "react-icons/fa";
+import Input from "../../global/Input";
 import axios from "../../../axios";
 
 const ChangePassword = () => {
-  const [currentpassword, setCurrentpassword] = useState('');
-  const [password, setPassword] = useState('');
-  const [newpassword, setnewPassword] = useState('');
-  const [error, setError] = useState('');
+  const [currentpassword, setCurrentpassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [newpassword, setnewPassword] = useState("");
+  const [error, setError] = useState("");
   const [changepassword, setChangepassword] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswords, setShowPasswords] = useState({
+    current: false,
+    new: false,
+    confirm: false,
+  });
+
+  const togglePassword = (field) => {
+    setShowPasswords((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -17,20 +28,20 @@ const ChangePassword = () => {
 
     // Basic validation
     if (!currentpassword || !password || !newpassword) {
-      setError('Please fill in all fields.');
+      setError("Please fill in all fields.");
       return;
     }
 
     if (password !== newpassword) {
-      setError('New password and confirm password do not match.');
+      setError("New password and confirm password do not match.");
       return;
     }
 
     try {
       setLoading(true);
-      setError('');
+      setError("");
 
-      const res = await axios.post('/auth/updatePass', {
+      const res = await axios.post("/auth/updatePass", {
         currentPassword: currentpassword,
         password: password,
         confirmPassword: newpassword,
@@ -38,15 +49,15 @@ const ChangePassword = () => {
 
       if (res.data?.success) {
         setChangepassword(true);
-        setCurrentpassword('');
-        setPassword('');
-        setnewPassword('');
+        setCurrentpassword("");
+        setPassword("");
+        setnewPassword("");
       } else {
-        setError(res.data?.message || 'Something went wrong.');
+        setError(res.data?.message || "Something went wrong.");
       }
     } catch (err) {
       setError(
-        err.response?.data?.message || 'Failed to update password. Try again.'
+        err.response?.data?.message || "Failed to update password. Try again."
       );
     } finally {
       setLoading(false);
@@ -71,15 +82,15 @@ const ChangePassword = () => {
                 value={currentpassword}
                 onChange={(e) => setCurrentpassword(e.target.value)}
                 placeholder="Enter password here"
-                type={showPassword ? 'text' : 'password'}
+                type={showPasswords.current ? "text" : "password"}
                 className="bg-[#F3F8FF]"
               />
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => togglePassword("current")}
                 className="absolute right-4 top-10 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                {showPasswords.current ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
 
@@ -89,15 +100,15 @@ const ChangePassword = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password here"
-                type={showPassword ? 'text' : 'password'}
+                type={showPasswords.new ? "text" : "password"}
                 className="bg-[#F3F8FF]"
               />
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => togglePassword("new")}
                 className="absolute right-4 top-10 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                {showPasswords.new ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
 
@@ -107,15 +118,15 @@ const ChangePassword = () => {
                 value={newpassword}
                 onChange={(e) => setnewPassword(e.target.value)}
                 placeholder="Enter password here"
-                type={showPassword ? 'text' : 'password'}
+                type={showPasswords.confirm ? "text" : "password"}
                 className="bg-[#F3F8FF]"
               />
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => togglePassword("confirm")}
                 className="absolute right-4 top-10 text-gray-400 hover:text-gray-600"
               >
-                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                {showPasswords.confirm ? <FaEye /> : <FaEyeSlash />}
               </button>
             </div>
 
@@ -125,7 +136,7 @@ const ChangePassword = () => {
                 disabled={loading}
                 className="bg-gradient-to-r from-[#003897] to-[#0151DA] text-white px-[11.6em] py-3 rounded-full font-medium shadow hover:from-blue-600 hover:to-blue-800 transition disabled:opacity-60"
               >
-                {loading ? 'Updating...' : 'Update'}
+                {loading ? "Updating..." : "Update"}
               </button>
             </div>
           </form>

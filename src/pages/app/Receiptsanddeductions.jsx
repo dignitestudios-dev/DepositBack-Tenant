@@ -40,6 +40,7 @@ const Receiptsanddeductions = () => {
       {/* Details Box */}
       <div className="bg-white rounded-xl p-6 mb-10">
         <div className="">
+          <h2 className="text-[20px] text-black font-[600] pt-2">Details</h2>
           <div className="flex items-center justify-between border-b-[1px] py-2 border-slate-200">
             <h2 className="text-[15px] text-black font-[500] pt-3">Title</h2>
             <p className="text-[14px] font-[500] ">{title}</p>

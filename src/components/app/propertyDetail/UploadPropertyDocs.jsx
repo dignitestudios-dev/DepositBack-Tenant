@@ -110,10 +110,6 @@ const UploadPropertyDocs = ({
 
       formData.append("currentDate", new Date().toLocaleString());
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`this is -->  ${key}: ${value}`);
-      }
-
       const response = await axios.put(
         `/properties/${propertyId}/updateDocsTenant`,
         formData
