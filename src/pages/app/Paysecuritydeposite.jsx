@@ -31,9 +31,8 @@ const Paysecuritydeposite = () => {
   };
 
   const handleStripeAccountSubmit = () => {
-    setAddedCard(stripeDetails.cardNumber); // Store the card number in state
-    setIsModalOpen(false); // Close modal after account is added
-    console.log("Stripe account added:", stripeDetails);
+    setAddedCard(stripeDetails.cardNumber);
+    setIsModalOpen(false);
   };
 
   const handleDeposit = async () => {
@@ -47,7 +46,6 @@ const Paysecuritydeposite = () => {
       }
     } catch (error) {
       ErrorToast(error.response.data.message);
-      console.log("error==>  ", error.response.data.message);
     } finally {
       setIsLoading(false);
     }

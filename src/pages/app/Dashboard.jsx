@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../../components/global/Header";
 import Footer from "../../components/global/Footer";
@@ -31,7 +32,6 @@ const Dashboard = () => {
   const [codeLoading, setCodeLoading] = useState(false);
 
   const [filters, setFilters] = useState({});
-  console.log("🚀 ~ Dashboard ~ filters:", filters);
 
   const navigate = useNavigate("");
 
@@ -49,14 +49,12 @@ const Dashboard = () => {
     1,
     ""
   );
-  console.log("🚀 ~ Dashboard ~ data:", data);
 
   const handlePropertyCodeVerification = async () => {
     setCodeLoading(true);
     try {
       const response = await axios.get(`/properties/code/${propertyCode}`);
       if (response.status === 200) {
-        console.log("response.data", response.data);
         setRentProperty(false);
         navigate("/app/tentant-property-details", {
           state: { propertyDetail: response.data?.data },

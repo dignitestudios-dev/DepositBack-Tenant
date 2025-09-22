@@ -22,7 +22,6 @@ const Deposittracker = () => {
     1,
     ""
   );
-  console.log("🚀 ~ Deposittracker ~ data:", data);
 
   return (
     <div className="max-w-[1260px] mx-auto px-6 pt-8 pb-20 min-h-screen bg-[#F6FAFF] text-[#333]">

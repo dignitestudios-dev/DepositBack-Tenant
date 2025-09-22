@@ -71,9 +71,7 @@ export default function VerifyOtp() {
         role: "tenant",
       });
       if (response.status === 200) {
-        console.log("--> ", response.data.resetToken);
         let resetToken = response.data.resetToken;
-        console.log("🚀 ~ handleSubmit ~ resetToken:", resetToken);
         SuccessToast("Otp Verified");
         navigate("/auth/reset-password", { state: { resetToken, email } });
       }

@@ -66,10 +66,6 @@ export default function Report() {
       `${selectedDate} ${selectedTime}`,
       "YYYY-MM-DD hh:mm A" // <-- depends on how you're storing time (12hr with AM/PM)
     ).toISOString();
-    console.log(
-      "🚀 ~ selecte=> " + selectedTime + " ~ formattedDateTime:",
-      formattedDateTime
-    );
 
     const formData = new FormData();
 

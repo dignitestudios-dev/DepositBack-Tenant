@@ -172,12 +172,9 @@ export const propertyFormReducer = (state, action) => {
 
     case "DATE_FIELD": {
       const { field, value } = action;
-      console.log("🚀 ~ propertyFormReducer ~ value:", value);
-      console.log("🚀 ~ propertyFormReducer ~ field:", field);
 
       const error = validatePropertyField(field, value, state);
       const updatedErrors = { ...state.errors };
-      console.log("🚀 ~ propertyFormReducer ~ updatedErrors:", updatedErrors);
 
       if (error) {
         updatedErrors[field] = error;

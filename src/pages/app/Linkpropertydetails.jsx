@@ -31,7 +31,6 @@ const Linkpropertydetails = () => {
 
   const location = useLocation();
   const propertyDetail = location.state?.propertyDetail?.property;
-  console.log("propertyDetail -- >", propertyDetail);
 
   const {
     isSubscriptionPaid,
@@ -45,8 +44,6 @@ const Linkpropertydetails = () => {
     id,
     images,
   } = propertyDetail;
-
-  console.log(imageone);
 
   // console.log(images, "This is Images");
   return (

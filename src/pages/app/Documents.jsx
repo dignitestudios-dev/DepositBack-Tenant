@@ -29,7 +29,6 @@ const Documents = () => {
     tenantRepairsVideos = [],
     tenantRepairsImages = [],
   } = location.state || {};
-  console.log("🚀 ~ Documents ~ tenantAgreements:", landlordAgreements);
 
   const landlordTabs = ["Agreements", "Property Conditions", "Rules"];
   const tenantTabs = ["Agreements", "Repairs"];
@@ -78,7 +77,6 @@ const Documents = () => {
   const currentTabs = viewMode === "landlord" ? landlordTabs : tenantTabs;
   const currentDocuments =
     viewMode === "landlord" ? landlordDocuments : tenantDocuments;
-  console.log("🚀 ~ Documents ~ currentDocuments:", currentDocuments);
 
   return (
     <div className="max-w-[1260px] mx-auto pt-8 pb-[10em] p-6 text-[#333]">

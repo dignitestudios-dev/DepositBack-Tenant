@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { PiIdentificationBadge } from "react-icons/pi";
 import { ErrorToast } from "../../global/Toaster";
@@ -8,7 +9,6 @@ const DetailStepTwo = ({
   stepTwoData,
   inspectionDetail,
 }) => {
-  console.log("🚀 ~ DetailStepTwo ~ stepTwoData:", stepTwoData);
   const [mediaFiles, setMediaFiles] = useState([]);
   const [documentFiles, setDocumentFiles] = useState([]);
   const handleFileChange = (e) => {

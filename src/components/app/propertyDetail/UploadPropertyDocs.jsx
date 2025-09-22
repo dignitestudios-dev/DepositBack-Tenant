@@ -114,7 +114,6 @@ const UploadPropertyDocs = ({
         `/properties/${propertyId}/updateDocsTenant`,
         formData
       );
-      console.log("🚀 ~ handleUploadFile ~ response:", response);
 
       if (response.status === 200) {
         if (activeCategoryName === "out") {

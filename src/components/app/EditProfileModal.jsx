@@ -28,7 +28,6 @@ const initialState = {
 };
 
 function formReducer(state, action) {
-  console.log("🚀 ~ formReducer ~ action:", action);
   switch (action.type) {
     case "SET_FIELD":
       return {
@@ -67,7 +66,6 @@ function formReducer(state, action) {
 const EditProfileModal = ({ onClose, setUpdate }) => {
   const { userData } = useContext(AppContext);
   const [state, dispatch] = useReducer(formReducer, initialState);
-  console.log("🚀 ~ EditProfileModal ~ state:", state?.frontIDImage);
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -118,8 +116,6 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
           // Otherwise, it's a URL (string), so we skip appending it to formData
           try {
             new URL(state?.profileImage); // Tries to create a URL object
-            // If it's a valid URL, do not append to formData
-            console.log("Profile image is a URL, skipping append.");
           } catch (e) {
             // If it's neither a URL nor a file, handle accordingly
             console.error("Invalid profile image format.");
@@ -131,13 +127,10 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
         if (state?.backIDImage instanceof File) {
           // If it's a file, append it to formData
           formData.append("governmentIdBack", state?.backIDImage);
-          console.log("Profile image is a file, appending to formData.");
         } else {
           // Otherwise, it's a URL (string), so we skip appending it to formData
           try {
             new URL(state?.backIDImage); // Tries to create a URL object
-            // If it's a valid URL, do not append to formData
-            console.log("Profile image is a URL, skipping append.");
           } catch (e) {
             // If it's neither a URL nor a file, handle accordingly
             console.error("Invalid profile image format.");
@@ -149,13 +142,10 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
         if (state?.frontIDImage instanceof File) {
           // If it's a file, append it to formData
           formData.append("governmentIdFront", state?.frontIDImage);
-          console.log("Profile image is a file, appending to formData.");
         } else {
           // Otherwise, it's a URL (string), so we skip appending it to formData
           try {
             new URL(state?.frontIDImage); // Tries to create a URL object
-            // If it's a valid URL, do not append to formData
-            console.log("Profile image is a URL, skipping append.");
           } catch (e) {
             // If it's neither a URL nor a file, handle accordingly
             console.error("Invalid profile image format.");

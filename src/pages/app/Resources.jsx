@@ -16,14 +16,13 @@ const Resources = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [textModal, setTextModal] = useState(false);
 
-  const { data, loading, pagination } = useFetchData(`/laws`, {}, 1, "");
+  const { data, loading } = useFetchData(`/laws`, {}, 1, "");
 
   const filteredDocs = data.filter((doc) =>
     doc.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDocClick = (type, value) => {
-    console.log("🚀 ~ handleDocClick 33 ~ value:", value);
     if (type === "form") {
       window.open(value, "_blank", "noopener,noreferrer");
     } else if (type === "link") {

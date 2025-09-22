@@ -70,7 +70,6 @@ export default function Addpersonalinfo() {
         navigate("/onboarding/subscription-plans");
       }
     } catch (error) {
-      console.log("🚀 ~ Signup ~ error:", error);
       ErrorToast(error.response.data.message);
     } finally {
       setLoading(false);

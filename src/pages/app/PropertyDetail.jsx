@@ -65,7 +65,6 @@ const PropertyDetail = () => {
         setDisputeModal(false);
       }
     } catch (error) {
-      console.log("🚀 ~ handleDispute ~ error:", error);
       ErrorToast(error.response.data.message);
     } finally {
       setDisputeLoading(false);
@@ -84,7 +83,6 @@ const PropertyDetail = () => {
         setUpdate((prev) => !prev);
       }
     } catch (error) {
-      console.log("🚀 ~ handleDispute ~ error:", error);
       ErrorToast(error.response.data.message);
     } finally {
       setDisputeLoading(false);

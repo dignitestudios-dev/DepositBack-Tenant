@@ -14,7 +14,6 @@ export default function ReportDetailHistory() {
   const location = useLocation();
 
   const report = location.state?.report;
-  console.log("report history data ", report);
 
   if (!report) {
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useContext, useState } from "react";
 import {
   useElements,
@@ -31,7 +32,6 @@ const ELEMENT_OPTIONS = {
 };
 
 const PaymentForm = ({ planData, setShowModal }) => {
-  console.log("🚀 ~  ~ planData:", planData);
   const navigate = useNavigate();
   const { loginContext } = useContext(AppContext);
 
@@ -51,7 +51,6 @@ const PaymentForm = ({ planData, setShowModal }) => {
       type: "card",
       card: cardNumberElement,
     });
-    console.log("🚀 ~ handleSubmit ~ error:", error);
 
     if (error) {
       setError(error.message);
@@ -63,7 +62,6 @@ const PaymentForm = ({ planData, setShowModal }) => {
           paymentMethodId: paymentMethod.id,
         });
 
-        console.log("🚀 ~ Stripe ~ response:", response);
         if (response.status === 200) {
           const response = await axios.post(
             "/subscription/stripeSubscription",
@@ -71,26 +69,21 @@ const PaymentForm = ({ planData, setShowModal }) => {
               sku: "deposits_back_tenant_monthly",
             }
           );
-          console.log("🚀 ~ handleSubmit ~ response:", response?.data);
 
           if (response.status === 200) {
             try {
               const res = await axios.get(`/users/me`);
-              if(res.status === 200){
-                console.log("🚀 ~ handleSubmit ~ res:", res)
-                loginContext({user:res?.data?.data});
+              if (res.status === 200) {
+                loginContext({ user: res?.data?.data });
                 setShowModal(true);
               }
-              
             } catch (error) {
               ErrorToast(error?.response?.data?.message);
             }
-
           }
         }
       } catch (apiError) {
         ErrorToast(apiError?.response?.data?.message);
-        console.error("the error is ===", apiError);
       } finally {
         setLoading(false);
       }

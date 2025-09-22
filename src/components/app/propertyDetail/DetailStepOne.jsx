@@ -17,8 +17,7 @@ const initialState = {
   errors: {},
 };
 
-const validateField = (field, value, state) => {
-  console.log("🚀 ~ validateField ~ state:", state);
+const validateField = (field, value) => {
   switch (field) {
     case "propertyName":
       if (!value.trim()) return "Property name is required";

@@ -1,36 +1,20 @@
-import React, { useState } from "react";
 import { LuMapPin } from "react-icons/lu";
-import Footer from "../../components/global/Footer";
-import Header from "../../components/global/Header";
 import imageone from "../../assets/propertydetail/home one.webp";
 import imagetwo from "../../assets/propertydetail/home two.webp";
 import imagethree from "../../assets/propertydetail/home three.webp";
 import imagefour from "../../assets/propertydetail/home four.webp";
 import imagefive from "../../assets/propertydetail/home five.webp";
-import {
-  FaArrowLeft,
-  FaChevronRight,
-  FaEnvelope,
-  FaPhoneAlt,
-} from "react-icons/fa";
+import { FaArrowLeft, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import { RiDeleteBinFill, RiEdit2Fill } from "react-icons/ri";
 import user from "../../assets/user.png";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import backimage from "../../assets/propertydetail/back.png";
-import { IoIosWarning } from "react-icons/io";
-import { BsChevronRight } from "react-icons/bs";
-import Modal from "../../components/global/Modal";
+
 import ImageGallery from "../../components/app/ImageGallery";
 
 const Propertydetaillink = () => {
   const navigate = useNavigate("");
-  const [showModal, setShowModal] = useState(false);
   const images = [imagetwo, imageone, imagefive, imagethree, imagefour];
 
-  console.log(imageone);
-
-  console.log(images, "This is Images");
   return (
     <div className="min-h-screen bg-[#f6f9ff] p-3">
       <div className="max-w-[1260px] mx-auto pt-10">

@@ -18,7 +18,6 @@ const ViewProfile = () => {
   const [update, setUpdate] = useState(false);
 
   const handleCloseModal = (wasSuccessful) => {
-    console.log("🚀 ~ handleCloseModal ~ wasSuccessful:", wasSuccessful);
     setShowEditModal(false);
     if (wasSuccessful === true) {
       setShowSuccess(true);

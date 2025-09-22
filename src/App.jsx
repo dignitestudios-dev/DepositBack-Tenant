@@ -11,7 +11,6 @@ import DashboardLayout from "./layouts/DashboardLayout";
 
 function App() {
   const { token, userData } = useContext(AppContext);
-  console.log(userData, "USER DATA");
 
   return (
     <Routes>

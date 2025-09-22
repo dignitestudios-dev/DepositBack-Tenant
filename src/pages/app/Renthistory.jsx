@@ -49,7 +49,6 @@ const RentHistory = () => {
     1,
     ""
   );
-  console.log("🚀 ~ RentHistory ~ data:", data);
 
   return (
     <div className="min-h-screen bg-[#F6FAFF] p-6 text-[#333]">

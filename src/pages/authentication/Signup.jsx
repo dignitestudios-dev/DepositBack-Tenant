@@ -49,7 +49,6 @@ export default function Signup() {
             handelSignUp(values, token);
           }
         } catch (error) {
-          console.log("🚀 ~ Signup ~ error:", error);
           if (error?.message?.includes("auth/email-already-in-use")) {
             // Try to sign in the
             try {
@@ -100,7 +99,6 @@ export default function Signup() {
         navigate("/auth/signup-otp", { state: { email: values.email } });
       }
     } catch (error) {
-      console.log("🚀 ~ Signup ~ error:", error);
       ErrorToast(error.response.data.message);
     } finally {
       setLoading(false);

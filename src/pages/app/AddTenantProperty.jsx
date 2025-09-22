@@ -1,7 +1,6 @@
 import { useReducer, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import PhoneNumberModal from "../../components/global/PhoneNumberStepperModal";
 import { addPropertyValues, propertyTypes } from "../../init/propertyValues";
 import { propertyFormReducer } from "../../lib/helpers";
 import { ErrorToast } from "../../components/global/Toaster";
@@ -14,6 +13,7 @@ const AddTenantProperty = () => {
 
   const [state, dispatch] = useReducer(propertyFormReducer, addPropertyValues);
   const { form, errors } = state;
+  console.log("🚀 ~ AddTenantProperty ~ errors:", state.errors);
 
   const [personsData, setPersonsData] = useState([]);
   const [propertyMedia, setPropertyMedia] = useState([]);
@@ -33,13 +33,14 @@ const AddTenantProperty = () => {
   };
 
   const handleContactPerson = () => {
-    const hasEmptyFields = Object.values(state.form).some((value) => {
-      // Handles null, undefined, empty string, or array with no items
+    const hasEmptyFields = Object.entries(state.form).some(([key, value]) => {
+      // Skip optional fields
+      if (key === "landlordEmail") return false;
+
       if (typeof value === "string") return value.trim() === "";
       if (Array.isArray(value)) return value.length === 0;
       return !value;
     });
-    console.log("🚀 ~ handleContactPerson ~ hasEmptyFields:", hasEmptyFields);
 
     if (propertyMedia.length === 0) {
       setMediaError("Upload Property Images");
@@ -54,13 +55,6 @@ const AddTenantProperty = () => {
   };
 
   const handleNext = async () => {
-    const hasEmptyFields = Object.values(state.form).some((value) => {
-      // Handles null, undefined, empty string, or array with no items
-      if (typeof value === "string") return value.trim() === "";
-      if (Array.isArray(value)) return value.length === 0;
-      return !value;
-    });
-
     if (propertyMedia.length === 0) {
       setMediaError("Upload Property Images");
       return;
@@ -87,7 +81,9 @@ const AddTenantProperty = () => {
         // formData.append("dueDate", form.dueDate);
         formData.append("lateFeeAmount", form.lateFeeAmount || "20");
         formData.append("landlordName", form.landlordName || "");
-        formData.append("landlordEmail", form.landlordEmail || "");
+        if (form.landlordEmail && form.landlordEmail.trim() !== "") {
+          formData.append("landlordEmail", form.landlordEmail || "");
+        }
 
         personsData.forEach((person, index) => {
           formData.append(`contactPersons[${index}][name]`, person.name);
@@ -101,13 +97,11 @@ const AddTenantProperty = () => {
 
         const response = await axios.post("/properties/tenant", formData);
         if (response.status === 200) {
-          console.log("🚀 ~ handleNext ~ response:", response);
           navigate(`/app/property-detail/${response?.data?.data?._id}`, {
             state: { propertyDetail: response?.data?.data },
           });
         }
       } catch (error) {
-        console.log("🚀 ~ handlePropertySubmit ~ error:", error.response.data);
         ErrorToast(error.response.data.message);
       } finally {
         setLoading(false);

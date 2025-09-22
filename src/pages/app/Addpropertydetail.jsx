@@ -280,7 +280,6 @@ const AddPropertyDetail = () => {
                 setModalOpen(false);
               }}
               onSecondaryAction={() => {
-                console.log("Continue Clicked");
                 setModalOpen(false);
                 navigate("/app/dashboard");
               }}

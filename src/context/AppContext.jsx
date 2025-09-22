@@ -22,7 +22,6 @@ const AppProvider = ({ children }) => {
   const [notification, setNotification] = useState([]);
 
   const loginContext = (data) => {
-    console.log("🚀 ~ loginContext ~ data:", data);
     if (data) {
       if (data?.token) {
         Cookies.set("token", data?.token);
@@ -47,7 +46,6 @@ const AppProvider = ({ children }) => {
     try {
       setIsLoading(true);
       const { data } = await axios.get("/notification");
-      console.log("🚀 ~ handleNotifications ~ data:", data);
       if (data.success) {
         setNotification(data.data);
         setIsLoading(false);
