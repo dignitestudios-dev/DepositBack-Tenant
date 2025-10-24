@@ -42,6 +42,7 @@ const Moveout = ({ tenantMoveOutImages, tenantMoveOutVideos }) => {
                       setPreviewItem({
                         type: "image",
                         src: src?.fileUrl,
+                        title: src?.title || "Untitled",
                       })
                     }
                   >
@@ -50,6 +51,11 @@ const Moveout = ({ tenantMoveOutImages, tenantMoveOutVideos }) => {
                       alt={`Photo ${idx}`}
                       className={`w-full h-[150px] object-cover rounded-md`}
                     />
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                      <h2 className="text-white text-sm font-medium truncate">
+                        {src?.title || "N/A"}
+                      </h2>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -86,6 +92,7 @@ const Moveout = ({ tenantMoveOutImages, tenantMoveOutVideos }) => {
                       setPreviewItem({
                         type: "video",
                         src: src?.fileUrl,
+                        title: src?.title || "Untitled",
                       })
                     }
                   >
@@ -94,7 +101,11 @@ const Moveout = ({ tenantMoveOutImages, tenantMoveOutVideos }) => {
                       alt={`Video ${idx}`}
                       className={`w-full h-[150px] object-cover`}
                     />
-
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
+                      <h2 className="text-white text-sm font-medium truncate">
+                        {src?.title || "N/A"}
+                      </h2>
+                    </div>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="bg-white p-2 rounded-full shadow-lg">
                         <FaPlay className="text-black" />
@@ -130,7 +141,7 @@ const Moveout = ({ tenantMoveOutImages, tenantMoveOutVideos }) => {
                     className="w-full rounded-md mb-4"
                   />
                 )}
-                <h3 className="font-semibold text-sm mb-2">Title Goes Here</h3>
+                <h3 className="font-semibold text-sm mb-2">{previewItem?.title}</h3>
                 <p className="text-xs text-gray-600">
                   This file has been unlocked and is now available for viewing.
                 </p>

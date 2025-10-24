@@ -9,12 +9,14 @@ import { useNavigate } from "react-router";
 import { useFetchData } from "../../hooks/api/Get";
 import ResourceTextModal from "../../components/app/resources/ResourceTextModal";
 import { useTranslation } from "react-i18next";
+import DisclaimerModal from "../../components/app/resources/DisclaimerModal";
 
 const Resources = () => {
   const { t } = useTranslation();
   const navigate = useNavigate("");
   const [searchTerm, setSearchTerm] = useState("");
   const [textModal, setTextModal] = useState(false);
+  const [disclaimerModal, setDisclaimerModal] = useState(true);
 
   const { data, loading } = useFetchData(`/laws`, {}, 1, "");
 
@@ -90,7 +92,7 @@ const Resources = () => {
               >
                 <img
                   src={
-                    doc?.formLink ? pdfIcon : doc?.lawLink ? linkIcon : textIcon
+                    doc?.icon || 'https://placehold.co/400'
                   }
                   alt="PDF Icon"
                   className="h-[70px] mx-auto"
@@ -102,6 +104,10 @@ const Resources = () => {
       {textModal && (
         <ResourceTextModal textModal={textModal} setTextModal={setTextModal} />
       )}
+      <DisclaimerModal
+        isOpen={disclaimerModal}
+        onClose={() => setDisclaimerModal(false)}
+      />
     </div>
   );
 };

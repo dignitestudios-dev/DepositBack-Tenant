@@ -12,6 +12,7 @@ import axios from "../../axios";
 import { ErrorToast } from "../../components/global/Toaster";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
+import EmergencayMsgModal from "../../components/app/EmergencayMsgModal";
 
 const Message = () => {
   const { t } = useTranslation();
@@ -22,6 +23,8 @@ const Message = () => {
   const [chatList, setChatList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [chatId, setChatId] = useState("");
+  const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+  const [emergencyMsg, setEmergencyMsg] = useState("");
 
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -117,7 +120,7 @@ const Message = () => {
 
     return () => unsub();
   }, [chatId]);
-
+console.log(selectedMessages,"selectedMessages")
   return (
     <div className="max-w-[1260px] mx-auto px-6 py-10">
       {/* Header */}
@@ -183,15 +186,25 @@ const Message = () => {
         {selectedUser ? (
           <div className="col-span-2 bg-white rounded-2xl p-4 shadow-sm flex flex-col justify-between">
             {/* Chat Header */}
-            <div className="flex items-center gap-3 border-b pb-3">
-              <img
-                src={selectedUser?.profilePicture}
-                alt=""
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <div>
-                <h4 className="text-sm font-semibold">{selectedUser?.name}</h4>
-                <p className="text-xs text-gray-500">Landlord</p>
+            <div className="flex items-center justify-between gap-3 border-b pb-3">
+              <div className="flex items-center  gap-3 ">
+                <img
+                  src={selectedUser?.profilePicture}
+                  alt=""
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <h4 className="text-sm font-semibold">
+                    {selectedUser?.name}
+                  </h4>
+                  <p className="text-xs text-gray-500">Landlord</p>
+                </div>
+              </div>
+              <div
+                onClick={() => setShowEmergencyModal(true)}
+                className="bg-red-300 rounded-[20px] h-[49px] flex items-center px-4 text-red-600 font-[600] border border-red-600 cursor-pointer "
+              >
+                Emergency
               </div>
             </div>
 
@@ -228,7 +241,9 @@ const Message = () => {
                     ) : (
                       <div
                         className={`${
-                          msg.senderId === userData?.uid
+                          msg.emergency
+                            ? "bg-red-600 text-white" // 🔴 emergency message
+                            : msg.senderId === userData?.uid
                             ? "bg-blue-700 text-white"
                             : "bg-gray-300 text-black"
                         } px-4 py-2 rounded-xl max-w-xs`}
@@ -312,6 +327,13 @@ const Message = () => {
           <div className="col-span-2 flex items-center justify-center bg-white rounded-2xl shadow-sm">
             <p className="text-gray-400">No chat selected</p>
           </div>
+        )}
+        {showEmergencyModal && (
+          <EmergencayMsgModal
+            chatId={chatId}
+            userId={userData?.uid}
+            onClose={() => setShowEmergencyModal(false)}
+          />
         )}
       </div>
     </div>
