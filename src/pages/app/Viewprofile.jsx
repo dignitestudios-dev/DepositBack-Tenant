@@ -100,6 +100,32 @@ const ViewProfile = () => {
                   </p>
                   <p className="font-medium">{data?.lastFourSSN || "XXXX"}</p>
                 </div>
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 p-4 bg-white rounded-2xl ">
+  {/* Street */}
+  <div className="flex flex-col border-b pb-2">
+    <p className="text-sm text-gray-500">Street</p>
+    <p className="font-medium text-gray-800">{data?.street || "XXXX"}</p>
+  </div>
+
+  {/* State */}
+  <div className="flex flex-col border-b pb-2">
+    <p className="text-sm text-gray-500">State</p>
+    <p className="font-medium text-gray-800">{data?.state || "XXXX"}</p>
+  </div>
+
+  {/* City */}
+  <div className="flex flex-col border-b pb-2">
+    <p className="text-sm text-gray-500">City</p>
+    <p className="font-medium text-gray-800">{data?.city || "XXXX"}</p>
+  </div>
+
+  {/* Zip Code */}
+  <div className="flex flex-col border-b pb-2">
+    <p className="text-sm text-gray-500">Zip Code</p>
+    <p className="font-medium text-gray-800">{data?.zipCode || "XXXX"}</p>
+  </div>
+</div>
+
 
                 {/* Government ID */}
                 <div className="pl-6 pt-3 pb-3">

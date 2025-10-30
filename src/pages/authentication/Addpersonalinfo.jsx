@@ -15,12 +15,20 @@ export default function Addpersonalinfo() {
 
   const [Fullname, setFullname] = useState("");
   const [Ssnnumber, setSsnnumber] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
   const [errors, setErrors] = useState({
     fullname: "",
     ssn: "",
     idFront: "",
     idBack: "",
     profileImage: "",
+    zipCode: "",
+    street: "",
+    state: "",
+    city: "",
   });
 
   const navigate = useNavigate();
@@ -37,6 +45,11 @@ export default function Addpersonalinfo() {
       idFront: !files.idFront ? "Front ID is required" : "",
       idBack: !files.idBack ? "Back ID is required" : "",
       profileImage: !files.profileImage ? "Profile image is required" : "",
+      zipCode: !zipCode.trim()
+        ? "zipCode is required"
+        : zipCode.trim().length !== 5
+        ? "zipCode must be exactly 5 digits"
+        : "",
     };
 
     setErrors(newErrors);
@@ -47,6 +60,11 @@ export default function Addpersonalinfo() {
 
     formData.append("name", Fullname);
     formData.append("lastFourSSN", Ssnnumber);
+    formData.append("street", street);
+    formData.append("city", city);
+    formData.append("state", state);
+    formData.append("zipCode", zipCode);
+    // formData.append("ssn", Ssnnumber);
 
     if (files.idFront) {
       formData.append("governmentIdFront", files.idFront);
@@ -153,15 +171,60 @@ export default function Addpersonalinfo() {
               <p className="text-red-500 text-xs">{errors.fullname}</p>
             )}
             <Input
-              label="Last Four Digits Of SSN"
+              label="Provide Full SSN"
               type="tel"
               value={Ssnnumber}
+              maxLength={4}
               onChange={(e) =>
                 setSsnnumber(formatSsnLast(e.target.value, setErrors))
               }
               placeholder="xxxx"
             />
             {errors.ssn && <p className="text-red-500 text-xs">{errors.ssn}</p>}
+
+            <Input
+              label="Zip Code"
+              type="tel"
+              maxLength={5}
+              value={zipCode}
+              onChange={(e) =>
+                setZipCode(formatSsnLast(e.target.value, setErrors))
+              }
+              placeholder="xxxx"
+            />
+            {errors.zipCode && (
+              <p className="text-red-500 text-xs">{errors.zipCode}</p>
+            )}
+            <Input
+              label="Street "
+              type="text"
+              value={street}
+              onChange={(e) => setStreet(e.target.value, setErrors)}
+              placeholder="Street"
+            />
+            {errors.street && (
+              <p className="text-red-500 text-xs">{errors.street}</p>
+            )}
+            <Input
+              label="City (Full Name) "
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value, setErrors)}
+              placeholder="City (Full Name)"
+            />
+            {errors.city && (
+              <p className="text-red-500 text-xs">{errors.city}</p>
+            )}
+            <Input
+              label="State "
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value, setErrors)}
+              placeholder="State"
+            />
+            {errors.state && (
+              <p className="text-red-500 text-xs">{errors.state}</p>
+            )}
 
             {/* Government ID Upload Front */}
             <label
