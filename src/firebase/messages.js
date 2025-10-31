@@ -64,12 +64,12 @@ export function getUserChatsWithDetails(currentRole, userId, callback) {
   });
 }
 
-export async function sendMessage(chatId, senderId, text, isEmergency = false) {
+export async function sendMessage(chatId, senderId, content, isEmergency = false) {
   const messagesRef = collection(db, "chats", chatId, "messages");
-
+ 
   await addDoc(messagesRef, {
     senderId,
-    text,
+    content,
     timestamp: serverTimestamp(),
     emergency: isEmergency, // ✅ ye key add ho jayegi
   });
