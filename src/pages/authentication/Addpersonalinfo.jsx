@@ -13,6 +13,7 @@ export default function Addpersonalinfo() {
   const [loading, setLoading] = useState(false);
   const { loginContext } = useContext(AppContext);
 
+  const [consentGiven, setConsentGiven] = useState(false);
   const [Fullname, setFullname] = useState("");
   const [Ssnnumber, setSsnnumber] = useState("");
   const [zipCode, setZipCode] = useState("");
@@ -29,6 +30,7 @@ export default function Addpersonalinfo() {
     street: "",
     state: "",
     city: "",
+    consent: "",
   });
 
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ export default function Addpersonalinfo() {
         : "",
       idFront: !files.idFront ? "Front ID is required" : "",
       idBack: !files.idBack ? "Back ID is required" : "",
+      consent: !consentGiven ? "You must consent before proceeding" : "",
       profileImage: !files.profileImage ? "Profile image is required" : "",
       zipCode: !zipCode.trim()
         ? "zipCode is required"
@@ -171,7 +174,7 @@ export default function Addpersonalinfo() {
               <p className="text-red-500 text-xs">{errors.fullname}</p>
             )}
             <Input
-              label="Provide Full SSN"
+              label="Provide Last 4 Digits SSN"
               type="tel"
               value={Ssnnumber}
               maxLength={4}
@@ -295,6 +298,35 @@ export default function Addpersonalinfo() {
             {errors.idBack && (
               <p className="text-red-500 text-xs">{errors.idBack}</p>
             )}
+
+            <div className="flex">
+              <div>
+                <input
+                  type="checkbox"
+                  checked={consentGiven}
+                  onChange={(e) => {
+                    setConsentGiven(e.target.checked);
+                    if (e.target.checked) {
+                      setErrors((prev) => ({ ...prev, consent: "" }));
+                    }
+                  }}
+                  className="w-5 h-5 mt-1 accent-blue-500 border-gray-300 rounded"
+                />
+              </div>
+
+              <div className="pl-4">
+                <label className="flex items-start  ">
+                  <span className="text-sm text-gray-700 leading-snug">
+                    I hereby consent to potential landlords using the personal
+                    information I provide within this application to conduct
+                    credit scores check as part of the tenant screening process.
+                  </span>
+                </label>
+                {errors.consent && (
+                  <p className="text-red-500 text-sm">{errors.consent}</p>
+                )}
+              </div>
+            </div>
 
             {/* <button
               type="submit"

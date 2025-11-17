@@ -66,7 +66,7 @@ export function getUserChatsWithDetails(currentRole, userId, callback) {
 
 export async function sendMessage(chatId, senderId, content, isEmergency = false) {
   const messagesRef = collection(db, "chats", chatId, "messages");
-
+ 
   await addDoc(messagesRef, {
     senderId,
     content,

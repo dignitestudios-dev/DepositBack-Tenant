@@ -13,65 +13,65 @@ import { ErrorToast } from "../../components/global/Toaster";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
 import EmergencayMsgModal from "../../components/app/EmergencayMsgModal";
-
+ 
 const Message = () => {
   const { t } = useTranslation();
   const { userData } = useContext(AppContext);
-
+ 
   const navigate = useNavigate();
-
+ 
   const [chatList, setChatList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [chatId, setChatId] = useState("");
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [emergencyMsg, setEmergencyMsg] = useState("");
-
+ 
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [input, setInput] = useState("");
   const [attachments, setAttachments] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
-
+ 
   const [uploadFileLoading, setUploadFileLoading] = useState(false);
   const [loadingChats, setLoadingChats] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
-
+ 
   const fileInputRef = useRef();
-
+ 
   /** ✅ Send Message */
   const handleSendMessage = () => {
     if (!chatId) return;
-
+ 
     sendMessage(
       chatId,
       userData?.uid,
       uploadedImages?.length > 0 ? uploadedImages : input
     );
-
+ 
     setInput("");
     setAttachments([]);
     setUploadedImages([]);
   };
-
+ 
   /** ✅ Handle File Upload */
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
     setUploadFileLoading(true);
-
+ 
     try {
       const formData = new FormData();
       files.forEach((item) => formData.append("file", item));
-
+ 
       const { data } = await axios.post("/chat/upload", formData);
-
+ 
       if (data?.success) {
         const previews = files.map((file) => ({
           file,
           type: file.type.startsWith("image/") ? "image" : "file",
         }));
-
+ 
         let upload = data?.data?.url;
         const uploadArray = Array.isArray(upload) ? upload : [upload];
-
+ 
         setAttachments((prev) => [...prev, ...previews]);
         setUploadedImages(uploadArray);
       }
@@ -81,15 +81,15 @@ const Message = () => {
       setUploadFileLoading(false);
     }
   };
-
+ 
   const removeAttachment = (index) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
-
+ 
   /** ✅ Load chat list */
   useEffect(() => {
     if (!userData?.uid) return;
-
+ 
     const unsubscribe = getUserChatsWithDetails(
       "tenant",
       userData?.uid,
@@ -98,26 +98,26 @@ const Message = () => {
         setLoadingChats(false);
       }
     );
-
+ 
     return () => unsubscribe && unsubscribe();
   }, [userData]);
-
+ 
   /** ✅ Load messages for selected chat */
   useEffect(() => {
     if (!chatId) return;
     setLoadingMessages(true);
-
+ 
     const q = query(
       collection(db, "chats", chatId, "messages"),
       orderBy("timestamp", "asc")
     );
-
+ 
     const unsub = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setSelectedMessages(msgs);
       setLoadingMessages(false);
     });
-
+ 
     return () => unsub();
   }, [chatId]);
 console.log(selectedMessages,"selectedMessages")
@@ -130,7 +130,7 @@ console.log(selectedMessages,"selectedMessages")
         </button>
         <h1 className="text-2xl font-semibold">{t("headings.messages")}</h1>
       </div>
-
+ 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Sidebar */}
         <div className="bg-white rounded-2xl p-4 shadow-sm">
@@ -139,7 +139,7 @@ console.log(selectedMessages,"selectedMessages")
             placeholder="Search"
             className="w-full px-4 py-2 mb-4 rounded-xl border text-sm"
           />
-
+ 
           <div className="space-y-3">
             {loadingChats ? (
               <p className="text-sm text-gray-400 text-center py-6">
@@ -181,7 +181,7 @@ console.log(selectedMessages,"selectedMessages")
             )}
           </div>
         </div>
-
+ 
         {/* Chat Window */}
         {selectedUser ? (
           <div className="col-span-2 bg-white rounded-2xl p-4 shadow-sm flex flex-col justify-between">
@@ -207,7 +207,7 @@ console.log(selectedMessages,"selectedMessages")
                 Emergency
               </div>
             </div>
-
+ 
             {/* Messages */}
             <div className="py-6 space-y-6 overflow-y-auto text-sm text-gray-800 h-[500px] pr-2">
               {loadingMessages ? (
@@ -258,7 +258,7 @@ console.log(selectedMessages,"selectedMessages")
                 ))
               )}
             </div>
-
+ 
             {/* Attachments Preview */}
             {attachments.length > 0 && (
               <div className="flex flex-wrap gap-4 border-t pt-4 pb-2">
@@ -285,7 +285,7 @@ console.log(selectedMessages,"selectedMessages")
                 ))}
               </div>
             )}
-
+ 
             {/* Chat Input */}
             <div className="flex items-center gap-3 pt-4 border-t">
               {uploadFileLoading ? (
@@ -339,5 +339,5 @@ console.log(selectedMessages,"selectedMessages")
     </div>
   );
 };
-
+ 
 export default Message;
