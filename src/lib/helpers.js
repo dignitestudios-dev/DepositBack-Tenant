@@ -49,7 +49,7 @@ export const formatSsnLast = (value, setErrors) => {
   value = value.replace(/\D/g, "");
   setErrors((prev) => ({ ...prev, ssn: "" }));
 
-  return value.slice(0, 4);
+  return value.slice(0, 9);
 };
 
 export const getDateFormat = (date) => {

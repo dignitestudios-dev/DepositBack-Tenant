@@ -121,6 +121,7 @@ const PropertyDetail = () => {
     depositTracker,
     isLeaseDateResolved,
     isLeaseDateConfirmed,
+    propertyCheckList,
   } = propertyDetail?.property || {};
 
   // const isActive = userId === propertyData?.tenant;
@@ -452,6 +453,10 @@ const PropertyDetail = () => {
                           tenantAgreements,
                           tenantRepairsVideos,
                           tenantRepairsImages,
+                          tenantMoveInImages,
+                          tenantMoveInVideos,
+                          tenantMoveOutImages,
+                          tenantMoveOutVideos,
                         },
                       })
                     }
@@ -472,6 +477,7 @@ const PropertyDetail = () => {
                             tenantMoveOutVideos,
                             propertyId: id,
                             landlordId: landlord?._id,
+                            propertyCheckList,
                           },
                         })
                       }

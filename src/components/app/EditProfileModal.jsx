@@ -20,6 +20,10 @@ const initialState = {
   ssn: "",
   emergencyContact: "",
   profileImage: "",
+  state: "",
+  city: "",
+  street: "",
+  zipCode: "",
   frontIDImage: null,
   backIDImage: null,
   idFrontPreview: null,
@@ -103,6 +107,10 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
       formData?.append("lastFourSSN", state?.ssn);
       formData?.append("language", "english");
       formData?.append("name", state?.fullName);
+      formData.append("street", state?.street);
+      formData.append("city", state?.city);
+      formData.append("state", state?.state);
+      formData.append("zipCode", state?.zipCode);
       if (state?.emergencyContact?.trim()) {
         formData.append("emergencyContact", state.emergencyContact.trim());
       }
@@ -173,6 +181,10 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
           email: userData.email,
           phone: userData.phoneNo,
           ssn: userData.lastFourSSN,
+          zipCode: userData.zipCode,
+          city: userData.city,
+          street: userData.street,
+          state: userData.state,
           emergencyContact: userData.emergencyContact,
           profileImage: userData.profilePicture,
           frontIDImage: userData.governmentIdFront,
@@ -185,7 +197,7 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-      <div className="bg-white w-full max-w-2xl rounded-xl p-6 relative">
+      <div className="bg-white h-[650px] overflow-scroll w-full max-w-2xl rounded-xl p-6 relative">
         <button className="absolute top-4 right-4 text-xl" onClick={onClose}>
           <IoClose />
         </button>
@@ -250,7 +262,7 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
             />
           </div>
 
-          <div className="flex gap-[4px]">
+          <div className="flex flex-wrap gap-[4px]">
             <div className="mt-3">
               <span className="block text-[15px] text-gray-800 font-[500]">
                 Phone Number
@@ -294,27 +306,102 @@ const EditProfileModal = ({ onClose, setUpdate }) => {
                 className="bg-[#ECECEC] !w-[130%]"
               />
             </div>
-            <div className="relative">
-              <div className="absolute top-[43px] z-20">
-                <p className="text-sm pl-[1px]">+1</p>
+            <div className="flex items-start justify-between gap-4 mt-3 w-full">
+              {/* Emergency Contact */}
+              <div className="relative flex-1">
+                <div className="absolute top-[43px] left-2 z-20">
+                  <p className="text-sm">+1</p>
+                </div>
+                <Input
+                  required={false}
+                  label="Emergency Contact"
+                  type="text"
+                  maxLength={14}
+                  value={phoneFormatter(state.emergencyContact)}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "emergencyContact",
+                      value: e.target.value.replace(/\D/g, ""),
+                    })
+                  }
+                  placeholder="XXXX-XXXX-XXXX"
+                  className="bg-[#ECECEC] pl-6 w-full"
+                />
               </div>
-              <Input
-                required={false}
-                label="Emergency Contact"
-                type="text"
-                maxLength={14}
-                value={phoneFormatter(state.emergencyContact)}
-                onChange={(e) =>
-                  dispatch({
-                    type: "SET_FIELD",
-                    field: "emergencyContact",
-                    value: e.target.value.replace(/\D/g, ""),
-                  })
-                }
-                placeholder="XXXX-XXXX-XXXX"
-                className="bg-[#ECECEC] !w-[132%]"
-              />
+
+              {/* Zip Code */}
+              <div className="flex-1">
+                <Input
+                  label="Zip Code"
+                  type="tel"
+                  value={state.zipCode}
+                  maxLength={5}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "zipCode",
+                      value: e.target.value.replace(/\D/g, ""),
+                    })
+                  }
+                  placeholder="XXXX"
+                  className="bg-[#ECECEC] w-full"
+                />
+              </div>
             </div>
+            <div className="flex items-start justify-between gap-4 mt-3 w-full">
+              {/* Emergency Contact */}
+
+              {/* Street*/}
+              <div className="flex-1">
+                <Input
+                  label="Street"
+                  type="text"
+                  value={state.street}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "street",
+                      value: e.target.value,
+                    })
+                  }
+                  placeholder="XXXX"
+                  className="bg-[#ECECEC] w-full"
+                />
+              </div>
+              <div className="flex-1">
+                <Input
+                  label="City"
+                  type="text"
+                  value={state.city}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "city",
+                      value: e.target.value,
+                    })
+                  }
+                  placeholder="XXXX"
+                  className="bg-[#ECECEC] w-full"
+                />
+              </div>
+            </div>
+             <div className="flex-1">
+                <Input
+                  label="State"
+                  type="text"
+                  value={state.state}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "state",
+                      value: e.target.value,
+                    })
+                  }
+                  placeholder="XXXX"
+                  className="bg-[#ECECEC] w-full"
+                />
+              </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">

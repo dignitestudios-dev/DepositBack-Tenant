@@ -5,6 +5,7 @@ import pdfIcon from "../../../assets/pdficon.png";
 import axios from "../../../axios";
 import { ErrorToast } from "../../global/Toaster";
 import { RiLoader5Line } from "react-icons/ri";
+import Input from "../../global/Input";
 
 const UploadPropertyDocs = ({
   setFeedback,
@@ -16,11 +17,12 @@ const UploadPropertyDocs = ({
   const activeCategoryName = activeCategory.split(" ")[0].toLowerCase();
 
   const [mediaError, setMediaError] = useState(null);
-
+  const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [mediaFiles, setMediaFiles] = useState([]);
   const [documentFiles, setDocumentFiles] = useState([]);
+  const [titleError, setTitleError] = useState(null); // 🆕 added title error
 
   const handleFileChange = (e) => {
     setMediaError(null);
@@ -50,6 +52,10 @@ const UploadPropertyDocs = ({
 
   const handleUploadFile = async () => {
     try {
+      if (!title.trim()) {
+        setTitleError("Please enter a title for your upload.");
+        return;
+      }
       if (mediaFiles.length === 0 && documentFiles.length === 0) {
         setMediaError("Upload Property Images");
         return;
@@ -66,12 +72,23 @@ const UploadPropertyDocs = ({
       //     }
       //   });
       // }
+      const meta = {};
       if (activeCategoryName === "in") {
         mediaFiles.forEach((file) => {
           if (file.type.startsWith("image/")) {
             formData.append("tenantMoveInImages", file);
+            meta["tenantMoveInImages"] = [
+              {
+                title: title,
+              },
+            ];
           } else {
             formData.append("tenantMoveInVideos", file);
+            meta["tenantMoveInVideos"] = [
+              {
+                title: title,
+              },
+            ];
           }
         });
       }
@@ -80,8 +97,18 @@ const UploadPropertyDocs = ({
         mediaFiles.forEach((file) => {
           if (file.type.startsWith("image/")) {
             formData.append("tenantMoveOutImages", file);
+            meta["tenantMoveOutImages"] = [
+              {
+                title: title,
+              },
+            ];
           } else {
             formData.append("tenantMoveOutVideos", file);
+            meta["tenantMoveOutVideos"] = [
+              {
+                title: title,
+              },
+            ];
           }
         });
       }
@@ -90,8 +117,18 @@ const UploadPropertyDocs = ({
         mediaFiles.forEach((file) => {
           if (file.type.startsWith("image/")) {
             formData.append("tenantRepairsImages", file);
+            meta["tenantRepairsImages"] = [
+              {
+                title: title,
+              },
+            ];
           } else {
             formData.append("tenantRepairsVideos", file);
+            meta["tenantRepairsVideos"] = [
+              {
+                title: title,
+              },
+            ];
           }
         });
       }
@@ -99,17 +136,27 @@ const UploadPropertyDocs = ({
       if (activeCategoryName === "agreements") {
         documentFiles.forEach((file) => {
           formData.append("tenantAgreements", file);
+          meta["tenantAgreements"] = [
+            {
+              title: title,
+            },
+          ];
         });
       }
 
       if (activeCategoryName === "uv") {
         mediaFiles.forEach((file) => {
           formData.append("uvLightImagesTenant", file);
+          meta["uvLightImagesTenant"] = [
+            {
+              title: title,
+            },
+          ];
         });
       }
 
       formData.append("currentDate", new Date().toLocaleString());
-
+      formData.append("meta", JSON.stringify(meta));
       const response = await axios.put(
         `/properties/${propertyId}/updateDocsTenant`,
         formData
@@ -143,7 +190,20 @@ const UploadPropertyDocs = ({
       </div>
 
       <div className="bg-[#F9FAFA] mt-0 rounded-xl shadow-lg p-8">
-        {/* Upload Box */}
+        <div className="mb-3">
+          <input
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              if (titleError) setTitleError(null); // clear error as user types
+            }}
+            placeholder={"Enter Title"}
+            className={`w-full px-4 py-3 text-sm rounded-[10px] border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none pr-12 `}
+          />
+          {titleError && (
+            <p className="text-red-500 text-xs mt-2">{titleError}</p>
+          )}
+        </div>
         <div className="border-2 border-dashed bg-white border-blue-500 rounded-lg p-10 text-center cursor-pointer block">
           <label
             htmlFor="fileUpload"
