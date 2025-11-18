@@ -90,20 +90,29 @@ const Resources = () => {
           </div>
 
           {/* OTHER CATEGORY TABS */}
-          {categoryData?.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => setActiveTab(item)}
-              className={`px-4 cursor-pointer py-2 rounded-full text-sm whitespace-nowrap transition-all duration-200
+         {categoryData?.map((item, index) => {
+  const formattedItem = item
+    .replace(/_/g, " ") 
+    .toLowerCase() 
+    .split(" ") 
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) 
+    .join(" "); 
+  
+  return (
+    <div
+      key={index}
+      onClick={() => setActiveTab(item)}
+      className={`px-4 cursor-pointer py-2 rounded-full text-sm whitespace-nowrap transition-all duration-200
         ${
           activeTab === item
             ? "bg-[#003897] text-white"
             : "bg-gray-200 text-black"
         }`}
-            >
-              {item}
-            </div>
-          ))}
+    >
+      {formattedItem} {/* <-- CHANGE MADE HERE */}
+    </div>
+  );
+})}
         </div>
       </div>
 
