@@ -8,6 +8,7 @@ import {
 
 import Pdficon from "../../assets/pdficon.png";
 import { useNavigate, useLocation } from "react-router";
+import { getDateFormat } from "../../lib/helpers";
 
 export default function ReportDetailHistory() {
   const navigate = useNavigate();
@@ -137,8 +138,7 @@ export default function ReportDetailHistory() {
                     Date
                   </label>
                   <input
-                    type="date"
-                    value={report.date?.slice(0, 10)}
+                    value={getDateFormat(report.date)}
                     readOnly
                     className="bg-transparent outline-none border-none"
                   />

@@ -16,7 +16,7 @@ const RentHistory = () => {
   const [loading, setLoading] = useState(false);
   const currentDate = useMemo(() => new Date().toISOString(), []);
   const [isRentPaid, setIsRentPaid] = useState(false);
-
+  const [update, setUpdate] = useState(false);
   const handlePayRent = async () => {
     try {
       setLoading(true);
@@ -24,13 +24,13 @@ const RentHistory = () => {
         currentDate: new Date().toLocaleString(),
       });
       if (response.status === 200) {
-        if (response?.data?.data) {
-          console.log("Response --- > ", response);
-        } else {
-          // SuccessToast("Rent Paid");
-          isRentPaid(true);
-          // navigate(-1);
-        }
+        SuccessToast("Rent Paid");
+        setIsRentPaid(true);
+        setUpdate((prev) => !prev);
+        // if (response?.data?.data) {
+        // } else {
+        //   // navigate(-1);
+        // }
       }
     } catch (error) {
       ErrorToast(error.response.data.message);
@@ -47,7 +47,7 @@ const RentHistory = () => {
     `/properties/rent/history/${contractId}`,
     { currentDate },
     1,
-    ""
+    update
   );
 
   return (

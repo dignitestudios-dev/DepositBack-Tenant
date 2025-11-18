@@ -18,7 +18,6 @@
       tenantRepairsImages = [],
       tenantRepairsVideos = [],
     } = property || {};
-  console.log(tenantMoveInImages,"tenantMoveInImages")
     // Normalize data (string → object)
     const normalize = (arr) =>
       arr?.map((x) => (typeof x === "string" ? { fileUrl: x } : x)) || [];
@@ -36,7 +35,7 @@
         return [
           { key: "Tenant Move-In", data: normalize(tenantMoveInImages) },
           { key: "Tenant Move-Out", data: normalize(tenantMoveOutImages) },
-          { key: "Tenant Repairs", data: normalize(tenantRepairsImages) },
+          { key: "Tenant Maintenance", data: normalize(tenantRepairsImages) },
           { key: "UV Light (Tenant)", data: normalize(uvLightImagesTenant) },
         ];
       }
@@ -60,7 +59,7 @@
         return [
           { key: "Tenant Move-In", data: normalize(tenantMoveInVideos) },
           { key: "Tenant Move-Out", data: normalize(tenantMoveOutVideos) },
-          { key: "Tenant Repairs", data: normalize(tenantRepairsVideos) },
+          { key: "Tenant Maintenance", data: normalize(tenantRepairsVideos) },
         ];
       }
     }, [

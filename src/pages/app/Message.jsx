@@ -13,65 +13,66 @@ import { ErrorToast } from "../../components/global/Toaster";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
 import EmergencayMsgModal from "../../components/app/EmergencayMsgModal";
- 
+
 const Message = () => {
   const { t } = useTranslation();
   const { userData } = useContext(AppContext);
- 
+
   const navigate = useNavigate();
- 
+
   const [chatList, setChatList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [chatId, setChatId] = useState("");
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
   const [emergencyMsg, setEmergencyMsg] = useState("");
- 
+
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [input, setInput] = useState("");
   const [attachments, setAttachments] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
- 
+  const [activeTab, setActiveTab] = useState("normal"); // "normal" or "emergency"
+
   const [uploadFileLoading, setUploadFileLoading] = useState(false);
   const [loadingChats, setLoadingChats] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
- 
+
   const fileInputRef = useRef();
- 
+
   /** ✅ Send Message */
   const handleSendMessage = () => {
     if (!chatId) return;
- 
+
     sendMessage(
       chatId,
       userData?.uid,
       uploadedImages?.length > 0 ? uploadedImages : input
     );
- 
+
     setInput("");
     setAttachments([]);
     setUploadedImages([]);
   };
- 
+
   /** ✅ Handle File Upload */
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
     setUploadFileLoading(true);
- 
+
     try {
       const formData = new FormData();
       files.forEach((item) => formData.append("file", item));
- 
+
       const { data } = await axios.post("/chat/upload", formData);
- 
+
       if (data?.success) {
         const previews = files.map((file) => ({
           file,
           type: file.type.startsWith("image/") ? "image" : "file",
         }));
- 
+
         let upload = data?.data?.url;
         const uploadArray = Array.isArray(upload) ? upload : [upload];
- 
+
         setAttachments((prev) => [...prev, ...previews]);
         setUploadedImages(uploadArray);
       }
@@ -81,15 +82,15 @@ const Message = () => {
       setUploadFileLoading(false);
     }
   };
- 
+
   const removeAttachment = (index) => {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
- 
+
   /** ✅ Load chat list */
   useEffect(() => {
     if (!userData?.uid) return;
- 
+
     const unsubscribe = getUserChatsWithDetails(
       "tenant",
       userData?.uid,
@@ -98,29 +99,28 @@ const Message = () => {
         setLoadingChats(false);
       }
     );
- 
+
     return () => unsubscribe && unsubscribe();
   }, [userData]);
- 
+
   /** ✅ Load messages for selected chat */
   useEffect(() => {
     if (!chatId) return;
     setLoadingMessages(true);
- 
+
     const q = query(
       collection(db, "chats", chatId, "messages"),
       orderBy("timestamp", "asc")
     );
- 
+
     const unsub = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setSelectedMessages(msgs);
       setLoadingMessages(false);
     });
- 
+
     return () => unsub();
   }, [chatId]);
-console.log(selectedMessages,"selectedMessages")
   return (
     <div className="max-w-[1260px] mx-auto px-6 py-10">
       {/* Header */}
@@ -130,7 +130,7 @@ console.log(selectedMessages,"selectedMessages")
         </button>
         <h1 className="text-2xl font-semibold">{t("headings.messages")}</h1>
       </div>
- 
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Sidebar */}
         <div className="bg-white rounded-2xl p-4 shadow-sm">
@@ -139,7 +139,7 @@ console.log(selectedMessages,"selectedMessages")
             placeholder="Search"
             className="w-full px-4 py-2 mb-4 rounded-xl border text-sm"
           />
- 
+
           <div className="space-y-3">
             {loadingChats ? (
               <p className="text-sm text-gray-400 text-center py-6">
@@ -181,7 +181,7 @@ console.log(selectedMessages,"selectedMessages")
             )}
           </div>
         </div>
- 
+
         {/* Chat Window */}
         {selectedUser ? (
           <div className="col-span-2 bg-white rounded-2xl p-4 shadow-sm flex flex-col justify-between">
@@ -200,14 +200,39 @@ console.log(selectedMessages,"selectedMessages")
                   <p className="text-xs text-gray-500">Landlord</p>
                 </div>
               </div>
+              {activeTab === "emergency"  && (
+
               <div
                 onClick={() => setShowEmergencyModal(true)}
                 className="bg-red-300 rounded-[20px] h-[49px] flex items-center px-4 text-red-600 font-[600] border border-red-600 cursor-pointer "
               >
                 Emergency
               </div>
+              )}
             </div>
- 
+            <div className="flex gap-2 mt-2">
+              <button
+                className={`px-4 py-1 rounded-full font-semibold ${
+                  activeTab === "normal"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => setActiveTab("normal")}
+              >
+                Messages
+              </button>
+              <button
+                className={`px-4 py-1 rounded-full font-semibold ${
+                  activeTab === "emergency"
+                    ? "bg-red-600 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => setActiveTab("emergency")}
+              >
+                Emergency
+              </button>
+            </div>
+
             {/* Messages */}
             <div className="py-6 space-y-6 overflow-y-auto text-sm text-gray-800 h-[500px] pr-2">
               {loadingMessages ? (
@@ -217,111 +242,117 @@ console.log(selectedMessages,"selectedMessages")
                   No messages in this chat yet.
                 </p>
               ) : (
-                selectedMessages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex flex-col ${
-                      msg.senderId === userData?.uid
-                        ? "items-end"
-                        : "items-start"
-                    }`}
-                  >
-                    {Array.isArray(msg.content) ? (
-                      <div className="flex gap-2 flex-wrap">
-                        {msg.content.map((item, index) => (
-                          <img
-                            key={index}
-                            src={item}
-                            alt="attachment"
-                            onClick={() => window.open(item, "_blank")}
-                            className="w-32 h-32 object-cover rounded-xl shadow"
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <div
-                        className={`${
-                          msg.emergency
-                            ? "bg-red-600 text-white" // 🔴 emergency message
-                            : msg.senderId === userData?.uid
-                            ? "bg-blue-700 text-white"
-                            : "bg-gray-300 text-black"
-                        } px-4 py-2 rounded-xl max-w-xs`}
-                      >
-                        {msg.content}
-                      </div>
-                    )}
-                    <span className="text-xs text-gray-400 mt-1">
-                      {msg?.timestamp ? chatTime(msg.timestamp) : ""}
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
- 
-            {/* Attachments Preview */}
-            {attachments.length > 0 && (
-              <div className="flex flex-wrap gap-4 border-t pt-4 pb-2">
-                {attachments.map((att, idx) => (
-                  <div key={idx} className="relative">
-                    {att.type === "image" ? (
-                      <img
-                        src={URL.createObjectURL(att.file)}
-                        alt="preview"
-                        className="w-20 h-20 object-cover rounded-xl"
-                      />
-                    ) : (
-                      <div className="bg-gray-200 px-3 py-2 rounded-lg text-xs max-w-[150px]">
-                        {att.file.name}
-                      </div>
-                    )}
-                    <button
-                      onClick={() => removeAttachment(idx)}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-[2px] text-xs"
+                selectedMessages
+                  .filter((msg) =>
+                    activeTab === "emergency" ? msg.emergency : !msg.emergency
+                  )
+                  .map((msg, idx) => (
+                    <div
+                      key={idx}
+                      className={`flex flex-col ${
+                        msg.senderId === userData?.uid
+                          ? "items-end"
+                          : "items-start"
+                      }`}
                     >
-                      <FaTimes size={10} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
- 
-            {/* Chat Input */}
-            <div className="flex items-center gap-3 pt-4 border-t">
-              {uploadFileLoading ? (
-                <RiLoader3Fill
-                  size={20}
-                  className="animate-spin text-blue-600"
-                />
-              ) : (
-                <button
-                  className="bg-blue-600 text-white rounded-full p-2"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  <MdAttachFile size={16} />
-                </button>
+                      {Array.isArray(msg.content) ? (
+                        <div className="flex gap-2 flex-wrap">
+                          {msg.content.map((item, index) => (
+                            <img
+                              key={index}
+                              src={item}
+                              alt="attachment"
+                              onClick={() => window.open(item, "_blank")}
+                              className="w-32 h-32 object-cover rounded-xl shadow"
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div
+                          className={`${
+                            msg.emergency
+                              ? "bg-red-600 text-white"
+                              : msg.senderId === userData?.uid
+                              ? "bg-blue-700 text-white"
+                              : "bg-gray-300 text-black"
+                          } px-4 py-2 rounded-xl max-w-xs`}
+                        >
+                          {msg.content}
+                        </div>
+                      )}
+                      <span className="text-xs text-gray-400 mt-1">
+                        {msg?.timestamp ? chatTime(msg.timestamp) : ""}
+                      </span>
+                    </div>
+                  ))
               )}
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <input
-                disabled={uploadedImages.length > 0}
-                type="text"
-                placeholder="Type Here..."
-                className="flex-1 px-4 py-2 rounded-full border text-sm"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-              />
-              <button className="text-blue-600" onClick={handleSendMessage}>
-                <IoSend size={24} />
-              </button>
             </div>
+
+            {activeTab === "normal" && (
+              <>
+                {attachments.length > 0 && (
+                <div className="flex flex-wrap gap-4 border-t pt-4 pb-2">
+                  {attachments.map((att, idx) => (
+                    <div key={idx} className="relative">
+                      {att.type === "image" ? (
+                        <img
+                          src={URL.createObjectURL(att.file)}
+                          alt="preview"
+                          className="w-20 h-20 object-cover rounded-xl"
+                        />
+                      ) : (
+                        <div className="bg-gray-200 px-3 py-2 rounded-lg text-xs max-w-[150px]">
+                          {att.file.name}
+                        </div>
+                      )}
+                      <button
+                        onClick={() => removeAttachment(idx)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-[2px] text-xs"
+                      >
+                        <FaTimes size={10} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                )}
+                <div className="flex items-center gap-3 pt-4 border-t">
+                  {uploadFileLoading ? (
+                    <RiLoader3Fill
+                      size={20}
+                      className="animate-spin text-blue-600"
+                    />
+                  ) : (
+                    <button
+                      className="bg-blue-600 text-white rounded-full p-2"
+                      onClick={() => fileInputRef.current.click()}
+                    >
+                      <MdAttachFile size={16} />
+                    </button>
+                  )}
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                  <input
+                    disabled={uploadedImages.length > 0}
+                    type="text"
+                    placeholder="Type Here..."
+                    className="flex-1 px-4 py-2 rounded-full border text-sm"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                  />
+                  <button className="text-blue-600" onClick={handleSendMessage}>
+                    <IoSend size={24} />
+                  </button>
+                </div>
+              </>
+            )}
+            {/* Attachments Preview */}
           </div>
         ) : (
           <div className="col-span-2 flex items-center justify-center bg-white rounded-2xl shadow-sm">
@@ -339,5 +370,5 @@ console.log(selectedMessages,"selectedMessages")
     </div>
   );
 };
- 
+
 export default Message;

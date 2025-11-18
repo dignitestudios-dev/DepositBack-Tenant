@@ -211,3 +211,4 @@ export const propertyFormReducer = (state, action) => {
 export const chatTime = (data) => {
   return moment(data.toDate()).format("hh:mm A");
 };
+

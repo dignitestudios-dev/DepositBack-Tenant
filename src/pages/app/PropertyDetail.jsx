@@ -421,7 +421,7 @@ const PropertyDetail = () => {
                         <span className="font-[500] text-black text-[14px]">
                           Lease Start Date:
                         </span>
-                        <br /> {new Date(leaseStartDate).toLocaleDateString()}
+                        <br /> {getDateFormat(leaseStartDate)}
                       </p>
                     )}
                     {leaseEndDate && (
@@ -429,7 +429,7 @@ const PropertyDetail = () => {
                         <span className="font-[500] text-black text-[14px]">
                           Lease End Date:
                         </span>
-                        <br /> {new Date(leaseEndDate).toLocaleDateString()}
+                        <br /> {getDateFormat(leaseEndDate)}
                       </p>
                     )}
                   </div>
