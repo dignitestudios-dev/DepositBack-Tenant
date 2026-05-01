@@ -50,6 +50,20 @@ const Resources = () => {
     }
   };
 
+  const categoryCounts = useMemo(() => {
+  const counts = { ALL: data.length };
+
+  data.forEach((item) => {
+    if (counts[item.type]) {
+      counts[item.type]++;
+    } else {
+      counts[item.type] = 1;
+    }
+  });
+
+  return counts;
+}, [data]);
+
   return (
     <div className="max-w-[1260px] mx-auto px-6 pt-8 pb-20 text-[#333]">
       {/* Header */}
@@ -78,26 +92,25 @@ const Resources = () => {
         <div className="flex gap-3 py-2">
           {/* ALL TAB */}
           <div
-            onClick={() => setActiveTab("ALL")}
-            className={`px-4 cursor-pointer py-2 rounded-full text-sm whitespace-nowrap transition-all duration-200
-      ${
-        activeTab === "ALL"
-          ? "bg-[#003897] text-white"
-          : "bg-gray-200 text-black"
-      }`}
-          >
-            All
-          </div>
+  onClick={() => setActiveTab("ALL")}
+  className={`px-4 cursor-pointer py-2 rounded-full text-sm whitespace-nowrap transition-all duration-200
+    ${
+      activeTab === "ALL"
+        ? "bg-[#003897] text-white"
+        : "bg-gray-200 text-black"
+    }`}
+>
+  All ({categoryCounts.ALL || 0})
+</div>
 
-          {/* OTHER CATEGORY TABS */}
-         {categoryData?.map((item, index) => {
+        {categoryData?.map((item, index) => {
   const formattedItem = item
-    .replace(/_/g, " ") 
-    .toLowerCase() 
-    .split(" ") 
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) 
-    .join(" "); 
-  
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
   return (
     <div
       key={index}
@@ -109,7 +122,7 @@ const Resources = () => {
             : "bg-gray-200 text-black"
         }`}
     >
-      {formattedItem} {/* <-- CHANGE MADE HERE */}
+      {formattedItem} ({categoryCounts[item] || 0})
     </div>
   );
 })}
