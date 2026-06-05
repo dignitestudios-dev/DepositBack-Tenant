@@ -21,7 +21,7 @@ export function getUserChatsWithDetails(currentRole, userId, callback) {
   const chatsRef = collection(db, "chats");
   const q = query(
     chatsRef,
-    where(`participants.${currentRole}`, "==", userId)
+    where(`participants.${currentRole}`, "==", userId),
     // orderBy("timestamp", "asc")
   );
 
@@ -57,16 +57,21 @@ export function getUserChatsWithDetails(currentRole, userId, callback) {
         }
 
         return chatData;
-      })
+      }),
     );
 
     callback(chatList);
   });
 }
 
-export async function sendMessage(chatId, senderId, content, isEmergency = false) {
+export async function sendMessage(
+  chatId,
+  senderId,
+  content,
+  isEmergency = false,
+) {
   const messagesRef = collection(db, "chats", chatId, "messages");
- 
+
   await addDoc(messagesRef, {
     senderId,
     content,
@@ -79,7 +84,7 @@ const key = import.meta.env.VITE_GOOGLE_MAP_API_KEY;
 const genAI = new GoogleGenerativeAI(key);
 
 // ✅ Create chat session globally (persistent)
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
 const chat = model.startChat({
   history: [
@@ -118,4 +123,3 @@ export async function generateAIResponse(prompt) {
     return "Sorry, I couldn’t process that right now 😅";
   }
 }
-
