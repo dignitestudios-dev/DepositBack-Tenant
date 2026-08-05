@@ -20,7 +20,6 @@ export default function ResetPassword() {
   const location = useLocation();
 
   const { resetToken, email } = location.state || {};
-  console.log(email,"resst email")
 
   const navigate = useNavigate("");
 

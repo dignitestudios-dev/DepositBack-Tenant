@@ -105,8 +105,6 @@ const chat = model.startChat({
 
 export async function generateAIResponse(prompt) {
   try {
-    console.log("Gemini Key:", key);
-
     // ✅ Send new message in ongoing chat
     const result = await chat.sendMessage(prompt);
 
